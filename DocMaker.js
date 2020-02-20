@@ -8,7 +8,7 @@ exports.add = {
             var s = JSON.stringify(e);
             var n = encodeURIComponent(s);
             var k = btoa(n);
-            return `http://111.229.158.234/JsonDoc/?${k}`;
+            return `http://comintstudio.xyz/JsonDoc/?${k}`;
         },
         GetShortURL:function(LongURL){
             
