@@ -10,6 +10,7 @@ exports.add={
                 fs.writeFile("./Debug.json",JSON.stringify({}),(err)=>{
                     console.log(`[${new Date().toString()}][Debug.js]加载Debug.json成功!`);
                 });
+                return false;
             }
             var data = JSON.parse(fs.readFileSync("./Debug.json").toString());
             if(data[user] == true){
