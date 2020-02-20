@@ -1,0 +1,45 @@
+<html lang="Zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首页</title>
+    <link rel="stylesheet" href="index.css">
+    <script>
+
+        var User;
+        var UserInfo;
+        //var AJAX = new XMLHttpRequest();
+        window.onload = function(){
+            UserInfo  = document.getElementById("UserInfo");
+            if(localStorage.getItem("User")==undefined){
+                var User = {"ID":"Visitor"};
+                UserInfo.getElementsByClassName("UserName").item(0).innerHTML = "游客账户";
+                UserInfo.getElementsByClassName("Link").item(0).innerHTML = "登录";
+                UserInfo.getElementsByClassName("Link").item(0).onclick = function(){
+                    var AJAX = new XMLHttpRequest();
+                    AJAX.open("get","login.html");
+                    AJAX.send();
+                    AJAX.onreadystatechange = function(ev){
+                        document.getElementById("Body").innerHTML = AJAX.response;
+                    }
+                }  
+            }else{
+                var User = JSON.parse(localStorage.getItem("OnlineAIUser"));
+                UserInfo.getElementsByClassName("UserName").item(0).innerHTML = User.ID;
+                UserInfo.getElementsByClassName("Link").item(0).innerHTML = "注销";
+                UserInfo.getElementsByClassName("Link").item(0).onclick = function(){
+                    alert(2);
+                }
+            };
+        };
+        //
+    </script>
+    <div id="Top"><a id="Title"></a></div>
+</head>
+<body id="Body">
+    <div id="UserInfo">
+        <a class="UserName"></a>||<a class="Link"></a>
+    </div>
+</body>
+</html>
