@@ -1,0 +1,24 @@
+{
+  "name": "jsaicore",
+  "version": "1.0.0",
+  "description": "Something",
+  "main": "Core.js",
+  "dependencies": {
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1",
+    "iconv-lite": "^0.5.1",
+    "request": "^2.88.2",
+    "websocket": "^1.0.31"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "Run.bat",
+    "test": "Node OnlineAI.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/computer_internet_inc/AICore.git"
+  },
+  "author": "Lanshuye",
+  "license": "SEE LICENSE IN LICENSE"
+}
