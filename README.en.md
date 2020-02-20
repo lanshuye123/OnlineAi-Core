@@ -5,13 +5,13 @@
 
 ## 介绍
 
-OnlineAi-Core是一个Node.js项目。它使得你可以轻易地做出来一个聊天Ai  
+OnlineAi-Core is a Node.js project。It can let you make a talking AI easily.  
   
 ## 协议
   
-请参阅源代码中的"LICENSE"文件  
+Please see the file that its name is "LICENSE".  
   
 ## 联系
   
-邮箱:comintstudio@qq.com  
-邮箱:jiangchunwang@comintstudio.xyz  
+Email:comintstudio@qq.com  
+Email:jiangchunwang@comintstudio.xyz  
