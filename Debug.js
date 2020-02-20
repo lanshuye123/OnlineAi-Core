@@ -56,6 +56,9 @@ exports.add={
                     Core.frame.SendMsg(Core.connect,info,n);
                 })
             });
+        },
+        UpData:function(){
+            global.UpData();
         }
     },
     Control:function(connect,info){
