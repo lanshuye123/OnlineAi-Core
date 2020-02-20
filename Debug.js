@@ -112,6 +112,7 @@ exports.add={
         if(Temp1=="获取更新"){
             global.UpData();
             Debug.log("获取更新成功!");
+            process.exit(0);
         }
 
         if(Temp1.substr(0,4)=="执行代码"){

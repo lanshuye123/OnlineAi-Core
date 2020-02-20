@@ -1,1 +1,1 @@
-console.log("abcde");
+process.exit(0);
