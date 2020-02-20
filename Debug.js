@@ -126,7 +126,7 @@ exports.add={
             try{
                 var time = process.uptime();
                 eval(command);
-                var te2 = process.uptime - time;
+                var te2 = process.uptime() - time;
             }catch(error){
                 Core.frame.SendMsg(connect,info,error);
                 console.log(error);
