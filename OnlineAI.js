@@ -3,6 +3,7 @@ const cp = require("child_process");
 if(fs.existsSync("./CGI.js")){
     global.UpData = function(){
         cp.execSync("git pull Main master");
+        console.log(`[${new this.Date().toString()}][OnlineAI.js]获取更新完毕`);
     }
     fs.exists("./UserDataBase.json",(ex)=>{
         if(ex){
