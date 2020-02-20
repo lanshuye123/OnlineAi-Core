@@ -56,9 +56,6 @@ exports.add={
                     Core.frame.SendMsg(Core.connect,info,n);
                 })
             });
-        },
-        UpData:function(){
-            global.UpData();
         }
     },
     Control:function(connect,info){
@@ -111,6 +108,12 @@ exports.add={
             }
             Core.frame.SendMsg(connect,info,message);
         }
+
+        if(Temp1=="获取更新"){
+            global.UpData();
+            Debug.log("获取更新成功!");
+        }
+
         if(Temp1.substr(0,4)=="执行代码"){
             if(!exports.add.Interfaces.IsAdmin(Core.GetUser(info["user_id"]))){
                 Core.frame.SendMsg(connect,info,"此功能只允许机器人管理员使用。");
