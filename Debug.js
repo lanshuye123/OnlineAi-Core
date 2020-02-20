@@ -110,6 +110,10 @@ exports.add={
         }
 
         if(Temp1=="获取更新"){
+            if(!exports.add.Interfaces.IsAdmin(Core.GetUser(info["user_id"]))){
+                Core.frame.SendMsg(connect,info,"此功能只允许机器人管理员使用。");
+                return;
+            }
             global.UpData();
             Debug.log("获取更新成功!");
             process.exit(0);
