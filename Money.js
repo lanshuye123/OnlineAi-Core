@@ -87,7 +87,7 @@ exports.add={
                     Core.frame.SendMsg(connect,info,"已设置目标为"+Core.frame.At(UQQ));
                 }
                 if(msg.substr(0,4)=="转账JE"){
-                    var UM = UM.replace('转账JE',"");
+                    var UM = msg.replace('转账JE',"");
                     UM = UM.replace(' ',"")
                     UM = new Number(UM);
                     if(UM<0){
