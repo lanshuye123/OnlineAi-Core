@@ -124,13 +124,15 @@ exports.add={
             command = command.replace("&#93;","]");
             command = command.replace("&amp;","&");
             try{
+                var time = process.uptime();
                 eval(command);
+                var te2 = process.uptime - time;
             }catch(error){
                 Core.frame.SendMsg(connect,info,error);
                 console.log(error);
             }
             Debug.SaveVar();
-            Core.frame.SendMsg(connect,info,"指令执行完毕。");
+            Core.frame.SendMsg(connect,info,`指令执行完毕，共耗时${te2}秒`);
         };
 
         if(Temp1 == "说明书"||Temp1 == "用户手册"||Temp1 == "帮助"){
