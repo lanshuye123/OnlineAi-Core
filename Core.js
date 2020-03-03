@@ -1,6 +1,6 @@
 ﻿const JSCGI = require("./CGI");
 const fs = require("fs");
-var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./AutoCreeper.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js"];
+var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./AutoCreeper.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js","./WebUI.js"];
 //var HOOK = false;
 exports.GetUser=function(user_id){
     if(!fs.existsSync("./cname.json")){
