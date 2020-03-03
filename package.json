@@ -4,9 +4,12 @@
   "description": "Something",
   "main": "Core.js",
   "dependencies": {
+    "@types/node": "^13.7.7",
     "atob": "^2.1.2",
     "btoa": "^1.2.1",
     "iconv-lite": "^0.5.1",
+    "node-gyp": "^6.1.0",
+    "rebuild": "^0.1.2",
     "request": "^2.88.2",
     "websocket": "^1.0.31"
   },
