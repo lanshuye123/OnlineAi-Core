@@ -1,0 +1,25 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlineAi Core WebUI</title>
+    <style>
+        *{
+            margin: 0px;
+        }
+    </style>
+    <script>
+        window.onload = ((ev)=>{
+            document.getElementById("UserName").innerText = "管理员";
+            setInterval((()=>{
+                document.getElementById("Timer").innerText = new Date().toString();
+            }),500)
+        });
+    </script>
+</head>
+<body style="text-align: center;">
+    <h1>OnlineAi Core调度管理中心</h1>
+    <div style="float:right;width:5%;height:5%;"><a>欢迎您,<a id="UserName"></a></a><br><a id="Timer"></a></div>
+    <hr>
+</body>
+</html>
