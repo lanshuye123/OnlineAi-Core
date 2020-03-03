@@ -8,7 +8,7 @@ exports.add = {
             var s = JSON.stringify(e);
             var n = encodeURIComponent(s);
             var k = btoa(n);
-            return `http://comintstudio.xyz/JsonDoc/?${k}`;
+            return `https://computer_internet_inc.gitee.io/jsondoc/?${k}`;
         },
         GetShortURL:function(LongURL){
             

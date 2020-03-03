@@ -11,15 +11,49 @@
     <script>
         window.onload = ((ev)=>{
             document.getElementById("UserName").innerText = "管理员";
+            document.getElementById("message").innerText = "";
             setInterval((()=>{
-                document.getElementById("Timer").innerText = new Date().toString();
-            }),500)
+                var min = new Date().getMinutes();
+                if(new String(min).length==1){
+                    min = `0${min}`;
+                }
+                var sec = new Date().getSeconds();
+                if(new String(sec).length==1){
+                    sec = `0${sec}`;
+                }
+                document.getElementById("Timer").innerText = `${new Date().getHours()}:${min}:${sec}`
+            }),500);
+            var ajax = new XMLHttpRequest();
+            ajax.open("GET","OAC_GETMESSAGE");
+            ajax.send();
+            var t = false;
+            ajax.onreadystatechange = (()=>{
+                var data_obj = ajax.responseText;
+                if(data_obj == undefined||data_obj==""){
+                    return;
+                }
+                if(t){
+                    return;
+                }
+                t = !t;
+                data_obj = new Object(JSON.parse(data_obj));
+                for(var i=0;i<Object.keys(data_obj).length;i++){
+                    document.getElementById("message").innerText = `${document.getElementById("message").innerText}${Object.keys(data_obj)[i]} => ${data_obj[Object.keys(data_obj)[i]]}\r\n`
+                }
+            })
         });
     </script>
 </head>
 <body style="text-align: center;">
-    <h1>OnlineAi Core调度管理中心</h1>
-    <div style="float:right;width:5%;height:5%;"><a>欢迎您,<a id="UserName"></a></a><br><a id="Timer"></a></div>
-    <hr>
+    <div style="float:right;width:10%;height:5%;"><a>欢迎您,<a id="UserName"></a></a><br><a id="Timer">00:00:00</a></div>
+    <div style="float: right;width:2px;background: #000000;height: 100%;;"></div>
+    <div style="width:90%">
+        <h1>OnlineAi Core调度管理中心</h1>
+        <hr>
+        <div>
+            <div style="width: 2%;height: 100%;float: left;"></div>
+            <div id="message" style="background:#999999;width:96%;float: left;text-align: left;"></div>
+        </div>
+    </div>
 </body>
 </html>
