@@ -29,7 +29,8 @@ ServerWeb.listen(8081,"0.0.0.0",()=>{
                         var T2 = Token.split("_");
                         fs.readFile("./Message.json",(err,data)=>{
                             var data_obj = JSON.parse(data.toString());
-                            data_obj[T2[0]] = T2[1];
+                            T2[0] = decodeURIComponent(T2[0]);
+                            data_obj[T2[0]] = decodeURIComponent(T2[1]);
                             fs.writeFile("./Message.json",JSON.stringify(data_obj),(err)=>{
                                 UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String("DONE").length}\r\n\r\n`);
                                 UserSock.write(new String("DONE").valueOf());
