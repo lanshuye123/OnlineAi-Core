@@ -1,6 +1,24 @@
 ﻿const JSCGI = require("./CGI");
 const fs = require("fs");
 var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./AutoCreeper.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js","./WebUI.js"];
+var Listeners = [];
+fs.exists("./MoudelV2.json",(ex)=>{
+    if(ex){
+        fs.readFile("./MoudelV2.json",(err,data)=>{
+            var data_obj = new Object(JSON.parse(data.toString()));
+            var k = Object.keys(data_obj);
+            for(var i=0;i<k.length;i++){
+                if(data_obj[k[i]].Allow){
+                    if(data_obj[k[i]].FindIn == "fs"){
+                        require(data_obj[k[i]].Path);
+                    }
+                }
+            }
+        })
+    }else{
+        fs.writeFile("./MoudelV2.json",JSON.stringify({}),(err)=>{});
+    }
+});
 //var HOOK = false;
 exports.GetUser=function(user_id){
     if(!fs.existsSync("./cname.json")){
@@ -17,6 +35,9 @@ exports.GetUser=function(user_id){
     }
 };
 exports.HOOK = JSCGI.HOOK;
+exports.addListener = ((callback)=>{
+    Listeners[Listeners.length] = callback;
+});
 exports.frame={
     __Ban:function(connect,group,someone,time){
         connect.send(`{"action":"set_group_ban","params":{"group_id":"${group}","user_id":"${someone}","duration":${time}}}`);
@@ -73,6 +94,9 @@ exports.frame={
                 console.log(`[${new Date().toString()}][${package[i]}]正在处理`);
                 require(package[i]).add.Control(connect,info);
                 console.log(`[${new Date().toString()}][${package[i]}]处理完成`);
+            }
+            for(var i=0;i<Listeners;i++){
+                Listeners[i](connect,info);
             }
             if(require("./AI.js").add.Interfaces.GetAITalk("Core")){
                 require("./AI.js").add.Control(connect,info);

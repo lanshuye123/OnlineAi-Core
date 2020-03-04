@@ -129,14 +129,14 @@ exports.add={
             command = command.replace("&#91;","[");
             command = command.replace("&#93;","]");
             command = command.replace("&amp;","&");
+            var time = process.uptime();
             try{
-                var time = process.uptime();
                 eval(command);
-                var te2 = process.uptime() - time;
             }catch(error){
                 Core.frame.SendMsg(connect,info,error);
                 console.log(error);
             }
+            var te2 = process.uptime() - time;
             Debug.SaveVar();
             Core.frame.SendMsg(connect,info,`指令执行完毕，共耗时${te2}秒`);
         };
