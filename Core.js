@@ -35,7 +35,7 @@ exports.GetUser=function(user_id){
     }
 };
 exports.HOOK = JSCGI.HOOK;
-exports.addListener = ((callback)=>{
+exports.AddListener = ((callback)=>{
     Listeners[Listeners.length] = callback;
 });
 exports.frame={
