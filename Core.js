@@ -1,5 +1,6 @@
 ﻿const JSCGI = require("./CGI");
 const fs = require("fs");
+const net = require("net");
 var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./AutoCreeper.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js","./WebUI.js"];
 var Listeners = [];
 fs.exists("./MoudelV2.json",(ex)=>{
@@ -11,6 +12,31 @@ fs.exists("./MoudelV2.json",(ex)=>{
                 if(data_obj[k[i]].Allow){
                     if(data_obj[k[i]].FindIn == "fs"){
                         require(data_obj[k[i]].Path);
+                    }
+                    if(data_obj[k[i]].FindIn == "net"){
+                        var t = new net.Socket();
+                        t.connect(80,data_obj[k[i]].Path,()=>{
+                            t.write(`GET ${data_obj[k[i]].Path2} HTTP/1.1\r\nUser-Agent: OnlineAi_RM\r\n`);
+                            t.on("data",(data2)=>{
+                                var data3 = "";
+                                var data2s = new String(data2).valueOf();
+                                var data2a = data2s.split("\r\n");
+                                data2s = undefined;
+                                var able = false;
+                                for(var i=0;i<data2a.length;i++){
+                                    if(able){
+                                        data3 = data3 +"\r\n"+data2a[i];
+                                    }
+                                    if(data2a[i]==""){
+                                        able = true;
+                                    }
+                                }
+                                fs.writeFile(`./RMTEMP_${k[i]}`,data3,(err)=>{
+                                    require(`./RMTEMP_${k[i]}`);
+                                });
+                                t.end();
+                            });
+                        });
                     }
                 }
             }
