@@ -50,6 +50,10 @@ ServerWeb.on("listening", function () {
                     }
                 }
                 else {
+                    var data2 = "404";
+                    UserSock.write("HTTP/1.1 404\r\nContent-Length: " + data2.length + "\r\n\r\n");
+                    UserSock.write(data2.valueOf());
+                    UserSock.end();
                 }
             }
             else {
