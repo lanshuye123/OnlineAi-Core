@@ -23,7 +23,8 @@
                 }
                 document.getElementById("Timer").innerText = `${new Date().getHours()}:${min}:${sec}`
             }),500);
-            var GetMsg = (()=>{
+            window.GetMsg = (()=>{
+                document.getElementById("message").innerText = "";
                 var ajax = new XMLHttpRequest();
                 ajax.open("GET","OAC_GETMESSAGE");
                 ajax.send();
@@ -43,8 +44,9 @@
                     }
                 })
             });
-            GetMsg();
-            var SETMSG = (()=>{
+            GetMsg();            
+        })
+        var SETMSG = (()=>{
                 var set = `${document.getElementById("MRMessageName").value}_${document.getElementById("MRMessageValue").value}`
                 var ajax = new XMLHttpRequest();
                 ajax.open("GET",`OAC_SETMESSAGE_${set}`);
@@ -64,8 +66,6 @@
                     }
                 });
             })
-            
-        })
     </script>
 </head>
 <body style="text-align: center;">

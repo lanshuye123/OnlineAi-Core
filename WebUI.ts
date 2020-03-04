@@ -1,6 +1,7 @@
 import * as net from "net";
 import * as Core from "./Core";
 import * as fs from "fs";
+import * as cp from "child_process";
 
 var MainConnect:net.Socket;
 var MainGroup:Core.InfoType;
@@ -37,6 +38,20 @@ ServerWeb.on("listening",()=>{
                                 UserSock.end();
                             });
                         });
+                    }else if(Do.substr(0,new String("SENDJS_").length) == "SENDJS_"){
+                        var Token = Do.replace("SENDJS_","");
+                        var ret = "";
+                        cp.spawn(Token).on("message",(mess)=>{
+                            ret = ret + mess.toString();
+                        }).on("exit",(c,s)=>{
+                            UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
+                            UserSock.write(ret);
+                            UserSock.end();
+                        }).on("close",(c,s)=>{
+                            UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
+                            UserSock.write(ret);
+                            UserSock.end();
+                        })
                     }
                 }else{
                     var data2:String ="404";
