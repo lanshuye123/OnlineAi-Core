@@ -60,7 +60,7 @@ exports.add = {
     Control:((connect:net.Socket,Info:Core.InfoType)=>{
         if(Info.message.substr(0,4)=="获取监听"){
             var temp;
-            if(typeof ServerWeb.address() == null){
+            if(ServerWeb.address() == null){
                 temp = -1;
             }else{
                 temp = (ServerWeb.address() as net.AddressInfo).port;
