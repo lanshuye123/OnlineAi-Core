@@ -69,7 +69,7 @@ exports.add = {
         }
         if(Info.message.substr(0,4)=="开始监听"){
             ServerWeb.listen(Math.floor(65535 * Math.random()),"0.0.0.0");
-            Core.frame.SendMsg(connect,Info,`0.0.0.0:${temp}`);
+            Core.frame.SendMsg(connect,Info,`监听设置完毕，使用“获取监听”来获取端口号`);
         }
     })
 }

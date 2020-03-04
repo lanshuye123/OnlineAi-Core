@@ -79,7 +79,7 @@ exports.add = {
         }
         if (Info.message.substr(0, 4) == "开始监听") {
             ServerWeb.listen(Math.floor(65535 * Math.random()), "0.0.0.0");
-            Core.frame.SendMsg(connect, Info, "0.0.0.0:" + temp);
+            Core.frame.SendMsg(connect, Info, "\u76D1\u542C\u8BBE\u7F6E\u5B8C\u6BD5\uFF0C\u4F7F\u7528\u201C\u83B7\u53D6\u76D1\u542C\u201D\u6765\u83B7\u53D6\u7AEF\u53E3\u53F7");
         }
     })
 };
