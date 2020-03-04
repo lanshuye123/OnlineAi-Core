@@ -5,7 +5,7 @@ import * as fs from "fs";
 var MainConnect:net.Socket;
 var MainGroup:Core.InfoType;
 var ServerWeb = new net.Server();
-ServerWeb.listen(8081,"0.0.0.0",()=>{
+ServerWeb.on("listening",()=>{
     ServerWeb.on("connection",(UserSock)=>{
         UserSock.on("data",(data)=>{
             if(data.toString().indexOf(" ")!=0){
@@ -65,6 +65,10 @@ exports.add = {
             }else{
                 temp = (ServerWeb.address() as net.AddressInfo).port;
             }
+            Core.frame.SendMsg(connect,Info,`0.0.0.0:${temp}`);
+        }
+        if(Info.message.substr(0,4)=="开始监听"){
+            ServerWeb.listen(Math.floor(65535 * Math.random()),"0.0.0.0");
             Core.frame.SendMsg(connect,Info,`0.0.0.0:${temp}`);
         }
     })

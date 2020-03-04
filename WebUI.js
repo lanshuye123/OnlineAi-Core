@@ -13,7 +13,7 @@ var fs = __importStar(require("fs"));
 var MainConnect;
 var MainGroup;
 var ServerWeb = new net.Server();
-ServerWeb.listen(8081, "0.0.0.0", function () {
+ServerWeb.on("listening", function () {
     ServerWeb.on("connection", function (UserSock) {
         UserSock.on("data", function (data) {
             if (data.toString().indexOf(" ") != 0) {
@@ -75,6 +75,10 @@ exports.add = {
             else {
                 temp = ServerWeb.address().port;
             }
+            Core.frame.SendMsg(connect, Info, "0.0.0.0:" + temp);
+        }
+        if (Info.message.substr(0, 4) == "开始监听") {
+            ServerWeb.listen(Math.floor(65535 * Math.random()), "0.0.0.0");
             Core.frame.SendMsg(connect, Info, "0.0.0.0:" + temp);
         }
     })
