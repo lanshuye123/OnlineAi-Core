@@ -68,7 +68,14 @@ exports.add = {
     Interfaces: {},
     Control: (function (connect, Info) {
         if (Info.message.substr(0, 4) == "获取监听") {
-            Core.frame.SendMsg(connect, Info, "Host:Port => " + ServerWeb.address());
+            var temp;
+            if (typeof ServerWeb.address() == null) {
+                temp = -1;
+            }
+            else {
+                temp = ServerWeb.address().port;
+            }
+            Core.frame.SendMsg(connect, Info, "0.0.0.0:" + temp);
         }
     })
 };
