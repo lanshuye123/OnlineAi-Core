@@ -59,7 +59,8 @@ exports.add = {
     },
     Control:((connect:net.Socket,Info:Core.InfoType)=>{
         if(Info.message.substr(0,4)=="获取监听"){
-            Core.frame.SendMsg(connect,Info,`Host:Port => ${ServerWeb.address()?.toString()}`);
+            var temp = ServerWeb.address()?.toString();
+            Core.frame.SendMsg(connect,Info,`Host:Port => ${temp}`);
         }
     })
 }
