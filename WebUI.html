@@ -23,25 +23,49 @@
                 }
                 document.getElementById("Timer").innerText = `${new Date().getHours()}:${min}:${sec}`
             }),500);
-            var ajax = new XMLHttpRequest();
-            ajax.open("GET","OAC_GETMESSAGE");
-            ajax.send();
-            var t = false;
-            ajax.onreadystatechange = (()=>{
-                var data_obj = ajax.responseText;
-                if(data_obj == undefined||data_obj==""){
-                    return;
-                }
-                if(t){
-                    return;
-                }
-                t = !t;
-                data_obj = new Object(JSON.parse(data_obj));
-                for(var i=0;i<Object.keys(data_obj).length;i++){
-                    document.getElementById("message").innerText = `${document.getElementById("message").innerText}${Object.keys(data_obj)[i]} => ${data_obj[Object.keys(data_obj)[i]]}\r\n`
-                }
+            var GetMsg = (()=>{
+                var ajax = new XMLHttpRequest();
+                ajax.open("GET","OAC_GETMESSAGE");
+                ajax.send();
+                var t = false;
+                ajax.onreadystatechange = (()=>{
+                    var data_obj = ajax.responseText;
+                    if(data_obj == undefined||data_obj==""){
+                        return;
+                    }
+                    if(t){
+                        return;
+                    }
+                    t = !t;
+                    data_obj = new Object(JSON.parse(data_obj));
+                    for(var i=0;i<Object.keys(data_obj).length;i++){
+                        document.getElementById("message").innerText = `${document.getElementById("message").innerText}${Object.keys(data_obj)[i]} => ${data_obj[Object.keys(data_obj)[i]]}\r\n`
+                    }
+                })
+            });
+            GetMsg();
+            var SETMSG = (()=>{
+                var set = `${document.getElementById("MRMessageName").value}_${document.getElementById("MRMessageValue").value}`
+                var ajax = new XMLHttpRequest();
+                ajax.open("GET",`OAC_SETMESSAGE_${set}`);
+                ajax.send();
+                var t = false;
+                ajax.onreadystatechange = (()=>{
+                    var data_obj = ajax.responseText;
+                    if(data_obj == undefined||data_obj==""){
+                        return;
+                    }
+                    if(t){
+                        return;
+                    }
+                    t = !t;
+                    if(data_obj == "DONE"){
+                        GetMsg();
+                    }
+                });
             })
-        });
+            
+        })
     </script>
 </head>
 <body style="text-align: center;">
@@ -53,6 +77,13 @@
         <div>
             <div style="width: 2%;height: 100%;float: left;"></div>
             <div id="message" style="background:#999999;width:96%;float: left;text-align: left;"></div>
+            <hr>
+            <div id="MessageSettings" style="float: left;text-align: left;">
+                Ai权限码:<input id="WebPassword" class="SET"/><br />
+                消息名称:<input id="MRMessageName" class="SET"/><br />
+                消息回复:<input id="MRMessageValue" class="SET"/><br />
+                <button onclick="SETMSG();">设置消息</button>
+            </div>
         </div>
     </div>
 </body>
