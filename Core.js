@@ -37,6 +37,7 @@ exports.GetUser=function(user_id){
 exports.HOOK = JSCGI.HOOK;
 exports.AddListener = ((callback)=>{
     Listeners[Listeners.length] = callback;
+    console.log(Listeners);
 });
 exports.frame={
     __Ban:function(connect,group,someone,time){
@@ -95,8 +96,9 @@ exports.frame={
                 require(package[i]).add.Control(connect,info);
                 console.log(`[${new Date().toString()}][${package[i]}]处理完成`);
             }
-            for(var i=0;i<Listeners;i++){
+            for(var i=0;i<Listeners.length;i++){
                 Listeners[i](connect,info);
+                console.log(Listeners);
             }
             if(require("./AI.js").add.Interfaces.GetAITalk("Core")){
                 require("./AI.js").add.Control(connect,info);
