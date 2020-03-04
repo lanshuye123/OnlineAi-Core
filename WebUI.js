@@ -67,10 +67,8 @@ ServerWeb.listen(8081, "0.0.0.0", function () {
 exports.add = {
     Interfaces: {},
     Control: (function (connect, Info) {
-        if (Info.message.substr(0, 4) == "设置监听") {
-            MainConnect = connect;
-            MainGroup = Info;
-            Core.frame.SendMsg(connect, Info, "监听设置完毕!");
+        if (Info.message.substr(0, 4) == "获取监听") {
+            Core.frame.SendMsg(connect, Info, "Host:Port => " + ServerWeb.address());
         }
     })
 };
