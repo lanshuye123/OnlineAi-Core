@@ -26,11 +26,17 @@ ServerWeb.on("listening",()=>{
                         });
                     }else if(Do.substr(0,new String("SETMESSAGE_").length) == "SETMESSAGE_"){
                         var Token = Do.replace("SETMESSAGE_","");
-                        var T2 = Token.split("_");
+                        var T2:string[]|undefined[] = Token.split("_");
                         fs.readFile("./Message.json",(err,data)=>{
                             var data_obj = JSON.parse(data.toString());
-                            T2[0] = decodeURIComponent(T2[0]);
-                            data_obj[T2[0]] = decodeURIComponent(T2[1]);
+                            T2[0] = decodeURIComponent(T2[0] as string);
+                            if(T2[1]==""){
+                                T2[1] = undefined;
+                                data_obj[T2[0]] = undefined;
+                            }else{
+                                data_obj[T2[0]] = decodeURIComponent(T2[1] as string);
+                            }
+                            
                             fs.writeFile("./Message.json",JSON.stringify(data_obj),(err)=>{
                                 UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String("DONE").length}\r\n\r\n`);
                                 UserSock.write(new String("DONE").valueOf());
