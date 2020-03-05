@@ -60,13 +60,17 @@ exports.add={
         },
 		RetValue:((Str)=>{
 			var Str2 = new String(Str);
-            var data = new Object(fs.readFileSync("./MessCode.json").toString());
-            var keys = Object.keys(data);
+            var data_obj = new Object(JSON.parse(fs.readFileSync("./MessCode.json").toString()));
+            console.log(data_obj);
+            var keys = Object.keys(data_obj);
             for(var i=0;i<keys.length;i++){
-                if(Str2.indexOf(keys[i])!=0){
-                    var temp0 = new RegExp(`\\${keys[i]}\\`,"g");
-                    eval(`var temp1 = ${data[keys[i]]}`);
-                    Str2.replace(temp0,temp1);
+                if(Str2.indexOf(keys[i])!=-1){
+                    console.log(keys);
+                    console.log(Str2);
+                    console.log(Str2.indexOf(keys[i]));
+                    var temp0 = new RegExp(`\\[${keys[i]}\\]`,"g");
+                    eval(`var temp1 = ${data_obj[keys[i]]}`);
+                    Str2 = Str2.replace(temp0,temp1);
                 }
             }
 			return Str2;
@@ -164,7 +168,7 @@ exports.add={
             });
         }
         if(!fs.existsSync("./MessCode.json")){
-            fs.writeFile("./MessCode.json",JSON.stringify({}),(err)=>{
+            fs.writeFile("./MessCode.json",JSON.stringify({"[时间:时]":"new Date().getHours()"}),(err)=>{
                 console.log(`[${new Date().toString()}][Debug.js]MessCode.json创建完毕。`)
             });
         }
