@@ -58,19 +58,22 @@ exports.add={
                 })
             });
         },
-		RetValue:((Str)=>{
+		RetValue:((Str,info)=>{
 			var Str2 = new String(Str);
             var data_obj = new Object(JSON.parse(fs.readFileSync("./MessCode.json").toString()));
             console.log(data_obj);
             var keys = Object.keys(data_obj);
+            var ZExec = exports.add.Interfaces.RetValue;
             for(var i=0;i<keys.length;i++){
-                if(Str2.indexOf(keys[i])!=-1){
-                    console.log(keys);
-                    console.log(Str2);
-                    console.log(Str2.indexOf(keys[i]));
-                    var temp0 = new RegExp(`\\[${keys[i]}\\]`,"g");
-                    eval(`var temp1 = ${data_obj[keys[i]]}`);
-                    Str2 = Str2.replace(temp0,temp1);
+                var temp0 = new RegExp(`\\[${keys[i]}\\]`,"g");
+                if(temp0.test(Str2)){
+                    temp0.exec(Str2);
+                    try{
+                        eval(`var temp1 = ${data_obj[keys[i]]}`);
+                        Str2 = Str2.replace(temp0,temp1);
+                    }catch(err){
+                        Str2 = err;
+                    }
                 }
             }
 			return Str2;
@@ -175,7 +178,7 @@ exports.add={
         fs.readFile("./Message.json",(err,data)=>{
             var data2 = JSON.parse(data.toString());
             if(data2[info["message"]]!=undefined){
-                var t3 = exports.add.Interfaces.RetValue(data2[info["message"]]);
+                var t3 = exports.add.Interfaces.RetValue(data2[info["message"]],info);
                 Core.frame.SendMsg(connect,info,t3);
             }
         });
@@ -187,7 +190,9 @@ exports.add={
                 return;
             }
             Temp1 = Temp1.replace("指令+","");
-            Temp2 = Temp1.split("+");
+            Temp1 = Temp1.replace("&#91;","[");
+            Temp1 = Temp1.replace("&#93;","]");
+            Temp2 = Temp1.split("+",2);
             Core.frame.SetHOOK(true);
             fs.readFile("./Message.json",(err,data)=>{
                 var data2 = JSON.parse(data.toString());
@@ -197,7 +202,6 @@ exports.add={
                 });
             });
         }
-
         if(Temp1.substr(0,3)=="指令-"){
             Core.frame.SetHOOK(true);
             if(!exports.add.Interfaces.IsAdmin(Core.GetUser(info["user_id"]))){
