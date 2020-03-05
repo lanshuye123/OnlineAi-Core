@@ -8,7 +8,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var net = __importStar(require("net"));
-var Core = __importStar(require("./Core"));
 var fs = __importStar(require("fs"));
 var MainConnect;
 var MainGroup;
@@ -55,6 +54,9 @@ ServerWeb.on("listening", function () {
                         UserSock.write(ret.valueOf());
                         UserSock.end();
                     }
+                    else if (Do == "RESTART") {
+                        process.exit();
+                    }
                 }
                 else {
                     var data2 = "404";
@@ -75,23 +77,10 @@ ServerWeb.on("listening", function () {
         });
     });
 });
+ServerWeb.listen(8081, "0.0.0.0");
 exports.add = {
     Interfaces: {},
     Control: (function (connect, Info) {
         MessageCount = MessageCount.valueOf() + 1;
-        if (Info.message.substr(0, 4) == "获取监听") {
-            var temp;
-            if (ServerWeb.address() == null) {
-                temp = -1;
-            }
-            else {
-                temp = ServerWeb.address().port;
-            }
-            Core.frame.SendMsg(connect, Info, "0.0.0.0:" + temp);
-        }
-        if (Info.message.substr(0, 4) == "开始监听") {
-            ServerWeb.listen(Math.floor(65535 * Math.random()), "0.0.0.0");
-            Core.frame.SendMsg(connect, Info, "\u76D1\u542C\u8BBE\u7F6E\u5B8C\u6BD5\uFF0C\u4F7F\u7528\u201C\u83B7\u53D6\u76D1\u542C\u201D\u6765\u83B7\u53D6\u7AEF\u53E3\u53F7");
-        }
     })
 };

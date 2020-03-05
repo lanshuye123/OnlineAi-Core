@@ -1,7 +1,7 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0">
     <title>OnlineAi Core WebUI</title>
     <style>
         *{
@@ -21,7 +21,22 @@
                 if(new String(sec).length==1){
                     sec = `0${sec}`;
                 }
-                document.getElementById("Timer").innerText = `${new Date().getHours()}:${min}:${sec}`
+                document.getElementById("Timer").innerText = `${new Date().getHours()}:${min}:${sec}`;
+				var ajax = new XMLHttpRequest();
+                ajax.open("GET","OAC_GETCOUNT");
+                ajax.send();
+                var t = false;
+                ajax.onreadystatechange = (()=>{
+                    var data_obj = ajax.responseText;
+                    if(data_obj == undefined||data_obj==""){
+                        return;
+                    }
+                    if(t){
+                        return;
+                    }
+                    t = !t;
+                    document.getElementById("Count").innerText = data_obj;
+                })
             }),500);
             window.GetMsg = (()=>{
                 document.getElementById("message").innerText = "";
@@ -69,15 +84,20 @@
     </script>
 </head>
 <body style="text-align: center;">
-    <div style="float:right;width:10%;height:5%;"><a>欢迎您,<a id="UserName"></a></a><br><a id="Timer">00:00:00</a></div>
-    <div style="float: right;width:2px;background: #000000;height: 100%;;"></div>
-    <div style="width:90%">
+    <div style="float:right;width:10%;height:5%;">
+		<a>欢迎您,<a id="UserName"></a></a><br><a id="Timer">00:00:00</a>
+		<hr>
+		<a>实时消息数:</a><a id="Count">0</a>
+	</div>
+    <div style="float: right;width:2px;background: #000000;height: 90%;;"></div>
+    <div style="width:90%;height:100%;">
         <h1>OnlineAi Core调度管理中心</h1>
         <hr>
-        <div>
-            <div style="width: 2%;height: 100%;float: left;"></div>
+        <div style="width:100%;height:90%;">
+            <div style="width: 2%;height: 90%;float: left;"></div>
             <div id="message" style="background:#999999;width:96%;float: left;text-align: left;"></div>
             <hr>
+			<hr>
             <div id="MessageSettings" style="float: left;text-align: left;">
                 Ai权限码:<input id="WebPassword" class="SET"/><br />
                 消息名称:<input id="MRMessageName" class="SET"/><br />
