@@ -55,7 +55,7 @@ ServerWeb.on("listening",()=>{
 							UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
 							UserSock.write(ret.valueOf());
 							UserSock.end();
-						)
+						})
 					}
                 }else{
                     var data2:String ="404";
