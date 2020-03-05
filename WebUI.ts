@@ -50,10 +50,9 @@ ServerWeb.on("listening",()=>{
 						process.exit();
 					}else if(Do == "GETSERVICES"){
 						fs.readFile("./MoudelV2.json",(err2,data2)=>{
-							var data2_obj = new Object(JSON.parse(data2.toString()));
-							var ret = new String(JSON.stringify(Object.keys(data2_obj)));
-							UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\nContent-Type:text/html;charset=utf-8\r\n\r\n`)
-							UserSock.write(ret.valueOf());
+							var ret = data2;
+							UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${ret.length}\r\nContent-Type:text/html;charset=utf-8\r\n\r\n`)
+							UserSock.write(ret);
 							UserSock.end();
 						})
 					}

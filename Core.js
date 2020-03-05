@@ -10,7 +10,7 @@ fs.exists("./MoudelV2.json",(ex)=>{
             var k = Object.keys(data_obj);
             for(var i=0;i<k.length;i++){
                 if(data_obj[k[i]].Allow){
-                    console.log(`[${new Date().toString()}]${k[i]}服务正在初始化!`);
+                    console.log(`[${new Date().toString()}][${k[i]}]服务正在初始化!`);
                     if(data_obj[k[i]].FindIn == "fs"){
                         require(data_obj[k[i]].Path);
                     }

@@ -57,7 +57,20 @@ exports.add={
                     Core.frame.SendMsg(Core.connect,info,n);
                 })
             });
-        }
+        },
+		RetValue:((Str)=>{
+			var Str2 = new String(Str);
+            var data = new Object(fs.readFileSync("./MessCode.json").toString());
+            var keys = Object.keys(data);
+            for(var i=0;i<keys.length;i++){
+                if(Str2.indexOf(keys[i])!=0){
+                    var temp0 = new RegExp(`\\${keys[i]}\\`,"g");
+                    eval(`var temp1 = ${data[keys[i]]}`);
+                    Str2.replace(temp0,temp1);
+                }
+            }
+			return Str2;
+		})
     },
     Control:function(connect,info){
         const Debug = {
@@ -150,11 +163,16 @@ exports.add={
                 console.log(`[${new Date().toString()}][Debug.js]Message.json创建完毕。`)
             });
         }
-
+        if(!fs.existsSync("./MessCode.json")){
+            fs.writeFile("./MessCode.json",JSON.stringify({}),(err)=>{
+                console.log(`[${new Date().toString()}][Debug.js]MessCode.json创建完毕。`)
+            });
+        }
         fs.readFile("./Message.json",(err,data)=>{
             var data2 = JSON.parse(data.toString());
             if(data2[info["message"]]!=undefined){
-                Core.frame.SendMsg(connect,info,data2[info["message"]]);
+                var t3 = exports.add.Interfaces.RetValue(data2[info["message"]]);
+                Core.frame.SendMsg(connect,info,t3);
             }
         });
 
