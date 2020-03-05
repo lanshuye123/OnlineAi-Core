@@ -64,13 +64,18 @@ exports.add={
             console.log(data_obj);
             var keys = Object.keys(data_obj);
             var ZExec = exports.add.Interfaces.RetValue;
+            var temp0 = [];
             for(var i=0;i<keys.length;i++){
-                var temp0 = new RegExp(`\\[${keys[i]}\\]`,"g");
-                if(temp0.test(Str2)){
-                    temp0.exec(Str2);
+                temp0[i] = new RegExp(`\\[${keys[i]}\\]`,"g");
+                console.log(temp0[i])
+                if(temp0[i].test(Str2)){
+                    console.log(temp0[i].exec(Str2));
+                    console.log(Str2);
+                    console.log(RegExp)
+                    temp0[i].exec(Str2);
                     try{
                         eval(`var temp1 = ${data_obj[keys[i]]}`);
-                        Str2 = Str2.replace(temp0,temp1);
+                        Str2 = Str2.replace(temp0[i],temp1);
                     }catch(err){
                         Str2 = err;
                     }
@@ -137,6 +142,15 @@ exports.add={
             }
             global.UpData();
             Debug.log("获取更新成功!");
+            process.exit(0);
+        }
+
+        if(Temp1=="重启Ai"){
+            if(!exports.add.Interfaces.IsAdmin(Core.GetUser(info["user_id"]))){
+                Core.frame.SendMsg(connect,info,"此功能只允许机器人管理员使用。");
+                return;
+            }
+            Debug.log("RESTARTING!");
             process.exit(0);
         }
 
