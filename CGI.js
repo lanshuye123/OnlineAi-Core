@@ -25,6 +25,9 @@ exports.frame={
         exports.HOOK = value;
     }
 }
+process.on("exit",()=>{
+	wss.end();
+});
 wss.on("connect",(connect)=>{
     exports.connect = connect;
     exports.frame.SetHook(false);

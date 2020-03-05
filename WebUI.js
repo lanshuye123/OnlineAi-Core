@@ -15,6 +15,9 @@ var MainGroup;
 var ServerWeb = new net.Server();
 var MessageCount = 0;
 ServerWeb.on("listening", function () {
+    process.on("exit", function () {
+        ServerWeb.close();
+    });
     ServerWeb.on("connection", function (UserSock) {
         UserSock.on("data", function (data) {
             if (data.toString().indexOf(" ") != 0) {

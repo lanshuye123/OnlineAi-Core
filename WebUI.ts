@@ -6,6 +6,9 @@ var MainGroup:Core.InfoType;
 var ServerWeb = new net.Server();
 var MessageCount:Number = 0;
 ServerWeb.on("listening",()=>{
+	process.on("exit",()=>{
+		ServerWeb.close();
+	});
     ServerWeb.on("connection",(UserSock)=>{
         UserSock.on("data",(data)=>{
             if(data.toString().indexOf(" ")!=0){

@@ -46,6 +46,7 @@ fs.exists("./MoudelV2.json",(ex)=>{
         fs.writeFile("./MoudelV2.json",JSON.stringify({}),(err)=>{});
     }
 });
+
 //var HOOK = false;
 exports.GetUser=function(user_id){
     if(!fs.existsSync("./cname.json")){
