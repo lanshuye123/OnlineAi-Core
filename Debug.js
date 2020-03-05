@@ -190,8 +190,8 @@ exports.add={
                 return;
             }
             Temp1 = Temp1.replace("指令+","");
-            Temp1 = Temp1.replace("&#91;","[");
-            Temp1 = Temp1.replace("&#93;","]");
+            Temp1 = Temp1.replace(/&#91;/g,"[");
+            Temp1 = Temp1.replace(/&#93;/g,"]");
             Temp2 = Temp1.split("+",2);
             Core.frame.SetHOOK(true);
             fs.readFile("./Message.json",(err,data)=>{
