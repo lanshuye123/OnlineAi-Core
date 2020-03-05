@@ -32,9 +32,9 @@ ServerWeb.on("listening",()=>{
                             T2[0] = decodeURIComponent(T2[0] as string);
                             if(T2[1]==""){
                                 T2[1] = undefined;
-                                data_obj[T2[0]] = undefined;
+                                data_obj[T2[0] as string] = undefined;
                             }else{
-                                data_obj[T2[0]] = decodeURIComponent(T2[1] as string);
+                                data_obj[T2[0] as string] = decodeURIComponent(T2[1] as string);
                             }
                             
                             fs.writeFile("./Message.json",JSON.stringify(data_obj),(err)=>{

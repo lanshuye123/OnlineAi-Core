@@ -41,7 +41,13 @@ ServerWeb.on("listening", function () {
                         fs.readFile("./Message.json", function (err, data) {
                             var data_obj = JSON.parse(data.toString());
                             T2[0] = decodeURIComponent(T2[0]);
-                            data_obj[T2[0]] = decodeURIComponent(T2[1]);
+                            if (T2[1] == "") {
+                                T2[1] = undefined;
+                                data_obj[T2[0]] = undefined;
+                            }
+                            else {
+                                data_obj[T2[0]] = decodeURIComponent(T2[1]);
+                            }
                             fs.writeFile("./Message.json", JSON.stringify(data_obj), function (err) {
                                 UserSock.write("HTTP/1.1 200 OK\r\nContent-Length: " + new String("DONE").length + "\r\n\r\n");
                                 UserSock.write(new String("DONE").valueOf());
