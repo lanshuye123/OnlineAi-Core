@@ -124,7 +124,6 @@ exports.frame={
             }
             for(var i=0;i<Listeners.length;i++){
                 Listeners[i](connect,info);
-                console.log(Listeners);
             }
             if(require("./AI.js").add.Interfaces.GetAITalk("Core")){
                 require("./AI.js").add.Control(connect,info);

@@ -1,7 +1,6 @@
 import * as net from "net";
 import * as Core from "./Core";
 import * as fs from "fs";
-
 var MainConnect:net.Socket;
 var MainGroup:Core.InfoType;
 var ServerWeb = new net.Server();
@@ -65,11 +64,6 @@ ServerWeb.on("listening",()=>{
     });
 });
 ServerWeb.listen(8081,"0.0.0.0");
-exports.add = {
-    Interfaces:{
-		
-    },
-    Control:((connect:net.Socket,Info:Core.InfoType)=>{
-        MessageCount = MessageCount.valueOf() + 1;
-    })
-}
+Core.AddListener((connect:net.Socket,Info:Core.InfoType)=>{
+    MessageCount = MessageCount.valueOf() + 1;
+})

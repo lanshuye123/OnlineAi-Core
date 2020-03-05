@@ -8,6 +8,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var net = __importStar(require("net"));
+var Core = __importStar(require("./Core"));
 var fs = __importStar(require("fs"));
 var MainConnect;
 var MainGroup;
@@ -78,9 +79,6 @@ ServerWeb.on("listening", function () {
     });
 });
 ServerWeb.listen(8081, "0.0.0.0");
-exports.add = {
-    Interfaces: {},
-    Control: (function (connect, Info) {
-        MessageCount = MessageCount.valueOf() + 1;
-    })
-};
+Core.AddListener(function (connect, Info) {
+    MessageCount = MessageCount.valueOf() + 1;
+});
