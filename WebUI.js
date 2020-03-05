@@ -10,10 +10,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var net = __importStar(require("net"));
 var Core = __importStar(require("./Core"));
 var fs = __importStar(require("fs"));
-var cp = __importStar(require("child_process"));
 var MainConnect;
 var MainGroup;
 var ServerWeb = new net.Server();
+var MessageCount = 0;
 ServerWeb.on("listening", function () {
     ServerWeb.on("connection", function (UserSock) {
         UserSock.on("data", function (data) {
@@ -49,20 +49,11 @@ ServerWeb.on("listening", function () {
                             });
                         });
                     }
-                    else if (Do.substr(0, new String("SENDJS_").length) == "SENDJS_") {
-                        var Token = Do.replace("SENDJS_", "");
-                        var ret = "";
-                        cp.spawn(Token).on("message", function (mess) {
-                            ret = ret + mess.toString();
-                        }).on("exit", function (c, s) {
-                            UserSock.write("HTTP/1.1 200 OK\r\nContent-Length: " + new String(ret).length + "\r\n\r\n");
-                            UserSock.write(ret);
-                            UserSock.end();
-                        }).on("close", function (c, s) {
-                            UserSock.write("HTTP/1.1 200 OK\r\nContent-Length: " + new String(ret).length + "\r\n\r\n");
-                            UserSock.write(ret);
-                            UserSock.end();
-                        });
+                    else if (Do == "GETCOUNT") {
+                        var ret = new String(MessageCount);
+                        UserSock.write("HTTP/1.1 200 OK\r\nContent-Length: " + new String(ret).length + "\r\n\r\n");
+                        UserSock.write(ret.valueOf());
+                        UserSock.end();
                     }
                 }
                 else {
@@ -87,6 +78,7 @@ ServerWeb.on("listening", function () {
 exports.add = {
     Interfaces: {},
     Control: (function (connect, Info) {
+        MessageCount = MessageCount.valueOf() + 1;
         if (Info.message.substr(0, 4) == "获取监听") {
             var temp;
             if (ServerWeb.address() == null) {

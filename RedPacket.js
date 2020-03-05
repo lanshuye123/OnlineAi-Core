@@ -5,8 +5,8 @@ const MoneyInterfaces = require("./Money").add.Interfaces;
 exports.add={
     Interfaces:{
         GetRedPacketPool:function(){
-            var RPP = Core.frame.ReadSystemConfig("RedPacketPool");
-            if(RPP==undefined){
+            var RPP = new Number(Core.frame.ReadSystemConfig("RedPacketPool"));
+            if(RPP==undefined||RPP==NaN||RPP==null){
                 return 0;
             }else{
                 return RPP;
@@ -36,10 +36,13 @@ exports.add={
                 var UM = Temp2;
                 if(UM<0){
                     Core.frame.SendMsg(connect,info,"请输入一个正数金额。");
+					return;
                 }else if(UM==0){
                     Core.frame.SendMsg(connect,info,"请输入一个正数金额。");
+					return;
                 }else if(isNaN(UM)){
                     Core.frame.SendMsg(connect,info,"请输入一个数字。");
+					return;
                 }
                 if(MoneyInterfaces.GetUserMoney(Core.GetUser(info["user_id"]))<Temp2){
                     Core.frame.SendMsg(connect,info,"你的余额不够。");

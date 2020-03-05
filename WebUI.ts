@@ -6,6 +6,7 @@ import * as cp from "child_process";
 var MainConnect:net.Socket;
 var MainGroup:Core.InfoType;
 var ServerWeb = new net.Server();
+var MessageCount:Number = 0;
 ServerWeb.on("listening",()=>{
     ServerWeb.on("connection",(UserSock)=>{
         UserSock.on("data",(data)=>{
@@ -38,20 +39,11 @@ ServerWeb.on("listening",()=>{
                                 UserSock.end();
                             });
                         });
-                    }else if(Do.substr(0,new String("SENDJS_").length) == "SENDJS_"){
-                        var Token = Do.replace("SENDJS_","");
-                        var ret = "";
-                        cp.spawn(Token).on("message",(mess)=>{
-                            ret = ret + mess.toString();
-                        }).on("exit",(c,s)=>{
-                            UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
-                            UserSock.write(ret);
-                            UserSock.end();
-                        }).on("close",(c,s)=>{
-                            UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
-                            UserSock.write(ret);
-                            UserSock.end();
-                        })
+                    }else if(Do == "GETCOUNT"){
+                        var ret = new String(MessageCount);
+                        UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
+                        UserSock.write(ret.valueOf());
+                        UserSock.end();
                     }
                 }else{
                     var data2:String ="404";
@@ -76,6 +68,7 @@ exports.add = {
 		
     },
     Control:((connect:net.Socket,Info:Core.InfoType)=>{
+        MessageCount = MessageCount.valueOf() + 1;
         if(Info.message.substr(0,4)=="获取监听"){
             var temp;
             if(ServerWeb.address() == null){
