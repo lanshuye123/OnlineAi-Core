@@ -39,12 +39,12 @@ ServerWeb.on("listening",()=>{
                         });
                     }else if(Do == "GETCOUNT"){
                         var ret = new String(MessageCount);
-                        UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
+                        UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\nContent-Type:text/html;charset=utf-8\r\n\r\n`)
                         UserSock.write(ret.valueOf());
                         UserSock.end();
                     }else if(Do == "RESTART"){
 						var ret = new String("DOING!");
-                        UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
+                        UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\nContent-Type:text/html;charset=utf-8\r\n\r\n`)
                         UserSock.write(ret.valueOf());
                         UserSock.end();
 						process.exit();
@@ -52,7 +52,7 @@ ServerWeb.on("listening",()=>{
 						fs.readFile("./MoudelV2.json",(err2,data2)=>{
 							var data2_obj = new Object(JSON.parse(data2.toString()));
 							var ret = new String(JSON.stringify(Object.keys(data2_obj)));
-							UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
+							UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\nContent-Type:text/html;charset=utf-8\r\n\r\n`)
 							UserSock.write(ret.valueOf());
 							UserSock.end();
 						})
