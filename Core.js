@@ -1,7 +1,7 @@
 ﻿const JSCGI = require("./CGI");
 const fs = require("fs");
 const net = require("net");
-var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./AutoCreeper.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js","./WebUI.js"];
+var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./AutoCreeper.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js"];
 var Listeners = [];
 fs.exists("./MoudelV2.json",(ex)=>{
     if(ex){
@@ -10,6 +10,7 @@ fs.exists("./MoudelV2.json",(ex)=>{
             var k = Object.keys(data_obj);
             for(var i=0;i<k.length;i++){
                 if(data_obj[k[i]].Allow){
+                    console.log(`[${new Date().toString()}]${k[i]}服务正在初始化!`);
                     if(data_obj[k[i]].FindIn == "fs"){
                         require(data_obj[k[i]].Path);
                     }
@@ -63,7 +64,7 @@ exports.GetUser=function(user_id){
 exports.HOOK = JSCGI.HOOK;
 exports.AddListener = ((callback)=>{
     Listeners[Listeners.length] = callback;
-    console.log(Listeners);
+    console.log(`[${new Date().toString()}]新的服务注册。`);
 });
 exports.frame={
     __Ban:function(connect,group,someone,time){
@@ -123,6 +124,7 @@ exports.frame={
                 console.log(`[${new Date().toString()}][${package[i]}]处理完成`);
             }
             for(var i=0;i<Listeners.length;i++){
+                console.log(`[${new Date().toString()}]正在由服务解析消息。`);
                 Listeners[i](connect,info);
             }
             if(require("./AI.js").add.Interfaces.GetAITalk("Core")){

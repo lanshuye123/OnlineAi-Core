@@ -43,7 +43,19 @@ ServerWeb.on("listening",()=>{
                         UserSock.write(ret.valueOf());
                         UserSock.end();
                     }else if(Do == "RESTART"){
+						var ret = new String("DOING!");
+                        UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
+                        UserSock.write(ret.valueOf());
+                        UserSock.end();
 						process.exit();
+					}else if(Do == "GETSERVICES"){
+						fs.readFile("./MoudelV2.json",(err2,data2)=>{
+							var data2_obj = new Object(JSON.parse(data2.toString()));
+							var ret = new String(JSON.stringify(Object.keys(data2_obj)));
+							UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${new String(ret).length}\r\n\r\n`)
+							UserSock.write(ret.valueOf());
+							UserSock.end();
+						)
 					}
                 }else{
                     var data2:String ="404";
