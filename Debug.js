@@ -77,6 +77,7 @@ exports.add={
                         eval(`var temp1 = ${data_obj[keys[i]]}`);
                         Str2 = Str2.replace(temp0[i],temp1);
                     }catch(err){
+                        console.error(err);
                         Str2 = err;
                     }
                 }

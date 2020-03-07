@@ -16,12 +16,54 @@
   "devDependencies": {},
   "scripts": {
     "start": "Run.bat",
-    "test": "Node OnlineAI.js"
+    "test": "Node OnlineAI.js",
+    "get":"npm install"
   },
   "repository": {
     "type": "git",
     "url": "https://gitee.com/computer_internet_inc/AICore.git"
   },
   "author": "Lanshuye",
-  "license": "SEE LICENSE IN LICENSE"
+  "license": "SEE LICENSE IN LICENSE",
+  "bin": "D:\\APPS\\JSAICore\\OnlineAI.js",
+  "pkg": {
+    "scripts": [
+      "Debug.js",
+      "Money.js",
+      "RedPacket.js",
+      "抢劫.js",
+      "公会系统.js",
+      "AutoCreeper.js",
+      "Frame.js",
+      "AddOns.js",
+      "板砖.js",
+      "DocMaker.js",
+      "狗屁不通文章生成器.js",
+      "WebUI.js",
+      "CGI.js",
+      "OnlineAI.js",
+      "*.js",
+      "./Debug.js",
+      "./Money.js",
+      "./RedPacket.js",
+      "./抢劫.js",
+      "./公会系统.js",
+      "./AutoCreeper.js",
+      "./Frame.js",
+      "./AddOns.js",
+      "./板砖.js",
+      "./DocMaker.js",
+      "./狗屁不通文章生成器.js",
+      "./Addons/void.js"
+    ],
+    "assets": [
+      "*.json",
+      "*",
+      "WebUI.html"
+    ],
+    "targets": [
+      "node10-win-x86",
+      "node10-win-x64"
+    ]
+  }
 }

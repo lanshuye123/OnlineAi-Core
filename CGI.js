@@ -13,6 +13,9 @@ exports.frame={
             this.SendMsg(connect,info,"[ERROR]Ai出现了一些问题。并没有接受到回复。")
             return;
         }
+        while(message.indexOf("\"")!=-1){
+            message = message.replace("\"","\\\"")
+        }
         if(info["message_type"]=="group"){
             var m = `{"action":"send_group_msg","params":{"group_id":`+info["group_id"]+`,"message":"`+message+`"}}`;
         }else if(info["message_type"]=="private"){
@@ -25,9 +28,6 @@ exports.frame={
         exports.HOOK = value;
     }
 }
-process.on("exit",()=>{
-	wss.end();
-});
 wss.on("connect",(connect)=>{
     exports.connect = connect;
     exports.frame.SetHook(false);

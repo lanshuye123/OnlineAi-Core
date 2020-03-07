@@ -6,6 +6,7 @@ exports.add = {
     Interfaces:{
         GetAddons:function(message){
             var msg = new String(message);
+			if(!fs.existsSync("./Addons/List.json")){return ["void.js",""];};
             var data = new Object(JSON.parse(fs.readFileSync("./Addons/List.json").toString()));
             var keys = Object.keys(data);
             for(var i=0;i<keys.length;i++){

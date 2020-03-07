@@ -2,6 +2,11 @@
 const fs=require("fs");
 const Core = require("./Core");
 const Money = require("./Money");
+fs.exists("./Data",(ex)=>{
+    if(!ex){
+        fs.mkdir("./Data");
+    }
+})
 fs.exists("./Data/公会.json",(ex)=>{
     if(!ex){
         fs.writeFile("./Data/公会.json",JSON.stringify({}),(err)=>{
@@ -100,17 +105,17 @@ exports.add={
     },
     Control:function(connect,info){
         //console.log("["+new Date().toString()+"][公会系统.js]正在处理");
-        var data = JSON.parse(fs.readFileSync("./UserDataBase.json"));
+        var data = Core.frame.ReadSystemConfig("领工资");
         const date = new Date();
         var msg = new String(info["raw_message"]);
         if(msg=="领工资"){
-            if(data["领工资"][Core.GetUser(info["user_id"])]==date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString()){
+            if(data[Core.GetUser(info["user_id"])]==date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString()){
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"已领过工资了!");
             }else{
                 Money.add.Interfaces.GiveUserMoney(Core.GetUser(info["user_id"]),500);
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"领工资成功，获得500RMB，当前余额"+Money.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"])));
                 var data = JSON.parse(fs.readFileSync("./UserDataBase.json"));
-                data["领工资"][Core.GetUser(info["user_id"])]=date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString();
+                data[Core.GetUser(info["user_id"])]=date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString();
                 fs.writeFileSync("./UserDataBase.json",JSON.stringify(data));
             };
         };

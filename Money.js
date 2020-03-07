@@ -45,30 +45,30 @@ exports.add={
     },
     Control:function(connect,info){
         //console.log("["+new Date().toString()+"][Money.js]正在处理");
-        var data = JSON.parse(fs.readFileSync("./UserDataBase.json"));
+		var msg = info.message;
         const date = new Date();
-        var msg = new String(info["raw_message"]);
         if(msg=="签到"||msg.substr(0,8)=="[CQ:sign"){
-            if(data["签到"][Core.GetUser(info["user_id"])]==date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString()){
+			var data = Core.frame.ReadSystemConfig("签到");
+            if(data[Core.GetUser(info["user_id"])]==date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString()){
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"已签到了!");
             }else{
                 exports.add.Interfaces.GiveUserMoney(Core.GetUser(info["user_id"]),500);
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"签到成功，获得500RMB，当前余额"+exports.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"])));
-                var data = JSON.parse(fs.readFileSync("./UserDataBase.json"));
-                data["签到"][Core.GetUser(info["user_id"])]=date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString();
-                fs.writeFileSync("./UserDataBase.json",JSON.stringify(data));
+                data[Core.GetUser(info["user_id"])]=date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString();
+                Core.frame.WriteSystemConfig("签到",data);
             }
         }
+		
         if(msg=="领利息"||msg.substr(0,8)=="[CQ:sign"){
-            if(data["利息"][Core.GetUser(info["user_id"])]==date.getFullYear().toString()+date.getMonth().toString()){
+			var data = Core.frame.ReadSystemConfig("利息");
+            if(data[Core.GetUser(info["user_id"])]==date.getFullYear().toString()+date.getMonth().toString()){
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"一个月只能领一次利息!");
             }else{
                 var m = Math.floor(new Number(exports.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"]))) * 0.1);
                 exports.add.Interfaces.GiveUserMoney(Core.GetUser(info["user_id"]),m);
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+`领取成功，获得${m}RMB，当前余额`+exports.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"])));
-                var data = JSON.parse(fs.readFileSync("./UserDataBase.json"));
-                data["利息"][Core.GetUser(info["user_id"])]=date.getFullYear().toString()+date.getMonth().toString();
-                fs.writeFileSync("./UserDataBase.json",JSON.stringify(data));
+                data[Core.GetUser(info["user_id"])]=date.getFullYear().toString()+date.getMonth().toString();
+                Core.frame.WriteSystemConfig("利息",data);
             }
         }
         if(info["raw_message"]=="我的余额"){

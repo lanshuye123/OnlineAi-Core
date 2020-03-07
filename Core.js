@@ -11,8 +11,8 @@ fs.exists("./MoudelV2.json",(ex)=>{
             for(var i=0;i<k.length;i++){
                 if(data_obj[k[i]].Allow){
                     console.log(`[${new Date().toString()}][${k[i]}]服务正在初始化!`);
-                    if(data_obj[k[i]].FindIn == "fs"){
-                        require(data_obj[k[i]].Path);
+                    if(data_obj[k[i]].FindIn == "fs"&&fs.existsSync(require(process.cwd()+"\\"+data_obj[k[i]].Path))){
+                        require(process.cwd()+"\\"+data_obj[k[i]].Path);
                     }
                     if(data_obj[k[i]].FindIn == "net"){
                         var t = new net.Socket();
@@ -96,8 +96,8 @@ exports.frame={
     },
     ReadSystemConfig(Name){
         var temp = JSON.parse(fs.readFileSync("UserDataBase.json").toString())
-        if(temp[Name]==undefined){
-            return {};
+        if(temp[Name]==undefined||temp[Name]==null){
+            return new Object();
         }else{
             return temp[Name];
         }
