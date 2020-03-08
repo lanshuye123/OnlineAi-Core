@@ -13,9 +13,8 @@ exports.frame={
             this.SendMsg(connect,info,"[ERROR]Ai出现了一些问题。并没有接受到回复。")
             return;
         }
-        while(message.indexOf("\"")!=-1){
-            message = message.replace("\"","\\\"")
-        }
+        /"/g.exec(message);
+        message = message.replace(/"/g,`\\\"`);
         if(info["message_type"]=="group"){
             var m = `{"action":"send_group_msg","params":{"group_id":`+info["group_id"]+`,"message":"`+message+`"}}`;
         }else if(info["message_type"]=="private"){
@@ -33,6 +32,17 @@ wss.on("connect",(connect)=>{
     exports.frame.SetHook(false);
     exports.HOOK = HOOK;
     connect.on("message",(data)=>{
+        if(JSON.parse(data.utf8Data)["post_type"]=="request"){//自动加好友
+            var s = JSON.parse(data.utf8Data);
+            console.log(data.utf8Data);
+            if(s["request_type"]!="group"){
+                connect.send(`{"action":"set_friend_add_request","params":{"flag":"${s["flag"]}","approve":true}}`)
+            }else{
+                connect.send(`{"action":"set_group_add_request","params":{"flag":"${s["flag"]}","sub_type":"${s["sub_type"]}","approve":true}}`)
+            }
+            
+            return;
+        }
         Core.frame.CGI(connect,JSON.parse(data.utf8Data));
     });
 });

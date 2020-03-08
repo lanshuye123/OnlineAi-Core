@@ -9,29 +9,42 @@ import { Socket } from "net";
 class GameAction{
     Type:String;
     Settings:{
-        对话_内容?:String|undefined;
-        对话_人物?:String|undefined;
-        对话_后续?:GameAction|undefined;
-        传送_位置?:{
-            MapID:Number,
-            X:Number,
-            Y:Number
-        }|undefined;
-        战斗_编号?:Number|undefined;
-        BOSS_编号?:Number|undefined;
-        贴图_设置?:{
-            X:Number,
-            Y:Number,
-            Name:String
-        }|undefined
-        判断_条件?:String[]|undefined;
+        对话_内容?:String;
+        对话_人物?:String;
+        跳转_目标?:String;
+        变量_设置?:String;
+        变量_内容?:String;
+        常量_设置?:String;
+        判断_变量?:String;
+        判断_依据?:String;
         判断_执行?:GameAction;
-        变量_设置?:String[]|undefined;
-        贴图_路径?:String|undefined;
     };
     Execute(c:Socket,i:Core.InfoType){
         if(this.Type=="对话"){
             Core.frame.SendMsg(c,i,`${this.Settings.对话_内容}`);
+        }
+        if(this.Type=="跳转"){
+            fs.readFile("./UnderDenyData/Player.json",(err,data)=>{
+                var data_obj = JSON.parse(data.toString());
+                data_obj[i.user_id.toString()].Schedule = (this.Settings.跳转_目标 as string).valueOf();
+                fs.writeFile("./UnderDenyData/Player.json",JSON.stringify(data_obj),(err2)=>{});
+            });
+        }
+        if(this.Type=="判断"){
+            fs.readFile("./UnderDenyData/Player.json",(err,data)=>{
+                var data_obj = JSON.parse(data.toString());
+                if(data_obj[i.user_id.toString()].Vars[(this.Settings.判断_变量 as String).valueOf()] == (this.Settings.判断_依据 as String).valueOf()){
+                    var temp = new GameAction();
+                    temp.Create(this.Settings.判断_执行 as GameAction).Execute(c,i);
+                }
+            });
+        }
+        if(this.Type=="变量"){
+            fs.readFile("./UnderDenyData/Player.json",(err,data)=>{
+                var data_obj = JSON.parse(data.toString());
+                data_obj[i.user_id.toString()].Vars[(this.Settings.变量_设置 as String).valueOf()] = (this.Settings.变量_内容 as String).valueOf();
+                fs.writeFile("./UnderDenyData/Player.json",JSON.stringify(data_obj),(err2)=>{});
+            })
         }
     };
     Create(that:GameAction):GameAction{
@@ -84,9 +97,13 @@ Core.AddListener((connect,info)=>{
                 Core.frame.SendMsg(connect,info,`${Core.frame.At(info.user_id)},你还在进行游戏，发送\"UD重置\"才可以重新开始`);
                 return;
             }
-            PlayerData[info.user_id.toString()] = new Object({Schedule:"Start",Vars:{},Info:{LOVE:0,EXP:0,HP:21,Itea:[]}});
-            fs.writeFile("./UnderDenyData/Player.json",JSON.stringify(PlayerData),(err2)=>{
-                Core.frame.SendMsg(connect,info,`${Core.frame.At(info.user_id)},UD初始化完成。发送\"UD查看剧情\"来开始游戏吧`);
+            PlayerData[info.user_id.toString()] = {Schedule:"Start",Vars:{},Info:{LOVE:0,EXP:0,HP:21,Itea:[]}}
+            fs.readFile("./UnderDenyData/Script.json",(err2,data2)=>{
+                var data_obj = JSON.parse(data2.toString());
+                PlayerData[info.user_id.toString()].Vars = data_obj["Settings"]["init"];
+                fs.writeFile("./UnderDenyData/Player.json",JSON.stringify(PlayerData),(err2)=>{
+                    Core.frame.SendMsg(connect,info,`${Core.frame.At(info.user_id)},UD初始化完成。发送\"UD查看剧情\"来开始游戏吧`);
+                });    
             });
         });
     }

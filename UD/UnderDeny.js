@@ -20,8 +20,32 @@ var GameAction = /** @class */ (function () {
         this.Settings = {};
     }
     GameAction.prototype.Execute = function (c, i) {
+        var _this = this;
         if (this.Type == "对话") {
             Core.frame.SendMsg(c, i, "" + this.Settings.对话_内容);
+        }
+        if (this.Type == "跳转") {
+            fs.readFile("./UnderDenyData/Player.json", function (err, data) {
+                var data_obj = JSON.parse(data.toString());
+                data_obj[i.user_id.toString()].Schedule = _this.Settings.跳转_目标.valueOf();
+                fs.writeFile("./UnderDenyData/Player.json", JSON.stringify(data_obj), function (err2) { });
+            });
+        }
+        if (this.Type == "判断") {
+            fs.readFile("./UnderDenyData/Player.json", function (err, data) {
+                var data_obj = JSON.parse(data.toString());
+                if (data_obj[i.user_id.toString()].Vars[_this.Settings.判断_变量.valueOf()] == _this.Settings.判断_依据.valueOf()) {
+                    var temp = new GameAction();
+                    temp.Create(_this.Settings.判断_执行).Execute(c, i);
+                }
+            });
+        }
+        if (this.Type == "变量") {
+            fs.readFile("./UnderDenyData/Player.json", function (err, data) {
+                var data_obj = JSON.parse(data.toString());
+                data_obj[i.user_id.toString()].Vars[_this.Settings.变量_设置.valueOf()] = _this.Settings.变量_内容.valueOf();
+                fs.writeFile("./UnderDenyData/Player.json", JSON.stringify(data_obj), function (err2) { });
+            });
         }
     };
     ;
@@ -69,9 +93,13 @@ Core.AddListener(function (connect, info) {
                 Core.frame.SendMsg(connect, info, Core.frame.At(info.user_id) + ",\u4F60\u8FD8\u5728\u8FDB\u884C\u6E38\u620F\uFF0C\u53D1\u9001\"UD\u91CD\u7F6E\"\u624D\u53EF\u4EE5\u91CD\u65B0\u5F00\u59CB");
                 return;
             }
-            PlayerData[info.user_id.toString()] = new Object({ Schedule: "Start", Vars: {}, Info: { LOVE: 0, EXP: 0, HP: 21, Itea: [] } });
-            fs.writeFile("./UnderDenyData/Player.json", JSON.stringify(PlayerData), function (err2) {
-                Core.frame.SendMsg(connect, info, Core.frame.At(info.user_id) + ",UD\u521D\u59CB\u5316\u5B8C\u6210\u3002\u53D1\u9001\"UD\u67E5\u770B\u5267\u60C5\"\u6765\u5F00\u59CB\u6E38\u620F\u5427");
+            PlayerData[info.user_id.toString()] = { Schedule: "Start", Vars: {}, Info: { LOVE: 0, EXP: 0, HP: 21, Itea: [] } };
+            fs.readFile("./UnderDenyData/Script.json", function (err2, data2) {
+                var data_obj = JSON.parse(data2.toString());
+                PlayerData[info.user_id.toString()].Vars = data_obj["Settings"]["init"];
+                fs.writeFile("./UnderDenyData/Player.json", JSON.stringify(PlayerData), function (err2) {
+                    Core.frame.SendMsg(connect, info, Core.frame.At(info.user_id) + ",UD\u521D\u59CB\u5316\u5B8C\u6210\u3002\u53D1\u9001\"UD\u67E5\u770B\u5267\u60C5\"\u6765\u5F00\u59CB\u6E38\u620F\u5427");
+                });
             });
         });
     }

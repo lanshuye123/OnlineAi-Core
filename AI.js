@@ -50,6 +50,9 @@ exports.add={
         
         info["message"] = info["message"].replace("[CQ:at,qq=2142562417]","");
 
+        if(info["message"].indexOf("[CQ:at,qq=")!=-1){
+            return;
+        }
         if(Core.HOOK == true){
             return;
         }
