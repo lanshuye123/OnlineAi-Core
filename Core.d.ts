@@ -32,6 +32,21 @@ import * as Core from "./Core";
 /**添加事件监听器
  * @param callback 回调函数
  */export function AddListener(/**回调函数*/callback:((Connect:net.Socket,Info:InfoType)=>void)):void;
+/**Config类型*/declare interface Config<T>{
+    /**
+     * 读取某个人的Config
+     * @param QQ QQ
+     */
+    ReadValue(QQ:Number|number):T;
+    /**
+     * 写入某个人的Config
+     * @param QQ QQ
+     * @param value 内容
+     */
+    WriteValue(QQ:Number|number,value:T):void;
+    API_GET():any;
+    constructor(Value:Array<T>):any;
+}
 /**部分公开功能*/export namespace frame{
     /**禁言某人
      * @param connect 会话
@@ -46,4 +61,11 @@ import * as Core from "./Core";
     /** \@某人
      * @param UserId QQ号
      */function At(UserId:number|Number):string;
+     /** 读取某个配置项目
+      * @param ConfigName 配置项名称
+      */function NReadSystemConfig(ConfigName:String|string):Config<any>;
+     /**写入某个配置项目
+      * @param ConfigName 配置名称
+      * @param ConfigValue 配置内容
+      */function NWriteSystemConfig(ConfigName:String|string,ConfigValue:Config<any>):Boolean|boolean;
 }

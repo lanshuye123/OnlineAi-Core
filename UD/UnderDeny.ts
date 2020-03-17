@@ -17,40 +17,79 @@ class GameAction{
         常量_设置?:String;
         判断_变量?:String;
         判断_依据?:String;
-        判断_执行?:GameAction;
+        判断_执行?:GameAction[];
+        触发_几率?:Number;
+        触发_回调?:GameAction[];
+        触发_否则?:GameAction[];
+        战斗_目标?:String;
+        战斗_弹幕?:String;
+        战斗_扣血?:Number;
     };
-    Execute(c:Socket,i:Core.InfoType){
-        if(this.Type=="对话"){
-            Core.frame.SendMsg(c,i,`${this.Settings.对话_内容}`);
+    Execute(c:Socket,i:Core.InfoType,Temp_this:GameAction){
+        if(Temp_this.Type=="对话"){
+            Core.frame.SendMsg(c,i,`${Temp_this.Settings.对话_内容}`);
         }
-        if(this.Type=="跳转"){
+        if(Temp_this.Type=="跳转"){
+            var data = fs.readFileSync("./UnderDenyData/Player.json");
+            var data_obj = JSON.parse(data.toString());
+            data_obj[i.user_id.toString()].Schedule = (Temp_this.Settings.跳转_目标 as String).valueOf();
+            fs.writeFile("./UnderDenyData/Player.json",JSON.stringify(data_obj),(err2)=>{});
+        }
+        if(Temp_this.Type=="判断"){
             fs.readFile("./UnderDenyData/Player.json",(err,data)=>{
                 var data_obj = JSON.parse(data.toString());
-                data_obj[i.user_id.toString()].Schedule = (this.Settings.跳转_目标 as string).valueOf();
-                fs.writeFile("./UnderDenyData/Player.json",JSON.stringify(data_obj),(err2)=>{});
-            });
-        }
-        if(this.Type=="判断"){
-            fs.readFile("./UnderDenyData/Player.json",(err,data)=>{
-                var data_obj = JSON.parse(data.toString());
-                if(data_obj[i.user_id.toString()].Vars[(this.Settings.判断_变量 as String).valueOf()] == (this.Settings.判断_依据 as String).valueOf()){
+                if(data_obj[i.user_id.toString()].Vars[(Temp_this.Settings.判断_变量 as String).valueOf()] == (Temp_this.Settings.判断_依据 as String).valueOf()){
                     var temp = new GameAction();
-                    temp.Create(this.Settings.判断_执行 as GameAction).Execute(c,i);
+                    var s = (Temp_this.Settings.判断_执行 as GameAction[]);
+                    for(var j=0;j<s.length;j++){
+                        temp.Create(s[j]).Execute(c,i,temp.Create(s[j]));
+                    }
                 }
             });
         }
-        if(this.Type=="变量"){
+        if(Temp_this.Type=="变量"){
             fs.readFile("./UnderDenyData/Player.json",(err,data)=>{
                 var data_obj = JSON.parse(data.toString());
-                data_obj[i.user_id.toString()].Vars[(this.Settings.变量_设置 as String).valueOf()] = (this.Settings.变量_内容 as String).valueOf();
+                data_obj[i.user_id.toString()].Vars[(Temp_this.Settings.变量_设置 as String).valueOf()] = (Temp_this.Settings.变量_内容 as String).valueOf();
                 fs.writeFile("./UnderDenyData/Player.json",JSON.stringify(data_obj),(err2)=>{});
             })
+        }
+        if(Temp_this.Type=="随机"){
+            var rom = Math.floor(Math.random() * 100);
+            if(rom<(Temp_this.Settings.触发_几率 as Number).valueOf()){
+                var temp = new GameAction();
+                var s = (Temp_this.Settings.触发_回调 as GameAction[]);
+                for(var j=0;j<s.length;j++){
+                    temp.Create(s[j]).Execute(c,i,temp.Create(s[j]));
+                }
+            }else{
+                if(Temp_this.Settings.触发_否则!=undefined||Temp_this.Settings.触发_否则!=null){
+                    var temp = new GameAction();
+                    var s = (Temp_this.Settings.触发_否则 as GameAction[]);
+                    for(var j=0;j<s.length;j++){
+                        temp.Create(s[j]).Execute(c,i,temp.Create(s[j]));
+                    }   
+                }
+            }
+        }
+        if(Temp_this.Type=="战斗=>扣血"){
+            var data_obj = JSON.parse(fs.readFileSync("./UnderDenyData/Player.json").toString());
+            var Player = new PlayerData(data_obj[i.user_id.toString()].Info as PlayerData);
+            console.log(Temp_this.Settings);
+            Player.HP = Player.HP.valueOf() - (Temp_this.Settings.战斗_扣血 as Number).valueOf();
+            Core.frame.SendMsg(c,i,`${Temp_this.Settings.战斗_目标 as String}对你使用了${Temp_this.Settings.战斗_弹幕 as String}，造成${(Temp_this.Settings.战斗_扣血 as Number)}点伤害，你剩余${Player.HP}点血量。`)
+            data_obj[i.user_id.toString()].Info = Player;
+            if(Player.HP<0){
+                data_obj[i.user_id.toString()] = undefined;
+                Core.frame.SendMsg(c,i,`你失败了\r\n${Core.frame.At(i.user_id)}保持你的决心。`);
+            }
+            fs.writeFile("./UnderDenyData/Player.json",JSON.stringify(data_obj),(err2)=>{});
         }
     };
     Create(that:GameAction):GameAction{
         if(that!=undefined){
             this.Type = that.Type;
-            this.Settings = that.Settings;    
+            this.Settings = that.Settings;
         }
         return this;
     }
@@ -97,7 +136,7 @@ Core.AddListener((connect,info)=>{
                 Core.frame.SendMsg(connect,info,`${Core.frame.At(info.user_id)},你还在进行游戏，发送\"UD重置\"才可以重新开始`);
                 return;
             }
-            PlayerData[info.user_id.toString()] = {Schedule:"Start",Vars:{},Info:{LOVE:0,EXP:0,HP:21,Itea:[]}}
+            PlayerData[info.user_id.toString()] = {Schedule:"Start",Vars:{},Info:{LOVE:0,EXP:0,HP:21,Item:[]}}
             fs.readFile("./UnderDenyData/Script.json",(err2,data2)=>{
                 var data_obj = JSON.parse(data2.toString());
                 PlayerData[info.user_id.toString()].Vars = data_obj["Settings"]["init"];
@@ -136,6 +175,27 @@ Core.AddListener((connect,info)=>{
             });
         });
     }
+
+    if(msg == "进行存档"){
+        fs.readFile("./UnderDenyData/Player.json",(err,data)=>{
+            var PlayerData = JSON.parse(data.toString());
+            if(PlayerData[info.user_id.toString()]==undefined){
+                Core.frame.SendMsg(connect,info,`${Core.frame.At(info.user_id)},你没有进行游戏，发送\"UD开始游戏\"来开始游戏。`);
+                return;
+            }
+            fs.readFile("./UnderDenyData/Script.json",(err2,data2)=>{
+                var data2_obj = JSON.parse(data2.toString());
+                if(data2_obj["Game"][PlayerData[info.user_id.toString()].Schedule].SaveAble!=true){
+                    Core.frame.SendMsg(connect,info,"此时你无法存档。");
+                }else{
+                    PlayerData[`${info.user_id}_SAVE`] = PlayerData[info.user_id.toString()];
+                    fs.writeFile("./UnderDenyData/Player.json",JSON.stringify(PlayerData),(err3)=>{});
+                    Core.frame.SendMsg(connect,info,data2_obj["Game"][PlayerData[info.user_id.toString()].Schedule].SaveInfo);
+                }
+            });
+        });
+    }
+
     if(msg.substr(0,2)=="行动"){
         var action = msg.replace("行动","");
         fs.readFile("./UnderDenyData/Player.json",(err,data)=>{
@@ -155,7 +215,7 @@ Core.AddListener((connect,info)=>{
                 var ActionGroup = GameAct[action] as Array<GameAction>;
                 var Act:GameAction|undefined = new GameAction();
                 for(var i=0;i<ActionGroup.length;i++){
-                    Act.Create(ActionGroup[i]).Execute(connect,info);
+                    Act.Create(ActionGroup[i]).Execute(connect,info,Act.Create(ActionGroup[i]));
                 }
             });
         });

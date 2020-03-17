@@ -1,10 +1,17 @@
 const ws = require("websocket");
 const fs = require("fs");
 const Core = require("./Core");
-var wss = new ws.client();
 var HOOK = false;
-wss.connect("ws://127.0.0.1:6700/");
-console.log("["+new Date().toString()+"][./Core.js]服务器已启动\r\n");
+console.log("["+new Date().toString()+"][./Core.js]服务器已启动");
+var wss = new ws.client();
+wss.connect("ws://127.0.0.1:6700");
+global.ReConnect = (()=>{
+    throw new Error("Reconnect");
+})
+wss.once("connectFailed",()=>{
+    console.log("["+new Date().toString()+"][./Core.js]功能已断线。");
+    process.exit(-1)
+});
 exports.HOOK = HOOK;
 exports.frame={
     SendMsg:function(connect,info,message){
@@ -28,6 +35,7 @@ exports.frame={
     }
 }
 wss.on("connect",(connect)=>{
+    console.log("["+new Date().toString()+"][./Core.js]链接成功");
     exports.connect = connect;
     exports.frame.SetHook(false);
     exports.HOOK = HOOK;
@@ -40,7 +48,6 @@ wss.on("connect",(connect)=>{
             }else{
                 connect.send(`{"action":"set_group_add_request","params":{"flag":"${s["flag"]}","sub_type":"${s["sub_type"]}","approve":true}}`)
             }
-            
             return;
         }
         Core.frame.CGI(connect,JSON.parse(data.utf8Data));

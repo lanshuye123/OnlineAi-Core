@@ -19,33 +19,66 @@ var GameAction = /** @class */ (function () {
         this.Type = "";
         this.Settings = {};
     }
-    GameAction.prototype.Execute = function (c, i) {
-        var _this = this;
-        if (this.Type == "对话") {
-            Core.frame.SendMsg(c, i, "" + this.Settings.对话_内容);
+    GameAction.prototype.Execute = function (c, i, Temp_this) {
+        if (Temp_this.Type == "对话") {
+            Core.frame.SendMsg(c, i, "" + Temp_this.Settings.对话_内容);
         }
-        if (this.Type == "跳转") {
+        if (Temp_this.Type == "跳转") {
+            var data = fs.readFileSync("./UnderDenyData/Player.json");
+            var data_obj = JSON.parse(data.toString());
+            data_obj[i.user_id.toString()].Schedule = Temp_this.Settings.跳转_目标.valueOf();
+            fs.writeFile("./UnderDenyData/Player.json", JSON.stringify(data_obj), function (err2) { });
+        }
+        if (Temp_this.Type == "判断") {
             fs.readFile("./UnderDenyData/Player.json", function (err, data) {
                 var data_obj = JSON.parse(data.toString());
-                data_obj[i.user_id.toString()].Schedule = _this.Settings.跳转_目标.valueOf();
-                fs.writeFile("./UnderDenyData/Player.json", JSON.stringify(data_obj), function (err2) { });
-            });
-        }
-        if (this.Type == "判断") {
-            fs.readFile("./UnderDenyData/Player.json", function (err, data) {
-                var data_obj = JSON.parse(data.toString());
-                if (data_obj[i.user_id.toString()].Vars[_this.Settings.判断_变量.valueOf()] == _this.Settings.判断_依据.valueOf()) {
+                if (data_obj[i.user_id.toString()].Vars[Temp_this.Settings.判断_变量.valueOf()] == Temp_this.Settings.判断_依据.valueOf()) {
                     var temp = new GameAction();
-                    temp.Create(_this.Settings.判断_执行).Execute(c, i);
+                    var s = Temp_this.Settings.判断_执行;
+                    for (var j = 0; j < s.length; j++) {
+                        temp.Create(s[j]).Execute(c, i, temp.Create(s[j]));
+                    }
                 }
             });
         }
-        if (this.Type == "变量") {
+        if (Temp_this.Type == "变量") {
             fs.readFile("./UnderDenyData/Player.json", function (err, data) {
                 var data_obj = JSON.parse(data.toString());
-                data_obj[i.user_id.toString()].Vars[_this.Settings.变量_设置.valueOf()] = _this.Settings.变量_内容.valueOf();
+                data_obj[i.user_id.toString()].Vars[Temp_this.Settings.变量_设置.valueOf()] = Temp_this.Settings.变量_内容.valueOf();
                 fs.writeFile("./UnderDenyData/Player.json", JSON.stringify(data_obj), function (err2) { });
             });
+        }
+        if (Temp_this.Type == "随机") {
+            var rom = Math.floor(Math.random() * 100);
+            if (rom < Temp_this.Settings.触发_几率.valueOf()) {
+                var temp = new GameAction();
+                var s = Temp_this.Settings.触发_回调;
+                for (var j = 0; j < s.length; j++) {
+                    temp.Create(s[j]).Execute(c, i, temp.Create(s[j]));
+                }
+            }
+            else {
+                if (Temp_this.Settings.触发_否则 != undefined || Temp_this.Settings.触发_否则 != null) {
+                    var temp = new GameAction();
+                    var s = Temp_this.Settings.触发_否则;
+                    for (var j = 0; j < s.length; j++) {
+                        temp.Create(s[j]).Execute(c, i, temp.Create(s[j]));
+                    }
+                }
+            }
+        }
+        if (Temp_this.Type == "战斗=>扣血") {
+            var data_obj = JSON.parse(fs.readFileSync("./UnderDenyData/Player.json").toString());
+            var Player = new PlayerData(data_obj[i.user_id.toString()].Info);
+            console.log(Temp_this.Settings);
+            Player.HP = Player.HP.valueOf() - Temp_this.Settings.战斗_扣血.valueOf();
+            Core.frame.SendMsg(c, i, Temp_this.Settings.战斗_目标 + "\u5BF9\u4F60\u4F7F\u7528\u4E86" + Temp_this.Settings.战斗_弹幕 + "\uFF0C\u9020\u6210" + Temp_this.Settings.战斗_扣血 + "\u70B9\u4F24\u5BB3\uFF0C\u4F60\u5269\u4F59" + Player.HP + "\u70B9\u8840\u91CF\u3002");
+            data_obj[i.user_id.toString()].Info = Player;
+            if (Player.HP < 0) {
+                data_obj[i.user_id.toString()] = undefined;
+                Core.frame.SendMsg(c, i, "\u4F60\u5931\u8D25\u4E86\r\n" + Core.frame.At(i.user_id) + "\u4FDD\u6301\u4F60\u7684\u51B3\u5FC3\u3002");
+            }
+            fs.writeFile("./UnderDenyData/Player.json", JSON.stringify(data_obj), function (err2) { });
         }
     };
     ;
@@ -93,7 +126,7 @@ Core.AddListener(function (connect, info) {
                 Core.frame.SendMsg(connect, info, Core.frame.At(info.user_id) + ",\u4F60\u8FD8\u5728\u8FDB\u884C\u6E38\u620F\uFF0C\u53D1\u9001\"UD\u91CD\u7F6E\"\u624D\u53EF\u4EE5\u91CD\u65B0\u5F00\u59CB");
                 return;
             }
-            PlayerData[info.user_id.toString()] = { Schedule: "Start", Vars: {}, Info: { LOVE: 0, EXP: 0, HP: 21, Itea: [] } };
+            PlayerData[info.user_id.toString()] = { Schedule: "Start", Vars: {}, Info: { LOVE: 0, EXP: 0, HP: 21, Item: [] } };
             fs.readFile("./UnderDenyData/Script.json", function (err2, data2) {
                 var data_obj = JSON.parse(data2.toString());
                 PlayerData[info.user_id.toString()].Vars = data_obj["Settings"]["init"];
@@ -132,6 +165,26 @@ Core.AddListener(function (connect, info) {
             });
         });
     }
+    if (msg == "进行存档") {
+        fs.readFile("./UnderDenyData/Player.json", function (err, data) {
+            var PlayerData = JSON.parse(data.toString());
+            if (PlayerData[info.user_id.toString()] == undefined) {
+                Core.frame.SendMsg(connect, info, Core.frame.At(info.user_id) + ",\u4F60\u6CA1\u6709\u8FDB\u884C\u6E38\u620F\uFF0C\u53D1\u9001\"UD\u5F00\u59CB\u6E38\u620F\"\u6765\u5F00\u59CB\u6E38\u620F\u3002");
+                return;
+            }
+            fs.readFile("./UnderDenyData/Script.json", function (err2, data2) {
+                var data2_obj = JSON.parse(data2.toString());
+                if (data2_obj["Game"][PlayerData[info.user_id.toString()].Schedule].SaveAble != true) {
+                    Core.frame.SendMsg(connect, info, "此时你无法存档。");
+                }
+                else {
+                    PlayerData[info.user_id + "_SAVE"] = PlayerData[info.user_id.toString()];
+                    fs.writeFile("./UnderDenyData/Player.json", JSON.stringify(PlayerData), function (err3) { });
+                    Core.frame.SendMsg(connect, info, data2_obj["Game"][PlayerData[info.user_id.toString()].Schedule].SaveInfo);
+                }
+            });
+        });
+    }
     if (msg.substr(0, 2) == "行动") {
         var action = msg.replace("行动", "");
         fs.readFile("./UnderDenyData/Player.json", function (err, data) {
@@ -151,7 +204,7 @@ Core.AddListener(function (connect, info) {
                 var ActionGroup = GameAct[action];
                 var Act = new GameAction();
                 for (var i = 0; i < ActionGroup.length; i++) {
-                    Act.Create(ActionGroup[i]).Execute(connect, info);
+                    Act.Create(ActionGroup[i]).Execute(connect, info, Act.Create(ActionGroup[i]));
                 }
             });
         });

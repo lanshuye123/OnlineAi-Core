@@ -46,4 +46,11 @@ import * as Core from "./Core";
     /** \@某人
      * @param UserId QQ号
      */function At(UserId:number|Number):string;
+     /** 读取某个配置项目
+      * @param ConfigName 配置项名称
+      */function ReadSystemConfig(ConfigName:String|string):any;
+     /**写入某个配置项目
+      * @param ConfigName 配置名称
+      * @param ConfigValue 配置内容
+      */function WriteSystemConfig(ConfigName:String|string,ConfigValue:any):Boolean|boolean;
 }

@@ -47,7 +47,6 @@ exports.add={
             temp[Core.GetUser(info["user_id"])] = false;
             Core.frame.WriteSystemConfig("AITalk",temp);
         }
-        
         info["message"] = info["message"].replace("[CQ:at,qq=2142562417]","");
 
         if(info["message"].indexOf("[CQ:at,qq=")!=-1){

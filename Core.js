@@ -67,6 +67,20 @@ exports.AddListener = ((callback)=>{
     Listeners[Listeners.length] = callback;
     console.log(`[${new Date().toString()}]新的服务注册。`);
 });
+class Config{
+    constructor(value){
+        this.value = value;
+    }
+    ReadValue(QQ){
+        return this.value[QQ.valueOf()];
+    }
+    WriteValue(QQ,value){
+        this.value[QQ.valueOf()] = value;
+    }
+    API_GET(){//旧版API
+        return this.value;
+    }
+};
 exports.frame={
     __Ban:function(connect,group,someone,time){
         connect.send(`{"action":"set_group_ban","params":{"group_id":"${group}","user_id":"${someone}","duration":${time}}}`);
@@ -102,6 +116,14 @@ exports.frame={
             return temp[Name];
         }
     },
+    NReadSystemConfig(Name){
+        var temp = JSON.parse(fs.readFileSync("UserDataBase.json").toString())
+        if(temp[Name]==undefined||temp[Name]==null){
+            return new Config(new Object());
+        }else{
+            return new Config(temp[Name]);
+        }
+    },
     WriteSystemConfig(Name,Value){
         var Data = JSON.parse(fs.readFileSync("UserDataBase.json").toString());
         Data[Name] = Value;
@@ -109,7 +131,13 @@ exports.frame={
         fs.writeFileSync("UserDataBase.json",JSON.stringify(Data));
         return 0;
     },
-
+    NWriteSystemConfig(Name,Value){
+        var Data = JSON.parse(fs.readFileSync("UserDataBase.json").toString());
+        Data[Name] = Value.API_GET();
+        //console.log(Data);
+        fs.writeFileSync("UserDataBase.json",JSON.stringify(Data));
+        return 0;
+    },
     CGI:function(connect,info){
         console.log("["+new Date().toString()+"][./Core.js]收到新消息");
         exports.HOOK = JSCGI.HOOK;
