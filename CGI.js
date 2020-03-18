@@ -14,7 +14,8 @@ wss.once("connectFailed",()=>{
 });
 exports.HOOK = HOOK;
 exports.frame={
-    SendMsg:function(connect,info,message){
+    SendMsg: function (connect, info, message) {
+        message = new String(message);
         this.SetHook(true);
         if(message == undefined||message == ""){
             this.SendMsg(connect,info,"[ERROR]Ai出现了一些问题。并没有接受到回复。")

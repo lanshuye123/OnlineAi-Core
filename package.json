@@ -5,19 +5,25 @@
   "main": "Core.js",
   "dependencies": {
     "@types/node": "^13.7.7",
+    "@types/puppeteer": "^2.0.1",
     "atob": "^2.1.2",
     "btoa": "^1.2.1",
+    "canvas": "^2.6.1",
     "iconv-lite": "^0.5.1",
     "node-gyp": "^6.1.0",
+    "puppeteer-core": "^2.1.1",
     "rebuild": "^0.1.2",
     "request": "^2.88.2",
     "websocket": "^1.0.31"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  },
   "scripts": {
     "start": "Run.bat",
     "test": "Node OnlineAI.js",
-    "get":"npm install"
+    "get": "npm install",
+    "build": "tsc --build&git add .&git commit -m \"@Build\"&git push origin master"
   },
   "repository": {
     "type": "git",

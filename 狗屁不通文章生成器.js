@@ -134,8 +134,7 @@ let 名人名言 = [
     "德国曾经说过，只有在人群中间，才能认识自己。这不禁令我深思",
     "史美尔斯曾经说过，书籍把我们引入最美好的社会，使我们认识各个时代的伟大智者。这不禁令我深思",
     "冯学峰曾经说过，当一个人用工作去迎接光明，光明很快就会来照耀着他。这不禁令我深思",
-    "吉格·金克拉曾经说过，如果你能做梦，你就能实现它。这不禁令我深思",
-    "蓝树叶曾经说过，OnlineAI Core的更新是必然的，这不禁令我深思",
+    "吉格·金克拉曾经说过，如果你能做梦，你就能实现它。这不禁令我深思"
 ]
 
 let 后面垫话 = [
@@ -209,23 +208,23 @@ function 生成文章(){
 }
 
 exports.add = {
-Interfaces:{},
-Control:function(connect,info){
-var ee = new String(info["message"]);
-if(ee.substr(0,4)=="生成文章"){
-ee = ee.replace("生成文章","");
-if(ee.indexOf("||")!=-1){
-var temp2 = ee.split("||");
-set.主题 = temp2[0];
-set.字数 = temp2[1];
-}else{
-set.主题 = ee;
-}
-var temp = 生成文章()
-while(temp.indexOf("\n")!=-1){
-temp = temp.replace("\n","\\n")
-}
-Core.frame.SendMsg(connect,info,temp);
-}
-}
+    Interfaces:{},
+    Control: function (connect, info) {
+        var ee = new String(info["message"]);
+        if (ee.substr(0, 4) == "生成文章") {
+            ee = ee.replace("生成文章", "");
+            if (ee.indexOf("||") != -1) {
+                var temp2 = ee.split("||");
+                set.主题 = temp2[0];
+                set.字数 = temp2[1];
+            } else {
+                set.主题 = ee;
+            }
+            var temp = 生成文章()
+            while (temp.indexOf("\n") != -1) {
+                temp = temp.replace("\n", "\\n")
+            }
+            Core.frame.SendMsg(connect, info, temp);
+        }
+    }
 }

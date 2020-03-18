@@ -23,9 +23,10 @@ Core.AddListener(function (c, info) {
         }
         if (temp) {
             Core.frame.SendMsg(c, info, "有人发送了一个与Creeper无关的消息，Creeper进度已终止!");
+            Creepering = 0;
         }
     }
-    if (info.message == exports.Creeper[0]) {
+    if (info.message == exports.Creeper[0] && Creepering == 0) {
         Creepering = 1;
         Core.frame.SendMsg(c, info, exports.Creeper[1]);
     }

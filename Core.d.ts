@@ -28,10 +28,11 @@ import * as Core from "./Core";
 }
 /**原定于获取名称对应的QQ号，不过已经废弃了
  * @param user_id 用户名称*/export function GetUser(user_id:String|string|Number|number):number;
-/**HOOK:是否发送过消息*/export var HOOK:Boolean|boolean;
+/**HOOK:是否发送过消息*/export var HOOK: Boolean | boolean;
+declare interface InfoSocket{}
 /**添加事件监听器
  * @param callback 回调函数
- */export function AddListener(/**回调函数*/callback:((Connect:net.Socket,Info:InfoType)=>void)):void;
+ */export function AddListener(/**回调函数*/callback:((Connect:InfoSocket,Info:InfoType)=>void)):void;
 /**Config类型*/declare interface Config<T>{
     /**
      * 读取某个人的Config
@@ -51,13 +52,13 @@ import * as Core from "./Core";
     /**禁言某人
      * @param connect 会话
      * @param info 消息
-     * @param time 时长(单位:s)*/function Ban(connect:net.Socket,info:InfoType,time:number):void;
+     * @param time 时长(单位:s)*/function Ban(connect:InfoSocket,info:InfoType,time:number):void;
     /**设置HOOK的内容
     * @param value TURE|FALSE;*/function SetHOOK(value:Boolean|boolean):void;
     /**发送消息
      * @param connect 会话
      * @param info 消息
-     * @param msg 发送内容*/function SendMsg(connect:net.Socket,info:InfoType,msg:String|string):void;
+     * @param msg 发送内容*/function SendMsg(connect:InfoSocket,info:InfoType,msg:String|string):void;
     /** \@某人
      * @param UserId QQ号
      */function At(UserId:number|Number):string;
