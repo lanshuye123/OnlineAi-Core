@@ -19,7 +19,7 @@ import * as Core from "./Core";
                 Core.frame.SendMsg(c, i, "我本来也没想怼你啊。");
             }
         }
-        if (怼人目标[i.user_id as number]) {
+        if (怼人目标[i.user_id as number] > 0) {
             if (i.message.indexOf("你这人") != -1 || i.message.indexOf("你") != -1 || i.message.indexOf("这") != -1) {
                 Core.frame.SendMsg(c, i, 怼人台词.意见[new Number(Math.floor(怼人台词.意见.length * Math.random())).valueOf()]);
             } else if (i.message.indexOf("怎么样") != -1 || i.message.indexOf("吗") != -1 || i.message.indexOf("如何") != -1) {

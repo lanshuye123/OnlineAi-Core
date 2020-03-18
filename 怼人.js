@@ -29,7 +29,7 @@ var Core = __importStar(require("./Core"));
                 Core.frame.SendMsg(c, i, "我本来也没想怼你啊。");
             }
         }
-        if (怼人目标[i.user_id]) {
+        if (怼人目标[i.user_id] > 0) {
             if (i.message.indexOf("你这人") != -1 || i.message.indexOf("你") != -1 || i.message.indexOf("这") != -1) {
                 Core.frame.SendMsg(c, i, 怼人台词.意见[new Number(Math.floor(怼人台词.意见.length * Math.random())).valueOf()]);
             }
