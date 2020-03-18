@@ -15,7 +15,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f4876de3-472d-4a7f-803a-3a3061d8136f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Run.bat</StartupFile>
+    <StartupFile>OnlineAi.js</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>
