@@ -31,8 +31,8 @@ import * as Core from "./Core";
             } else {
                 Core.frame.SendMsg(c, i, 怼人台词._无法识别[new Number(Math.floor(怼人台词._无法识别.length * Math.random())).valueOf()]);
             }
-            怼人目标 = 怼人目标 - 1;
-            if (怼人目标 == 0) {
+            怼人目标[i.user_id as number] = 怼人目标[i.user_id as number] - 1;
+            if (怼人目标[i.user_id as number] == 0) {
                 Core.frame.SendMsg(c, i, 怼人台词.投降[new Number(Math.floor(怼人台词.投降.length * Math.random())).valueOf()]);
             }
         }
