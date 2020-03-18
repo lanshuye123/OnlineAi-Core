@@ -20,7 +20,8 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "Run.bat",
+    "start": "Node OnlineAI.js",
+    "run": "Run",
     "test": "Node OnlineAI.js",
     "get": "npm install",
     "build": "tsc --build&git add .&git commit -m \"@Build\"&git push origin master"
