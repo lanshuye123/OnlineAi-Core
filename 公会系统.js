@@ -114,9 +114,8 @@ exports.add={
             }else{
                 Money.add.Interfaces.GiveUserMoney(Core.GetUser(info["user_id"]),500);
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"领工资成功，获得500RMB，当前余额"+Money.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"])));
-                var data = JSON.parse(fs.readFileSync("./UserDataBase.json"));
                 data[Core.GetUser(info["user_id"])]=date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString();
-                fs.writeFileSync("./UserDataBase.json",JSON.stringify(data));
+	Core.frame.WriteSystemConfig("领工资",data);
             };
         };
         if(msg.substr(0,4)=="创建公会"){

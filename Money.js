@@ -48,7 +48,7 @@ exports.add={
 		var msg = info.message;
         const date = new Date();
         if(msg=="签到"||msg.substr(0,8)=="[CQ:sign"){
-			var data = Core.frame.ReadSystemConfig("签到");
+                var data = Core.frame.ReadSystemConfig("签到");
             if(data[Core.GetUser(info["user_id"])]==date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString()){
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"已签到了!");
             }else{

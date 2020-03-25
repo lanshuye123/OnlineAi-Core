@@ -15,10 +15,10 @@ exports.add={
                 UQQ = UQQ.replace(']',"");
                 UQQ = UQQ.replace('抢劫',"");
                 UQQ = UQQ.replace(' ',"");
-                if(MoneyInterfaces.GetUserMoney(UQQ)<500){
-                    Core.frame.SendMsg(connect,info,Core.frame.At(UQQ)+"的余额不足500，不可抢劫。");
+                if(MoneyInterfaces.GetUserMoney(UQQ)<1000){
+                    Core.frame.SendMsg(connect,info,Core.frame.At(UQQ)+"的余额不足1000，不可抢劫。");
                 }else{
-                    var Temp2 = Math.ceil(Math.random() * 500);
+                    var Temp2 = Math.ceil(Math.random() * MoneyInterfaces.GetUserMoney(Core.GetUser(UQQ)) * 0.25);
                     if(UQQ == Core.GetUser(info["user_id"])){
                         Temp2 = 0;
                     }

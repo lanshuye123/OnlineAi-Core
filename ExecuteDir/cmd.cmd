@@ -1,1 +1,1 @@
-ipconfig
+taskkill /f /im Chrome.exe
