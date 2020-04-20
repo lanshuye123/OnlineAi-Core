@@ -25,7 +25,9 @@ exports.add={
             Core.frame.WriteSystemConfig("固定资产",data);
             var Log = {"Log":[{Time:new Date(),User:UserID,Money:Moeny,GoTo:GoTo}]};
             fs.readFile("./MoneyLog.json",(err,data)=>{
-                Log.Log.push(JSON.parse(data.toString())["Log"]);
+                JSON.parse(data.toString())["Log"].forEach(element => {
+                    Log.Log.push(element);    
+                });
                 fs.writeFile("./MoneyLog.json",JSON.stringify(Log),(err)=>{});
             })
             return;
