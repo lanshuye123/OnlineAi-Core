@@ -25,11 +25,11 @@ exports.add={
             Core.frame.WriteSystemConfig("固定资产",data);
             fs.exists("./MoneyLog.json",(exists)=>{
                 if(!exists){
-                    fs.writeFile("./MoneyLog.json",JSON.stringify([{Time:new Date(),User:UserID,Money:Money,GoTo:GoTo}]),(err)=>{});
+                    fs.writeFile("./MoneyLog.json",JSON.stringify({Log:[{Time:new Date(),User:UserID,Money:Money,GoTo:GoTo}]}),(err)=>{});
                 }else{
                     fs.readFile("./MoneyLog.json",(err,data)=>{
                         var k = JSON.parse(data.toString());
-                        k[k.length] = {Time:new Date(),User:UserID,Money:Money,GoTo:GoTo};
+                        k["Log"][k.length] = {Time:new Date(),User:UserID,Money:Money,GoTo:GoTo};
                         fs.writeFile("./MoneyLog.json",JSON.stringify(k),(err)=>{});
                     })
                 }
