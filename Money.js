@@ -23,15 +23,10 @@ exports.add={
                 data[UserID] = new Number(this.GetUserMoney(UserID) + new Number(Moeny));
             }
             Core.frame.WriteSystemConfig("固定资产",data);
-            fs.exists("./MoneyLog.json",(exists)=>{
-                if(!exists){
-                    fs.writeFile("./MoneyLog.json",JSON.stringify({Log:[{Time:new Date(),User:UserID,Money:Moeny,GoTo:GoTo}]}),(err)=>{});
-                }else{
-                    fs.readFile("./MoneyLog.json",(err,data)=>{
-                        var k = JSON.parse(data.toString());
-                        k["Log"][k.length] = {Time:new Date(),User:UserID,Money:Moeny,GoTo:GoTo};
-                        fs.writeFile("./MoneyLog.json",JSON.stringify(k),(err)=>{});
-                    })
+            var Log = {"Log":[{Time:new Date(),User:UserID,Money:Moeny,GoTo:GoTo}]};
+            fs.readFile("./MoneyLog.json",(err,data)=>{
+                if(data.toString()!=undefined){
+                    Log.Log.push(JSON.parse(data.toString())["Log"]);
                 }
             })
             return;
