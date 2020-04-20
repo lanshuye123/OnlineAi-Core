@@ -7,10 +7,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Core = __importStar(require("./Core"));
+const Core = __importStar(require("./Core"));
 exports.Creeper = ["Creeper?", "awwww man!", "So we back in the mine"];
 var Creepering = 0;
-Core.AddListener(function (c, info) {
+Core.AddListener((c, info) => {
     if (Creepering != 0) {
         var temp = true;
         if (info.message == exports.Creeper[Creepering]) {

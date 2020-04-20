@@ -8,9 +8,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //Red Alert For OnlineAi Core
-var Core = __importStar(require("./Core"));
+const Core = __importStar(require("./Core"));
 var CrossGroup = [];
-Core.AddListener(function (connect, info) {
+Core.AddListener((connect, info) => {
     console.log(CrossGroup);
     console.log(info);
     if (info.group_id == undefined) {
@@ -24,10 +24,10 @@ Core.AddListener(function (connect, info) {
     ;
     var Root = info;
     if (true) {
-        CrossGroup.forEach(function (value, index) {
+        CrossGroup.forEach((value, index) => {
             if (value != info.group_id && value != 0) {
                 Root.group_id = value;
-                Core.frame.SendMsg(connect, Root, "\u672C\u6D88\u606F\u6765\u81EA\u7FA4" + info.group_id + "\u7684" + info.user_id + ":" + info.message + "\u3002\\r\\nAi\u4EC5\u4F9B\u4F20\u8FBE\u3002");
+                Core.frame.SendMsg(connect, Root, `本消息来自群${info.group_id}的${info.user_id}:${info.message}。\\r\\nAi仅供传达。`);
             }
         });
     }

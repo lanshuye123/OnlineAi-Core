@@ -8,14 +8,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //BBS.js => 提供一个论坛机制
-var Core = __importStar(require("./Core"));
-(function () {
+const Core = __importStar(require("./Core"));
+(() => {
     var BBSCore = {
-        GetUserPermission: (function (User, BBS) {
+        GetUserPermission: ((User, BBS) => {
             return;
         }),
     };
-    Core.AddListener(function (connect, info) {
+    Core.AddListener((connect, info) => {
         if (info.raw_message.substr(0, 3) != "BBS") {
             return;
         }

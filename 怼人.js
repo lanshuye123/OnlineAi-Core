@@ -8,8 +8,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //Please Use UTF-8
-var Core = __importStar(require("./Core"));
-(function () {
+const Core = __importStar(require("./Core"));
+(() => {
     var 怼人目标 = {};
     var 怼人台词 = {
         "_无法识别": ["呵呵", "怎么地", "辣鸡"],
@@ -19,7 +19,7 @@ var Core = __importStar(require("./Core"));
         "骂人": ["你是什么我不知道，但是我知道你不是什么。那就是你不是人。", "虽然我不是人，但你比我更不是人。", "你是东西吗?", "Are you a thing?"],
         "投降": ["本Ai被你怼哭了", "懒得和你计较了", "我不怼你了，对牛弹琴又有何用呢?", "我就暂且饶过你一次。"]
     };
-    Core.AddListener(function (c, i) {
+    Core.AddListener((c, i) => {
         if (i.message.indexOf("投降") != -1) {
             if (怼人目标[i.user_id]) {
                 怼人目标[i.user_id] = 0;
@@ -66,7 +66,7 @@ var Core = __importStar(require("./Core"));
             qq = qq.replace("[CQ:at,qq=", "");
             qq = qq.replace("]", "");
             怼人目标[qq] = 10;
-            Core.frame.SendMsg(c, i, "\u6211\u4F1A\u53BB\u603C" + Core.frame.At(new Number(qq)) + "\u7684");
+            Core.frame.SendMsg(c, i, `我会去怼${Core.frame.At(new Number(qq))}的`);
         }
     });
 })();

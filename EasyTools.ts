@@ -5,14 +5,9 @@ export var EasyTools = {
         var KeyB = B.split("");
         var EC = 0;
         KeyA.forEach((v,i)=>{
-            KeyB.forEach((v2,i2)=>{
-                if(i2 < i || i < i2){
-                    return;
-                }
-                if(v == v2){
-                    EC = EC + 1;
-                }
-            })
+            if(KeyB[i+1] == v||KeyB[i] == v||KeyB[i-1]==v){
+                EC = EC + 1;
+            }
         });
         return (EC/(KeyA.length + KeyB.length) * 2);
     })

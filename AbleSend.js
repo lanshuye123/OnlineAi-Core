@@ -7,16 +7,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Core = __importStar(require("./Core"));
-var CGI = require("./CGI");
-(function () {
+const Core = __importStar(require("./Core"));
+const CGI = require("./CGI");
+(() => {
     var SendAble = Core.frame.ReadSystemConfig("SendAble");
     var Ks = 1;
-    Core.AddListener(function (c, i) {
+    Core.AddListener((c, i) => {
         if (CGI.HOOK) {
             return;
         }
-        var delete_msg = (function (msgid) {
+        var delete_msg = ((msgid) => {
             if (i.group_id != undefined) {
                 Core.frame.SendMsg(c, i, "[!][警告]有一个未备案消息被发送，请管理员自行验证此消息是否合理。");
             }
@@ -26,7 +26,7 @@ var CGI = require("./CGI");
                 delete_msg(i.message_id);
                 Core.frame.Ban(c, i, 5 * 60 * Ks);
                 Ks = Ks + 1;
-                Core.frame.SendMsg(c, i, Core.frame.At(Core.GetUser(i.user_id)) + ",\u4F60\u7684\u6D88\u606F\u5C5E\u4E8E\u672A\u5907\u6848\u6D88\u606F\uFF0C\u8BF7\u79C1\u4FE1Ai\u53D1\u9001\"\u5907\u6848\"\u6765\u83B7\u53D6\u6D88\u606F\u5907\u6848\u3002");
+                Core.frame.SendMsg(c, i, `${Core.frame.At(Core.GetUser(i.user_id))},你的消息属于未备案消息，请私信Ai发送"备案"来获取消息备案。`);
             }
         }
         if (i.group_id == undefined && i.message == "备案") {
