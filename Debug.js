@@ -180,7 +180,8 @@ exports.add={
             }).catch((reason)=>{
                 Core.frame.SendMsg(connect,info,reason);
                 console.log(reason);
-            })
+            });
+            
         };
 
         if(Temp1 == "说明书"||Temp1 == "用户手册"||Temp1 == "帮助"){

@@ -22,8 +22,8 @@ exports.add={
                     if(UQQ == Core.GetUser(info["user_id"])){
                         Temp2 = 0;
                     }
-                    MoneyInterfaces.GiveUserMoney(Core.GetUser(info["user_id"]),Temp2);
-                    MoneyInterfaces.CostUserMoney(UQQ,Temp2);
+                    MoneyInterfaces.GiveUserMoney(Core.GetUser(info["user_id"]),Temp2,`抢劫${UQQ}`);
+                    MoneyInterfaces.CostUserMoney(UQQ,Temp2,`被${info["user_id"]}抢劫`);
                     Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"抢劫成功！你抢到"+Temp2+"元，你的余额"+MoneyInterfaces.GetUserMoney(Core.GetUser(info["user_id"]))+"元");
                 }
             }

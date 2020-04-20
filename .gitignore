@@ -8,6 +8,7 @@
 !MessCode.json
 !tsconfig.json
 !jsconfig.json
+!MoneyLog.json
 
 # Logs
 logs

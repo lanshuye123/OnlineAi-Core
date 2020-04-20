@@ -1,4 +1,4 @@
-﻿//固定资产
+//固定资产
 const fs=require("fs");
 const Core = require("./Core");
 exports.add={
@@ -12,7 +12,10 @@ exports.add={
             }
             
         },
-        GiveUserMoney:function(UserID,Moeny){
+        GiveUserMoney:function(UserID,Moeny,GoTo){
+            if(GoTo == undefined){
+                GoTo = "无备注"
+            }
             var data = Core.frame.ReadSystemConfig("固定资产");
             if(data[UserID]==undefined||null||NaN){
                 data[UserID] = Moeny;
@@ -20,10 +23,21 @@ exports.add={
                 data[UserID] = new Number(this.GetUserMoney(UserID) + new Number(Moeny));
             }
             Core.frame.WriteSystemConfig("固定资产",data);
+            fs.exists("./MoneyLog.json",(exists)=>{
+                if(!exists){
+                    fs.writeFile("./MoneyLog.json",JSON.stringify([{Time:new Date(),User:UserID,Money:Money,GoTo:GoTo}]),(err)=>{});
+                }else{
+                    fs.readFile("./MoneyLog.json",(err,data)=>{
+                        var k = JSON.parse(data.toString());
+                        k[k.length] = {Time:new Date(),User:UserID,Money:Money,GoTo:GoTo};
+                        fs.writeFile("./MoneyLog.json",JSON.stringify(k),(err)=>{});
+                    })
+                }
+            })
             return;
         },
-        CostUserMoney:function(UserID,Moeny){
-            exports.add.Interfaces.GiveUserMoney(UserID,-1 * Moeny);
+        CostUserMoney:function(UserID,Moeny,GoTo){
+            exports.add.Interfaces.GiveUserMoney(UserID,-1 * Moeny , GoTo);
             return;
         },
         GetUserTo:function(UserID){
@@ -52,7 +66,7 @@ exports.add={
             if(data[Core.GetUser(info["user_id"])]==date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString()){
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"已签到了!");
             }else{
-                exports.add.Interfaces.GiveUserMoney(Core.GetUser(info["user_id"]),500);
+                exports.add.Interfaces.GiveUserMoney(Core.GetUser(info["user_id"]),500,"签到");
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"签到成功，获得500RMB，当前余额"+exports.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"])));
                 data[Core.GetUser(info["user_id"])]=date.getFullYear().toString()+date.getMonth().toString()+date.getDay().toString();
                 Core.frame.WriteSystemConfig("签到",data);
@@ -65,7 +79,7 @@ exports.add={
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"一个月只能领一次利息!");
             }else{
                 var m = Math.floor(new Number(exports.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"]))) * 0.1);
-                exports.add.Interfaces.GiveUserMoney(Core.GetUser(info["user_id"]),m);
+                exports.add.Interfaces.GiveUserMoney(Core.GetUser(info["user_id"]),m,"利息");
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+`领取成功，获得${m}RMB，当前余额`+exports.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"])));
                 data[Core.GetUser(info["user_id"])]=date.getFullYear().toString()+date.getMonth().toString();
                 Core.frame.WriteSystemConfig("利息",data);
@@ -100,9 +114,10 @@ exports.add={
                         if(exports.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"]))<UM){
                             Core.frame.SendMsg(connect,info,"你的余额不足转账。");
                         }else{
-                            exports.add.Interfaces.CostUserMoney(Core.GetUser(info["user_id"]),UM);
-                            exports.add.Interfaces.GiveUserMoney(exports.add.Interfaces.GetUserTo(Core.GetUser(info["user_id"])),UM);
-                            Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"转账成功，你的余额:"+exports.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"]))+"元。对方余额:"+exports.add.Interfaces.GetUserMoney(exports.add.Interfaces.GetUserTo(Core.GetUser(info["user_id"])))+"元。");                                exports.add.Interfaces.GiveUserTo(Core.GetUser(info["user_id"]),undefined);
+                            exports.add.Interfaces.CostUserMoney(Core.GetUser(info["user_id"]),UM,`转账给${exports.add.Interfaces.GetUserTo(Core.GetUser(info["user_id"]))}`);
+                            exports.add.Interfaces.GiveUserMoney(exports.add.Interfaces.GetUserTo(Core.GetUser(info["user_id"])),UM,`来自${info["user_id"]}的转账`);
+                            Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info["user_id"]))+"转账成功，你的余额:"+exports.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"]))+"元。对方余额:"+exports.add.Interfaces.GetUserMoney(exports.add.Interfaces.GetUserTo(Core.GetUser(info["user_id"])))+"元。");
+                            exports.add.Interfaces.GiveUserTo(Core.GetUser(info["user_id"]),undefined);
                         }
                     }else{
                         Core.frame.SendMsg(connect,info,"请使用 转账ZH@XXXX 设置转账目标。");
