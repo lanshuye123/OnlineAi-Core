@@ -193,7 +193,8 @@ exports.add={
         fs.readFile("./Message.json",(err,data)=>{
             var data2 = JSON.parse(data.toString());
             Object.keys(data2).forEach((v) => {
-                if(require("./EasyTools").EasyTools.分析(v,info["message"]) > 0.5){
+                var Width = require("./EasyTools").EasyTools.分析(v,info["message"]);
+                if(Width > 0.5 && Width < 1.5){
                     Core.frame.SendMsg(connect,info,exports.add.Interfaces.RetValue(data2[v],info));
                 }
             });
