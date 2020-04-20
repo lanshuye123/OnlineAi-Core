@@ -65,6 +65,8 @@ declare interface InfoSocket{}
      /** 读取某个配置项目
       * @param ConfigName 配置项名称
       */function NReadSystemConfig(ConfigName:String|string):Config<any>;
+      function ReadSystemConfig(ConfigName:String|string):any;
+      function WriteSystemConfig(ConfigName:String|string,value:any):any;
      /**写入某个配置项目
       * @param ConfigName 配置名称
       * @param ConfigValue 配置内容

@@ -47,7 +47,7 @@ wss.on("connect",(connect)=>{
             if(s["request_type"]!="group"){
                 connect.send(`{"action":"set_friend_add_request","params":{"flag":"${s["flag"]}","approve":true}}`)
             }else{
-                connect.send(`{"action":"set_group_add_request","params":{"flag":"${s["flag"]}","sub_type":"${s["sub_type"]}","approve":true}}`)
+                connect.send(`{"action":"set_group_add_request","params":{"flag":"${s["flag"]}","sub_type":"${s["sub_type"]}","approve":true}}`);
             }
             return;
         }
