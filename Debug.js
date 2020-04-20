@@ -165,15 +165,22 @@ exports.add={
             command = command.replace("&#93;","]");
             command = command.replace("&amp;","&");
             var time = process.uptime();
-            try{
-                eval(command);
-            }catch(error){
-                Core.frame.SendMsg(connect,info,error);
-                console.log(error);
-            }
-            var te2 = process.uptime() - time;
-            Debug.SaveVar();
-            Core.frame.SendMsg(connect,info,`指令执行完毕，共耗时${te2}秒`);
+
+            new Promise(()=>{
+                try{
+                    eval(command);
+                }catch(error){
+                    Core.frame.SendMsg(connect,info,error);
+                    console.log(error);
+                }
+                var te2 = process.uptime() - time;
+                Debug.SaveVar();
+                Core.frame.SendMsg(connect,info,`指令执行完毕，共耗时${te2}秒`);
+                return void 0;
+            }).catch((reason)=>{
+                Core.frame.SendMsg(connect,info,reason);
+                console.log(reason);
+            })
         };
 
         if(Temp1 == "说明书"||Temp1 == "用户手册"||Temp1 == "帮助"){
