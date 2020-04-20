@@ -1,0 +1,32 @@
+{
+  "远程执行测试": {
+    "Allow": true,
+    "FindIn": "fs",
+    "Path": "./RemoteMoudel.js"
+  },
+  "WebUI": {
+    "Allow": true,
+    "FindIn": "fs",
+    "Path": "./WebUI.js"
+  },
+  "UnderDeny": {
+    "Allow": true,
+    "FindIn": "fs",
+    "Path": "./UnderDeny.js"
+  },
+  "AutoCreeper": {
+    "Allow": true,
+    "FindIn": "fs",
+    "Path": "./AutoCreeper.js"
+  },
+  "怼人": {
+    "Allow": true,
+    "FindIn": "fs",
+    "Path": "./怼人.js"
+  },
+  "AbleSend": {
+    "Allow": false,
+    "FindIn": "fs",
+    "Path": "./AbleSend.js"
+  }
+}

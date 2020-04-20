@@ -4,6 +4,8 @@
 !List.json
 !package.json
 !package-lock.json
+!MoudelV2.json
+!MessCode.json
 
 # Logs
 logs
