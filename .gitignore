@@ -6,6 +6,8 @@
 !package-lock.json
 !MoudelV2.json
 !MessCode.json
+!tsconfig.json
+!jsconfig.json
 
 # Logs
 logs
