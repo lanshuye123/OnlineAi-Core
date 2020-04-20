@@ -6,6 +6,9 @@ export var EasyTools = {
         var EC = 0;
         KeyA.forEach((v,i)=>{
             KeyB.forEach((v2,i2)=>{
+                if(i2 < i){
+                    return
+                }
                 if(v == v2){
                     EC = EC + 1;
                 }
