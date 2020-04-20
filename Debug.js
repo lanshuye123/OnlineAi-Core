@@ -192,10 +192,11 @@ exports.add={
         }
         fs.readFile("./Message.json",(err,data)=>{
             var data2 = JSON.parse(data.toString());
-            if(data2[info["message"]]!=undefined){
-                var t3 = exports.add.Interfaces.RetValue(data2[info["message"]],info);
-                Core.frame.SendMsg(connect,info,t3);
-            }
+            Object.keys(data2).forEach((v) => {
+                if(require("./EasyTools").EasyTools.分析(v,info["message"]) > 0.5){
+                    Core.frame.SendMsg(connect,info,exports.add.Interfaces.RetValue(data2[v],info));
+                }
+            });
         });
 
         if(Temp1.substr(0,3)=="指令+"){
