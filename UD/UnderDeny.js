@@ -15,10 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Core = __importStar(require("./Core"));
 const fs = __importStar(require("fs"));
 class GameAction {
-    constructor() {
-        this.Type = "";
-        this.Settings = {};
-    }
     Execute(c, i, Temp_this) {
         if (Temp_this.Type == "对话") {
             Core.frame.SendMsg(c, i, `${Temp_this.Settings.对话_内容}`);
@@ -88,6 +84,10 @@ class GameAction {
             this.Settings = that.Settings;
         }
         return this;
+    }
+    constructor() {
+        this.Type = "";
+        this.Settings = {};
     }
 }
 class Item {

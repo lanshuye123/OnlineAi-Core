@@ -165,17 +165,18 @@ exports.add={
             command = command.replace("&#93;","]");
             command = command.replace("&amp;","&");
             var time = process.uptime();
+            var Ret = "";
 
             new Promise(()=>{
                 try{
-                    eval(command);
+                    Ret = eval(command);
                 }catch(error){
                     Core.frame.SendMsg(connect,info,error);
                     console.log(error);
                 }
                 var te2 = process.uptime() - time;
                 Debug.SaveVar();
-                Core.frame.SendMsg(connect,info,`指令执行完毕，共耗时${te2}秒`);
+                Core.frame.SendMsg(connect,info,`指令执行完毕，共耗时${te2}秒。返回结果${Ret}`);
                 return void 0;
             }).catch((reason)=>{
                 Core.frame.SendMsg(connect,info,reason);

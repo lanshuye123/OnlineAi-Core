@@ -23,13 +23,6 @@ exports.add={
                 data[UserID] = new Number(this.GetUserMoney(UserID) + new Number(Moeny));
             }
             Core.frame.WriteSystemConfig("固定资产",data);
-            var Log = {"Log":[{Time:new Date(),User:UserID,Money:Moeny,GoTo:GoTo}]};
-            fs.readFile("./MoneyLog.json",(err,data)=>{
-                JSON.parse(data.toString())["Log"].forEach(element => {
-                    Log.Log.push(element);    
-                });
-                fs.writeFile("./MoneyLog.json",JSON.stringify(Log),(err)=>{});
-            })
             return;
         },
         CostUserMoney:function(UserID,Moeny,GoTo){

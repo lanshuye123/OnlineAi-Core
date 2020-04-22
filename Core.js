@@ -68,7 +68,11 @@ exports.HOOK = JSCGI.HOOK;
 exports.AddListener = ((callback)=>{
     Listeners[Listeners.length] = callback;
     console.log(`[${new Date().toString()}]新的服务注册。`);
+    return (Listeners.length - 1);
 });
+exports.DelListener = ((callbackID)=>{
+    Listener[callbackID] = null;
+})
 class Config{
     constructor(value){
         this.value = value;
