@@ -28,5 +28,10 @@
     "Allow": false,
     "FindIn": "fs",
     "Path": "./AbleSend.js"
+  },
+  "保镖":{
+    "Allow":true,
+    "FindIn":"fs",
+    "Path":"./保镖.js"
   }
 }
