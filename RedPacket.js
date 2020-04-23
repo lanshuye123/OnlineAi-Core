@@ -54,10 +54,10 @@ exports.add={
             }
         }
         if(Temp1 == "抢红包"){
-            if(exports.add.Interfaces.GetRedPacketPool()<1000){
+            if(exports.add.Interfaces.GetRedPacketPool()<10000){
                 var M = exports.add.Interfaces.GetRedPacketPool();
             }else{
-                var M = Math.ceil(1000 * Math.random());
+                var M = Math.ceil(exports.add.Interfaces.GetRedPacketPool() * Math.random() * 0.05);
             }
             MoneyInterfaces.GiveUserMoney(Core.GetUser(info["user_id"]),M);
             exports.add.Interfaces.CostRedPacketPool(M);

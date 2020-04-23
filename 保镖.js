@@ -15,6 +15,7 @@ const 保镖配置 = {
     使用次数: 5,
     禁言权重: 25
 };
+exports.Interfaces = {};
 Core.AddListener((connect, info) => {
     if (info.message == "聘请保镖") {
         if (Money.add.Interfaces.GetUserMoney(Core.GetUser(info.user_id)) < 保镖配置.聘请定价) {

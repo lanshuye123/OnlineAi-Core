@@ -6,6 +6,7 @@ const 保镖配置 = {
     使用次数:5,
     禁言权重:25
 }
+export var Interfaces = {};
 Core.AddListener((connect,info)=>{
     if(info.message == "聘请保镖"){
         if(Money.add.Interfaces.GetUserMoney(Core.GetUser(info.user_id)) < 保镖配置.聘请定价){
@@ -23,4 +24,4 @@ Core.AddListener((connect,info)=>{
         Core.frame.WriteSystemConfig("保镖",Data);
         Core.frame.SendMsg(connect,info,`${Core.frame.At(Core.GetUser(info.user_id))},聘请保镖成功,你剩下${User保镖}位保镖,还剩${Money.add.Interfaces.GetUserMoney(Core.GetUser(info.user_id))}RMB.`)
     }
-})
+});
