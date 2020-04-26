@@ -1,6 +1,6 @@
 {
   "远程执行测试": {
-    "Allow": true,
+    "Allow": false,
     "FindIn": "fs",
     "Path": "./RemoteMoudel.js"
   },
@@ -15,12 +15,12 @@
     "Path": "./UnderDeny.js"
   },
   "AutoCreeper": {
-    "Allow": true,
+    "Allow": false,
     "FindIn": "fs",
     "Path": "./AutoCreeper.js"
   },
   "怼人": {
-    "Allow": true,
+    "Allow": false,
     "FindIn": "fs",
     "Path": "./怼人.js"
   },

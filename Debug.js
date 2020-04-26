@@ -168,8 +168,14 @@ exports.add={
             var Ret = "";
 
             new Promise(()=>{
+                var Ret = [];
                 try{
-                    Ret = eval(command);
+                    ((command)=>{
+                        var k = command.split(";");
+                        for(var i=0;i<k.length;i++){
+                            Ret[i] = eval(k);
+                        }
+                    })(command);
                 }catch(error){
                     Core.frame.SendMsg(connect,info,error);
                     console.log(error);

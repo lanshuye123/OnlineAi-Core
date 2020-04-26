@@ -95,16 +95,20 @@ exports.add={
         Str = Str+"app_key="+key;
         sign = md5.update(Str).digest("hex").toUpperCase();
         params["sign"] = sign;
-        request.get({
-            url:`https://api.ai.qq.com/fcgi-bin/nlp/nlp_textchat?${Str}&sign=${sign}`,
-            encoding:'utf8'
-        },(err,req,body)=>{
-            if(req.statusCode==200){
-                console.log(body);
-                var an = JSON.parse(body)["data"]["answer"];
-                Core.frame._SendMsg(connect,info,an)
-            }
-        });
+
+        (()=>{
+            request.get({
+                url:`https://api.ai.qq.com/fcgi-bin/nlp/nlp_textchat?${Str}&sign=${sign}`,
+                encoding:'utf8'
+            },(err,req,body)=>{
+                if(req.statusCode==200){
+                    console.log(body);
+                    var an = JSON.parse(body)["data"]["answer"];
+                    an = an.replace(/呵/g,"").replace(/哈/g,"").replace(/吧/g,"").replace(/哦/g,"");
+                    Core.frame._SendMsg(connect,info,an);
+                }
+            });
+        })();
     }
 }
 /*

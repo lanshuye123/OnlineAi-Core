@@ -2,6 +2,9 @@
 const fs = require("fs");
 const net = require("net");
 var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js"];
+
+var LastMessage = {};
+
 var Listeners = [];
 global.LoadMoudel = (() => {
     fs.exists("./MoudelV2.json", (ex) => {
@@ -42,7 +45,7 @@ global.LoadMoudel = (() => {
                         }
                     }
                 }
-            })
+            });
         } else {
             fs.writeFile("./MoudelV2.json", JSON.stringify({}), (err) => { });
         }
@@ -146,11 +149,33 @@ exports.frame={
     },
     CGI:function(connect,info){
         console.log("["+new Date().toString()+"][./Core.js]收到新消息");
+
+        if(info.group_id){
+            if(info.message == "启用Ai"){
+                var AEdata = exports.frame.ReadSystemConfig("AIEnable");
+                AEdata[info.group_id] = true;
+                exports.frame.WriteSystemConfig("AIEnable",AEdata)
+            }
+            if(info.message == "禁用Ai"){
+                var AEdata = exports.frame.ReadSystemConfig("AIEnable");
+                AEdata[info.group_id] = false;
+                exports.frame.WriteSystemConfig("AIEnable",AEdata)
+            }
+            if(exports.frame.ReadSystemConfig("AIEnable")[info.group_id] != true){
+                return;
+            }
+        }
+
         exports.HOOK = JSCGI.HOOK;
         exports.frame.SetHOOK(false);
         exports.HOOK = false;
         if(info.message==undefined){
             return;
+        }
+        if(LastMessage == info){
+            return;
+        }else{
+            LastMessage = info;
         }
         try{
             for(var i=0;i<package.length;i++){
@@ -164,15 +189,6 @@ exports.frame={
             }
             if(require("./AI.js").add.Interfaces.GetAITalk("Core")){
                 require("./AI.js").add.Control(connect,info);
-            }
-            if (info.message == "重载插件") {
-                if (!require("./Debug.js").add.Interfaces.IsAdmin(info.user_id)) {
-                    exports.frame.SendMsg(connect, info, "此功能只允许机器人管理员使用。");
-                    return;
-                }
-                Listeners = [];
-                global.LoadMoudel();
-                exports.frame.SendMsg(connect, info, "重载成功!");
             }
         }catch(error){
             exports.frame.SendMsg(connect,info,error);
