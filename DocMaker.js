@@ -1,9 +1,8 @@
-﻿const btoa = require("btoa");
-const Core = require("./Core");
-const request = require('request');
+﻿const Core = require("./Core");
 exports.add = {
     Interfaces:{
         MakeURL:function(docs){
+            const btoa = require("btoa");
             var e = {"TITLE":"本文档生成自OnlineAI Core","Context":[{"Text":docs}]};
             var s = JSON.stringify(e);
             var n = encodeURIComponent(s);

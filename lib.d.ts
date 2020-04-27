@@ -7,3 +7,14 @@ declare interface LibMoney{
         }
     }
 }
+declare interface LibDebug{
+    add:{
+        Interfaces:{
+            /**
+             * 查询一个用户是否为Ai管理员
+             * @param UserID 要查询的用户的QQ
+             */
+            IsAdmin(UserID:Number):Boolean;
+        }
+    }
+}

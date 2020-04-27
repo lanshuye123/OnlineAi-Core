@@ -2,6 +2,7 @@ const fs = require("fs");
 const Core = require("./Core");
 const Money = require("./Money");
 const Debug = require("./Debug");
+const 保镖In = require("./保镖.i");
 exports.add  = {
     Interfaces:{
         GetUser板砖:function(user_id){
@@ -47,6 +48,10 @@ exports.add  = {
             Tuser = Tuser.replace("[CQ:at,qq=","");
             Tuser = Tuser.replace("]","");
             Tuser = Tuser.replace(" ","");
+            if(保镖In.使用用户保镖(Core.GetUser(Tuser))){
+                Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info.user_id))+"对方有保镖，不可敲板砖");
+                return;
+            }
             if(Tuser == Core.GetUser(info["user_id"])){
                 Core.frame.SendMsg(connect,info,"不可以敲自己");
                 return;
@@ -75,6 +80,10 @@ exports.add  = {
             var TuserZ = E[0].replace("[CQ:at,qq=","");
             TuserZ = TuserZ.replace("]","");
             TuserZ = TuserZ.replace(" ","");
+            if(保镖In.使用用户保镖(Core.GetUser(Tuser))){
+                Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info.user_id))+"对方有保镖，不可敲板砖");
+                return;
+            }
             if(TuserZ == Core.GetUser(info["user_id"])){
                 Core.frame.SendMsg(connect,info,"不可以敲自己");
                 return;
@@ -94,6 +103,9 @@ exports.add  = {
             }
             var BT = Math.floor(Math.random()*300) * E[1];
             exports.add.Interfaces.GiveUser板砖(Core.GetUser(info["user_id"]),-E[1]);
+            if(BT > 30*24*60*60){
+                BT = 30*24*60*60 - 1;
+            }
             Core.frame._Ban(connect,info,TuserZ,BT);
             Core.frame.SendMsg(connect,info,`敲板砖成功，已禁言${Core.frame.At(TuserZ)}长达${BT}秒。你剩余${exports.add.Interfaces.GetUser板砖(Core.GetUser(info["user_id"]))}个板砖。`);
         }

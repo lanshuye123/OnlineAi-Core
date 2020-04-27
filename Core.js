@@ -2,9 +2,7 @@
 const fs = require("fs");
 const net = require("net");
 var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js"];
-
 var LastMessage = {};
-
 var Listeners = [];
 global.LoadMoudel = (() => {
     fs.exists("./MoudelV2.json", (ex) => {
@@ -74,7 +72,7 @@ exports.AddListener = ((callback)=>{
     return (Listeners.length - 1);
 });
 exports.DelListener = ((callbackID)=>{
-    Listener[callbackID] = null;
+    Listeners[callbackID] = null;
 })
 class Config{
     constructor(value){
@@ -118,6 +116,9 @@ exports.frame={
         return "[CQ:at,qq="+user_id+"]";
     },
     ReadSystemConfig(Name){
+        if(Name == "保镖"){
+            Name = `保镖[${new Date().getFullYear()} ${new Date().getUTCMonth()} ${new Date().getUTCDay()}]`
+        }
         var temp = JSON.parse(fs.readFileSync("UserDataBase.json").toString())
         if(temp[Name]==undefined||temp[Name]==null){
             return new Object();
@@ -134,6 +135,9 @@ exports.frame={
         }
     },
     WriteSystemConfig(Name,Value){
+        if(Name == "保镖"){
+            Name = `保镖[${new Date().getFullYear()} ${new Date().getMonth()} ${new Date().getDay()}]`
+        }
         var Data = JSON.parse(fs.readFileSync("UserDataBase.json").toString());
         Data[Name] = Value;
         //console.log(Data);
@@ -151,15 +155,22 @@ exports.frame={
         console.log("["+new Date().toString()+"][./Core.js]收到新消息");
 
         if(info.group_id){
-            if(info.message == "启用Ai"){
+
+            if(info.message == "Ai服务状态"){
+                exports.frame.SendMsg(connect,info,`当前,Ai在本群处于${exports.frame.ReadSystemConfig("AIEnable")[info.group_id] == true}状态`);
+            }
+
+            if(info.message == "授权启用Ai服务" &&( info.sender.role == "owner" || info.sender.role == "admin")){
                 var AEdata = exports.frame.ReadSystemConfig("AIEnable");
                 AEdata[info.group_id] = true;
-                exports.frame.WriteSystemConfig("AIEnable",AEdata)
+                exports.frame.WriteSystemConfig("AIEnable",AEdata);
+                exports.frame.SendMsg(connect,info,"已启用Ai");
             }
-            if(info.message == "禁用Ai"){
+            if(info.message == "逆向启用Ai服务" &&( info.sender.role == "owner" || info.sender.role == "admin")){
                 var AEdata = exports.frame.ReadSystemConfig("AIEnable");
                 AEdata[info.group_id] = false;
-                exports.frame.WriteSystemConfig("AIEnable",AEdata)
+                exports.frame.WriteSystemConfig("AIEnable",AEdata);
+                exports.frame.SendMsg(connect,info,"已禁用Ai");
             }
             if(exports.frame.ReadSystemConfig("AIEnable")[info.group_id] != true){
                 return;
