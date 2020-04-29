@@ -22,6 +22,9 @@ ServerWeb.on("listening", () => {
         UserSock.on("data", (data) => {
             if (data.toString().indexOf(" ") != 0) {
                 var path = data.toString().split(" ");
+                if (path == undefined) {
+                    return;
+                }
                 if (path[1] == "/") {
                     fs.readFile("./WebUI.html", (err, data) => {
                         UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${data.length}\r\n\r\n`);
@@ -99,7 +102,7 @@ ServerWeb.on("listening", () => {
         });
     });
 });
-ServerWeb.listen(8081, "0.0.0.0");
+ServerWeb.listen(8081, "127.0.0.1");
 Core.AddListener((connect, Info) => {
     MessageCount = MessageCount.valueOf() + 1;
 });

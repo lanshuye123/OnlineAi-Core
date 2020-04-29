@@ -8,15 +8,19 @@
     "@types/puppeteer": "^2.0.1",
     "atob": "^2.1.2",
     "btoa": "^1.2.1",
+    "bufferutil": "^4.0.1",
     "canvas": "^2.6.1",
     "gyp": "^0.5.0",
     "iconv-lite": "^0.5.1",
     "node-gyp": "^6.1.0",
     "node-pre-gyp": "^0.14.0",
     "puppeteer-core": "^2.1.1",
+    "readable-stream": "^3.6.0",
     "rebuild": "^0.1.2",
     "request": "^2.88.2",
-    "websocket": "^1.0.31"
+    "utf-8-validate": "^5.0.2",
+    "websocket": "^1.0.31",
+    "ws": "^7.2.5"
   },
   "devDependencies": {
     "typescript": "^3.8.3"

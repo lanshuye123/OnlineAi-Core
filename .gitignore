@@ -1,6 +1,7 @@
 #OnlineAI
 !\Addons\List.json
 *.json
+!\API\Using\**
 !List.json
 !package.json
 !package-lock.json

@@ -160,13 +160,13 @@ exports.frame={
                 exports.frame.SendMsg(connect,info,`当前,Ai在本群处于${exports.frame.ReadSystemConfig("AIEnable")[info.group_id] == true}状态`);
             }
 
-            if(info.message == "授权启用Ai服务" &&( info.sender.role == "owner" || info.sender.role == "admin")){
+            if(info.message == "授权启用Ai服务" &&( info.sender.role == "owner" || info.sender.role == "admin" || require("./Debug.js").add.Interfaces.IsAdmin(info.user_id))){
                 var AEdata = exports.frame.ReadSystemConfig("AIEnable");
                 AEdata[info.group_id] = true;
                 exports.frame.WriteSystemConfig("AIEnable",AEdata);
                 exports.frame.SendMsg(connect,info,"已启用Ai");
             }
-            if(info.message == "逆向启用Ai服务" &&( info.sender.role == "owner" || info.sender.role == "admin")){
+            if(info.message == "逆向启用Ai服务" &&( info.sender.role == "owner" || info.sender.role == "admin" || require("./Debug.js").add.Interfaces.IsAdmin(info.user_id))){
                 var AEdata = exports.frame.ReadSystemConfig("AIEnable");
                 AEdata[info.group_id] = false;
                 exports.frame.WriteSystemConfig("AIEnable",AEdata);
