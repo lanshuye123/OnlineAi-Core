@@ -10,6 +10,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Core = __importStar(require("./Core"));
 const canvas = __importStar(require("canvas"));
 const fs = __importStar(require("fs"));
+const debug = require("./Debug");
+const ds = require("desktop-screenshot");
+const request = __importStar(require("request"));
 (() => {
     var con = new canvas.Canvas(100, 100);
     var mai = con.getContext("2d");
@@ -24,6 +27,31 @@ const fs = __importStar(require("fs"));
     Core.AddListener((c, i) => {
         if (i.message == "图片测试") {
             Core.frame.SendImg(c, i, "1.png");
+        }
+        if (i.message == "屏幕截图" && debug.add.Interfaces.IsAdmin(Core.GetUser(i.user_id))) {
+            ds("D:\\APPS\\MIRAI\\plugins\\MiraiAPIHTTP\\images\\Screen.png", (err, com) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    Core.frame.SendImg(c, i, "Screen.png");
+                }
+            });
+        }
+        if (i.message == "服务器IP") {
+            if (debug.add.Interfaces.IsAdmin(Core.GetUser(i.user_id))) {
+                request.get("http://api.ipify.org", (err, req) => {
+                    Core.frame.SendMsg(c, i, req.body);
+                });
+            }
+            else {
+                request.get("http://api.ipify.org", (err, req) => {
+                    var IP = req.body.split(".");
+                    IP[2] = "*";
+                    IP[3] = "*";
+                    Core.frame.SendMsg(c, i, `${IP[0]}.${IP[1]}.${IP[2]}.${IP[3]}`);
+                });
+            }
         }
     });
 })();
