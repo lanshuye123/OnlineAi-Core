@@ -3,9 +3,14 @@ const fs=require("fs");
 const Core = require("./Core");
 const child_p = require("child_process");
 var SandBox = Core.frame.ReadSystemConfig("SandBox");
+var Sudo = false;
 exports.add={
     Interfaces:{
         IsAdmin:function(user){
+            if(Sudo){
+                Sudo = false;
+                return true;
+            }
             if(!fs.existsSync("./Debug.json")){
                 fs.writeFile("./Debug.json",JSON.stringify({}),(err)=>{
                     console.log(`[${new Date().toString()}][Debug.js]加载Debug.json成功!`);
@@ -144,6 +149,15 @@ exports.add={
             global.UpData();
             Debug.log("获取更新成功!");
             process.exit(0);
+        }
+
+        if(Temp1 == "管理员授权"){
+            if(exports.add.Interfaces.IsAdmin(Core.GetUser(info["user_id"]))){
+                Sudo = true;
+                Core.frame.SendMsg(connect,info,"[DEBUG]已进行授权!");
+            }else{
+                Core.frame.SendMsg(connect,info,"[DEBUG]未进行授权!理由:非管理员身份");
+            }
         }
 
         if(Temp1=="重启Ai"){

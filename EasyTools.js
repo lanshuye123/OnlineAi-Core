@@ -22,5 +22,17 @@ exports.EasyTools = {
             }
         });
         return (EC / (KeyA.length + KeyB.length) * 2);
-    })
+    }),
+    生成群信: ((群号) => {
+        var Info = {};
+        Info.group_id = 群号;
+        Info.message_type = "group";
+        return Info;
+    }),
+    生成私信: ((号码) => {
+        var Info = {};
+        Info.user_id = 号码;
+        Info.message_type = "privace";
+        return Info;
+    }),
 };

@@ -16,7 +16,7 @@ Core.AddListener((Connect, Info) => {
         Core.frame.SendMsg(Connect, Info, "[利刃后端]更新成功!");
     }
     if (Info.message.substr(0, 4) == "利刃执行") {
-        if (!Debug.add.Interfaces.IsAdmin(Info.user_id)) {
+        if (!(Debug.add.Interfaces.IsAdmin(Info.user_id))) {
             Core.frame.SendMsg(Connect, Info, "只有Ai管理员才有权使用本指令");
             return;
         }

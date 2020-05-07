@@ -37,6 +37,12 @@
   "利刃":{
     "Allow":true,
     "FindIn":"fs",
-    "Path":"./API/Main.js"
+    "Path":"./API/Main.js",
+    "About":"利刃是一个全中文开发平台"
+  },
+  "复读机":{
+    "Allow":true,
+    "FindIn":"fs",
+    "Path":"./复读机.js"
   }
 }

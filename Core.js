@@ -90,7 +90,7 @@ class Config{
 };
 exports.frame={
     __Ban:function(connect,group,someone,time){
-        connect.send(`{"action":"set_group_ban","params":{"group_id":"${group}","user_id":"${someone}","duration":${time}}}`);
+        // connect.send(`{"action":"set_group_ban","params":{"group_id":"${group}","user_id":"${someone}","duration":${time}}}`);
     },
     _Ban:function(connect,info,user,time){
         this.__Ban(connect,info["group_id"],user,time);
@@ -152,7 +152,28 @@ exports.frame={
         return 0;
     },
     CGI:function(connect,info){
+
+        if(info == undefined){return};
+
         console.log("["+new Date().toString()+"][./Core.js]收到新消息");
+
+        info.raw_message = "";
+        info.messageChain.forEach(element => {
+            if(element.type == "Plain"){
+                info.raw_message = info.raw_message + element.text;
+            }
+        });
+        info.message = info.raw_message;
+
+        console.log(Buffer.from(info.message));
+
+        info.user_id = info.sender.id;
+
+        if(info.group){
+            console.log("isGroup!")
+            info.group_id = info.group.id;
+            info.message_type = "group";
+        }
 
         if(info.group_id){
 

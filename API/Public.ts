@@ -54,12 +54,14 @@ export var 解析:((内容:String,收到:Core.InfoType)=> String) = ((内容,收
     返回 = 返回.replace(/\{/g,"[");
     FunctionKeys.forEach((Key)=>{
         var Function = new RegExp(`^\\[${Key} (.*?)\\]$`);
-        Function.exec(返回.valueOf());
-        var 处理 = RegExp.$1 as String;
-        if(处理.indexOf("[") != -1){
-            处理 = 解析(处理,收到);
+        if(Function.test(返回.valueOf())){
+            Function.exec(返回.valueOf());
+            var 处理 = RegExp.$1 as String;
+            if(处理.indexOf("[") != -1){
+                处理 = 解析(处理,收到);
+            }
+            返回 = 返回.replace(Function,eval(`${API.Base.Function[Key]}("${处理}",收到)`));
         }
-        返回 = 返回.replace(Function,eval(`${API.Base.Function[Key]}("${处理}",收到)`));
     })
     return 返回;
 });
