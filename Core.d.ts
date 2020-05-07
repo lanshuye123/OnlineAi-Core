@@ -71,4 +71,5 @@ declare interface InfoSocket{}
       * @param ConfigName 配置名称
       * @param ConfigValue 配置内容
       */function NWriteSystemConfig(ConfigName:String|string,ConfigValue:Config<any>):Boolean|boolean;
+      function SendImg(Connect:InfoSocket,info:InfoType,Img:String):void;
 }

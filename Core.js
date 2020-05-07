@@ -4,6 +4,7 @@ const net = require("net");
 var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js"];
 var LastMessage = {};
 var Listeners = [];
+var At = [];
 global.LoadMoudel = (() => {
     fs.exists("./MoudelV2.json", (ex) => {
         if (ex) {
@@ -104,16 +105,51 @@ exports.frame={
     },
     SendMsg:function(connect,info,message){
         this.SetHOOK(true);
-        if(message==undefined){
+        var Zmessage = new String(message);
+        if(Zmessage == undefined||Zmessage == ""){
+            this.SendMsg(connect,info,"[ERROR]Ai出现了一些问题。并没有接受到回复。")
             return;
         }
-        JSCGI.frame.SendMsg(connect,info,message);
+        /"/g.exec(Zmessage);
+        Zmessage = Zmessage.replace(/"/g,`\\\"`);
+        if(message == undefined){
+            return;
+        }
+        var rawMessage = [];
+        if(info.group){
+            var MessageData = Zmessage.split(/\[At\]/);
+            var IndexAt = 0;
+            MessageData.forEach((v,i)=>{
+                if(v == ""){
+                    v = " ";
+                }
+                rawMessage[rawMessage.length] = {
+                    type:"Plain",
+                    text:v
+                };
+                rawMessage[rawMessage.length] = {
+                    type:"At",
+                    target:new Number(At[IndexAt])
+                }
+                IndexAt = IndexAt + 1;
+            });
+            rawMessage = rawMessage.slice(0,rawMessage.length -1);
+        }else{
+            rawMessage = [{
+                type:"Plain",
+                text:Zmessage.replace(/\[At\]/g,"@User")
+            }]
+        }
+        At = [];
+        JSCGI.frame.SendMsg(connect,info,rawMessage);
     },
     _SendMsg:function(connect,info,message){
         this.SendMsg(connect,info,message);
     },
     At:function(user_id){
-        return "[CQ:at,qq="+user_id+"]";
+        At[At.length] = user_id;
+        return "[At]";
+        //  return `[${At.length}]`;
     },
     ReadSystemConfig(Name){
         if(Name == "保镖"){
@@ -151,13 +187,24 @@ exports.frame={
         fs.writeFileSync("UserDataBase.json",JSON.stringify(Data));
         return 0;
     },
+
+    SendImg(c,i,p){
+        JSCGI.frame.SendImg(c,i,p);
+    },
+    
     CGI:function(connect,info){
+
+        At = [];
 
         if(info == undefined){return};
 
         console.log("["+new Date().toString()+"][./Core.js]收到新消息");
 
         info.raw_message = "";
+		
+		if(info.messageChain == undefined){return}
+		if(info.messageChain == []){return}
+		
         info.messageChain.forEach(element => {
             if(element.type == "Plain"){
                 info.raw_message = info.raw_message + element.text;
@@ -169,10 +216,11 @@ exports.frame={
 
         info.user_id = info.sender.id;
 
-        if(info.group){
+        if(info.sender.group){
             console.log("isGroup!")
-            info.group_id = info.group.id;
+            info.group_id = info.sender.group.id;
             info.message_type = "group";
+            info.group = info.sender.group;
         }
 
         if(info.group_id){

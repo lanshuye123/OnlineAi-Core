@@ -10,9 +10,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Core = __importStar(require("./Core"));
 (() => {
     var LastMsg = "";
+    var LastMsg2 = "";
     Core.AddListener((Connect, Info) => {
-        if (Info.message == LastMsg) {
-            Core.frame.SendMsg(Connect, Info, LastMsg);
+        if (Info.message == LastMsg && Core.HOOK) {
+            if (LastMsg == LastMsg2) {
+                Core.frame.SendMsg(Connect, Info, LastMsg);
+            }
+            else {
+                LastMsg2 = LastMsg;
+            }
         }
         LastMsg = Info.message;
     });

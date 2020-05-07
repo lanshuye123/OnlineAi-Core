@@ -34,6 +34,11 @@
     "FindIn":"fs",
     "Path":"./保镖.js"
   },
+  "图片测试":{
+    "Allow":true,
+    "FindIn":"fs",
+    "Path":"./img.js"
+  },
   "利刃":{
     "Allow":true,
     "FindIn":"fs",

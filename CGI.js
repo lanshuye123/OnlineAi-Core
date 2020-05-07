@@ -1,4 +1,4 @@
-const Key = "INITKEYHvwZAL37";
+const Key = "ONLINEAICORE";
 const iconv = require("iconv-lite");
 const request = require("request");
 const Core = require("./Core");
@@ -29,34 +29,70 @@ request.post({
         console.log(Session);
         exports.HOOK = HOOK;
         exports.frame={
-            SendMsg: function (connect, info, message) {
-                var Zmessage = new String(message);
-                this.SetHook(true);
-                if(Zmessage == undefined||Zmessage == ""){
-                    this.SendMsg(connect,info,"[ERROR]Ai出现了一些问题。并没有接受到回复。")
-                    return;
-                }
-                /"/g.exec(Zmessage);
-                Zmessage = Zmessage.replace(/"/g,`\\\"`);
-                // if(info.group != undefined){
-                //     var Kdata = JSON.stringify({
-                //         sessionKey:Session,
-                //         group:info.group_id,
-                //         messageChain:[{type:"Plain",text:Zmessage}]
-                //     });
-                // }else{
-                //     var Kdata = JSON.stringify({
-                //         sessionKey:Session,
-                //         qq:info.sender.id,
-                //         messageChain:[{type:"Plain",text:Zmessage}]
-                //     });
-                // }
 
-                var Kdata = JSON.stringify({
-                    sessionKey:Session,
-                    qq:info.user_id,
-                    messageChain:[{type:"Plain",text:Zmessage}]
+            SendImg: function(c,info,p){
+                this.SetHook(true);
+
+                if(info.group != undefined){
+                    var Kdata = JSON.stringify({
+                        sessionKey:Session,
+                        group:info.group_id,
+                        messageChain:[{
+                            type:"Image",
+                            path:p
+                        }]
+                    });
+                }else{
+                    var Kdata = JSON.stringify({
+                        sessionKey:Session,
+                        qq:info.user_id,
+                        messageChain:[{
+                            type:"Image",
+                            path:p
+                        }]
+                    });
+                }
+                var BData = Buffer.from(Kdata);
+                var Ret = "";
+                var To = "Friend";
+                if(info.group != undefined){
+                    To = "Group"
+                }
+                var Req = new net.Socket();
+                console.log(Kdata);
+                console.log(Kdata);
+                var MainData = `POST /send${To}Message HTTP/1.1\r\nHost: 127.0.0.1:8080\r\nContent-Type: application/json; charset=UTF-8;\r\nContent-Length:${BData.length}\r\n\r\n`;
+                Req.connect(8080,"127.0.0.1",()=>{
+                    Req.write(MainData);
+                    Req.write(BData);
+                    Req.on("data",(data)=>{
+                        console.log(data.toString());
+                    });
+                    Req.on("end",()=>{
+                        Req.end();
+                    });
+                    Req.on("close",()=>{
+                        Req.end();
+                    })
                 });
+            },
+            SendMsg: function (connect, info, message) {
+                
+                this.SetHook(true);
+
+                if(info.group != undefined){
+                    var Kdata = JSON.stringify({
+                        sessionKey:Session,
+                        group:info.group_id,
+                        messageChain:message
+                    });
+                }else{
+                    var Kdata = JSON.stringify({
+                        sessionKey:Session,
+                        qq:info.user_id,
+                        messageChain:message
+                    });
+                }
                 var BData = Buffer.from(Kdata);
                 var Ret = "";
                 var To = "Friend";
@@ -107,10 +143,9 @@ request.post({
             request.get({
                 url:`http://127.0.0.1:8080/fetchLatestMessage?sessionKey=${Session}&count=1`
             },(err,data)=>{
-
                 if(data == null || data == undefined){return}
-
                 var data_obj = JSON.parse(data.body).data[0];
+	//console.log(data_obj);
                 if(data_obj == last){
                     return
                 }else{
@@ -118,6 +153,6 @@ request.post({
                     last = data_obj;
                 }
             });
-        },100);
+        },50)
     })
 });
