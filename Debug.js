@@ -31,7 +31,7 @@ exports.add={
                     console.log(std);
                     var n = std;
                     for(;n.match("\r\n");){
-                        n = n.replace("\r\n","\\r\\n");
+                        n = n.replace("\r\n","\r\n");
                     }
                     Core.frame.SendMsg(Core.connect,info,n);
                 })
@@ -44,7 +44,7 @@ exports.add={
                     console.log(std);
                     var n = std;
                     for(;n.match("\r\n");){
-                        n = n.replace("\r\n","\\r\\n");
+                        n = n.replace("\r\n","\r\n");
                     }
                     Core.frame.SendMsg(Core.connect,info,n);
                 })
@@ -94,7 +94,7 @@ exports.add={
         const Debug = {
             log:function(msg){
                 msg = new String(msg);
-                msg = msg.replace("\n","\\r\\n");
+                msg = msg.replace("\n","\r\n");
                 Core.frame.SendMsg(connect,info,msg);
                 console.log("["+new Date().toString()+"][Debug.js]"+msg);
             },
@@ -136,7 +136,7 @@ exports.add={
             var aia = Object.keys(data);
             var message = "目前有权管理AI的人员如下:";
             for(var i=0;i<aia.length;i++){
-                message = message  + "\\r\\n" + `${i+1}.` +aia[i];
+                message = message  + "\r\n" + `${i+1}.` +aia[i];
             }
             Core.frame.SendMsg(connect,info,message);
         }
@@ -259,7 +259,5 @@ exports.add={
                 });
             });
         }
-
-        //console.log("["+new Date().toString()+"][Debug.js]处理完成");
     }
 }

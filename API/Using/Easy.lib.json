@@ -9,7 +9,7 @@
             "AiAPI_Version":"\"0.0.1\""
         },
         "Function":{
-            "艾特":"((s)=>{return `[CQ:at,qq=${s}]`})"
+            "艾特":"((s)=>{return Core.frame.At(s)})"
         }
     },
     "Using":{

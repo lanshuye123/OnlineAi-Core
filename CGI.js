@@ -1,23 +1,22 @@
 const Key = "ONLINEAICORE";
-const iconv = require("iconv-lite");
 const request = require("request");
 const Core = require("./Core");
 const net = require("net");
-const zlib = require("zlib");
 var HOOK = false;
 var Session = "";
 console.log("["+new Date().toString()+"][./Core.js]服务器已启动");
+global.DEBUG = {};
+global.DEBUG.Core = Core;
 var last = {};
-// var hs = new http.Server();
 request.post({
     url:"http://127.0.0.1:8080/auth",
     body:JSON.stringify({authKey:Key})
 },(err,res)=>{
     if(res == null){
         console.log("["+new Date().toString()+"][./Core.js]系统断线.");
-        process.exit(-1);
+        return;
     }
-    var Session = JSON.parse(res.body).session;
+    Session = JSON.parse(res.body).session;
     request.post({
         url:"http://127.0.0.1:8080/verify",
         body:JSON.stringify({
@@ -116,36 +115,22 @@ request.post({
                         Req.end();
                     })
                 });
-                // var Req = http.request({
-                //     method:"POST",
-                //     hostname:"127.0.0.1",
-                //     port:8080,
-                //     path:`/send${To}Message`
-                // },(res)=>{
-                //     Req.socket.setDefaultEncoding("utf-8");
-                //     Req.write(Kdata);
-                //     Req.end();
-                //     console.log(res.headers);
-                //     res.on("data",(chunk)=>{
-                //         Ret = Ret + chunk;
-                //     });
-                //     res.on("end",()=>{
-                //         console.log(Ret);
-                //     })
-                // });
-                // console.log(m); 
             },
             SetHook:function(value){
                 exports.HOOK = value;
             }
         }
         setInterval(()=>{
+            if(Session == ""){return}
             request.get({
                 url:`http://127.0.0.1:8080/fetchLatestMessage?sessionKey=${Session}&count=1`
             },(err,data)=>{
                 if(data == null || data == undefined){return}
-                var data_obj = JSON.parse(data.body).data[0];
-	//console.log(data_obj);
+                if(data.body.toString().substr(0,1)!="{"){return;}
+                var MainData = JSON.parse(data.body);
+                if(MainData == null || MainData == undefined){return};
+                if(MainData.data == null||MainData.data == undefined){return};
+                var data_obj = MainData.data[0];
                 if(data_obj == last){
                     return
                 }else{
@@ -153,6 +138,6 @@ request.post({
                     last = data_obj;
                 }
             });
-        },50)
-    })
+        },50);
+    });
 });

@@ -16,6 +16,7 @@ exports.add={
                 UQQ = UQQ.replace(']',"");
                 UQQ = UQQ.replace('抢劫',"");
                 UQQ = UQQ.replace(' ',"");
+                At = Core.frame.GetAt(connect,info);if(At){UQQ=At}
                 if(保镖In.使用用户保镖(Core.GetUser(UQQ))){
                     Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info.user_id))+"对方有保镖，不可抢劫。");
                 }else{

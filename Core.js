@@ -73,7 +73,7 @@ exports.AddListener = ((callback)=>{
     return (Listeners.length - 1);
 });
 exports.DelListener = ((callbackID)=>{
-    Listeners[callbackID] = null;
+    Listeners[callbackID] = (()=>{});
 })
 class Config{
     constructor(value){
@@ -191,6 +191,17 @@ exports.frame={
     SendImg(c,i,p){
         JSCGI.frame.SendImg(c,i,p);
     },
+
+    GetAt:function(c,i){
+        var At = "";
+        i.messageChain.forEach(element => {
+            if(element.type == "At"){
+                At = element.target;
+            }
+        });
+        return At;
+    },
+
     
     CGI:function(connect,info){
 
@@ -277,3 +288,5 @@ exports.frame={
         console.log("["+new Date().toString()+"][./Core.js]线程处理完毕\r\n");
     }
 }
+global.DEBUG.CGI = JSCGI;
+global.DEBUG.Debug = require("./Debug.js");

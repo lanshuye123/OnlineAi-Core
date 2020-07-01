@@ -24,7 +24,7 @@ exports.add  = {
             if(Money.add.Interfaces.GetUserMoney(Core.GetUser(info["user_id"]))>100){
                 Money.add.Interfaces.CostUserMoney(Core.GetUser(info["user_id"]),100);
                 exports.add.Interfaces.GiveUser板砖(Core.GetUser(info["user_id"]),1);
-                Core.frame.SendMsg(connect,info,`消耗金币 * 100\\r\\n<获得板砖>\\r\\n[板砖]*1\\r\\n<持有板砖>\\r\\n[板砖]*${exports.add.Interfaces.GetUser板砖(Core.GetUser(info["user_id"]))}`);
+                Core.frame.SendMsg(connect,info,`消耗金币 * 100\r\n<获得板砖>\r\n[板砖]*1\r\n<持有板砖>\r\n[板砖]*${exports.add.Interfaces.GetUser板砖(Core.GetUser(info["user_id"]))}`);
             }else{
                 Core.frame.SendMsg(connect,info,"你的金币不足100。");
             }
@@ -48,6 +48,7 @@ exports.add  = {
             Tuser = Tuser.replace("[CQ:at,qq=","");
             Tuser = Tuser.replace("]","");
             Tuser = Tuser.replace(" ","");
+            At = Core.frame.GetAt(connect,info);if(At){Tuser=At}
             if(保镖In.使用用户保镖(Core.GetUser(Tuser))){
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info.user_id))+"对方有保镖，不可敲板砖");
                 return;
@@ -80,6 +81,7 @@ exports.add  = {
             var TuserZ = E[0].replace("[CQ:at,qq=","");
             TuserZ = TuserZ.replace("]","");
             TuserZ = TuserZ.replace(" ","");
+            At = Core.frame.GetAt(connect,info);if(At){TuserZ=At}
             if(保镖In.使用用户保镖(Core.GetUser(Tuser))){
                 Core.frame.SendMsg(connect,info,Core.frame.At(Core.GetUser(info.user_id))+"对方有保镖，不可敲板砖");
                 return;

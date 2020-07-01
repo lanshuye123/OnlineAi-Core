@@ -1,6 +1,8 @@
 const fs = require("fs");
 const cp = require("child_process");
 const Core = require("./Core");
+var Loaded = false;
+process.title = "OnlineAi by Lanshuye"
 global.UpData = function(){
     cp.execSync("git reset --hard&git pull origin master");
     console.log(`[${new this.Date().toString()}][OnlineAI.js]获取更新完毕`);
@@ -14,4 +16,10 @@ fs.exists("./UserDataBase.json",(ex)=>{
         });
     }
 });
-require("./CGI");
+global.Run = (()=>{
+    if(DEBUG.Core){return}
+    if(Loaded){process.exit(-1)}else{Loaded = true;}
+    require("./CGI");
+});
+Run();
+require("repl").start();
