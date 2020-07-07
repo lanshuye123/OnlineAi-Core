@@ -1,0 +1,53 @@
+{
+  "远程执行测试": {
+    "Allow": false,
+    "FindIn": "fs",
+    "Path": "./RemoteMoudel.js"
+  },
+  "WebUI": {
+    "Allow": true,
+    "FindIn": "fs",
+    "Path": "./WebUI.js"
+  },
+  "UnderDeny": {
+    "Allow": true,
+    "FindIn": "fs",
+    "Path": "./UnderDeny.js"
+  },
+  "AutoCreeper": {
+    "Allow": false,
+    "FindIn": "fs",
+    "Path": "./AutoCreeper.js"
+  },
+  "怼人": {
+    "Allow": false,
+    "FindIn": "fs",
+    "Path": "./怼人.js"
+  },
+  "AbleSend": {
+    "Allow": false,
+    "FindIn": "fs",
+    "Path": "./AbleSend.js"
+  },
+  "保镖":{
+    "Allow":true,
+    "FindIn":"fs",
+    "Path":"./保镖.js"
+  },
+  "图片测试":{
+    "Allow":false,
+    "FindIn":"fs",
+    "Path":"./img.js"
+  },
+  "利刃":{
+    "Allow":true,
+    "FindIn":"fs",
+    "Path":"./API/Main.js",
+    "About":"利刃是一个全中文开发平台"
+  },
+  "复读机":{
+    "Allow":true,
+    "FindIn":"fs",
+    "Path":"./复读机.js"
+  }
+}

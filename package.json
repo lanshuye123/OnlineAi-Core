@@ -1,0 +1,87 @@
+{
+  "name": "jsaicore",
+  "version": "1.0.0",
+  "description": "Something",
+  "main": "Core.js",
+  "dependencies": {
+    "@types/node": "^13.7.7",
+    "@types/puppeteer": "^2.0.1",
+    "@types/request": "^2.48.4",
+    "@types/uuid": "^7.0.3",
+    "@types/websocket": "^1.0.0",
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1",
+    "bufferutil": "^4.0.1",
+    "bytenode": "^1.1.6",
+    "canvas": "^2.6.1",
+    "desktop-screenshot": "^0.1.1",
+    "gyp": "^0.5.0",
+    "iconv-lite": "^0.5.1",
+    "node-gyp": "^6.1.0",
+    "node-pre-gyp": "^0.14.0",
+    "puppeteer-core": "^2.1.1",
+    "readable-stream": "^3.6.0",
+    "rebuild": "^0.1.2",
+    "request": "^2.88.2",
+    "utf-8-validate": "^5.0.2",
+    "uuid": "^8.0.0",
+    "websocket": "^1.0.31",
+    "ws": "^7.2.5"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "start": "Run.bat",
+    "test": "Node OnlineAI.js",
+    "get": "npm install",
+    "build": "tsc --build&git add .&git commit -m \"@Build\"&git push origin master"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/computer_internet_inc/AICore.git"
+  },
+  "author": "Lanshuye",
+  "license": "SEE LICENSE IN LICENSE",
+  "bin": "D:\\APPS\\JSAICore\\OnlineAI.js",
+  "pkg": {
+    "scripts": [
+      "Debug.js",
+      "Money.js",
+      "RedPacket.js",
+      "抢劫.js",
+      "公会系统.js",
+      "AutoCreeper.js",
+      "Frame.js",
+      "AddOns.js",
+      "板砖.js",
+      "DocMaker.js",
+      "狗屁不通文章生成器.js",
+      "WebUI.js",
+      "CGI.js",
+      "OnlineAI.js",
+      "*.js",
+      "./Debug.js",
+      "./Money.js",
+      "./RedPacket.js",
+      "./抢劫.js",
+      "./公会系统.js",
+      "./AutoCreeper.js",
+      "./Frame.js",
+      "./AddOns.js",
+      "./板砖.js",
+      "./DocMaker.js",
+      "./狗屁不通文章生成器.js",
+      "./Addons/void.js"
+    ],
+    "assets": [
+      "*.json",
+      "*",
+      "WebUI.html"
+    ],
+    "targets": [
+      "node10-win-x86",
+      "node10-win-x64"
+    ]
+  }
+}
