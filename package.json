@@ -5,7 +5,7 @@
   "main": "Core.js",
   "dependencies": {
     "@types/node": "^13.7.7",
-    "@types/puppeteer": "^2.0.1",
+    "@types/puppeteer": "^2.1.1",
     "@types/request": "^2.48.4",
     "@types/uuid": "^7.0.3",
     "@types/websocket": "^1.0.0",
@@ -17,6 +17,7 @@
     "desktop-screenshot": "^0.1.1",
     "gyp": "^0.5.0",
     "iconv-lite": "^0.5.1",
+    "node-geogebra": "^1.0.1",
     "node-gyp": "^6.1.0",
     "node-pre-gyp": "^0.14.0",
     "puppeteer-core": "^2.1.1",
