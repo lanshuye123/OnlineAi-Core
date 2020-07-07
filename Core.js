@@ -14,11 +14,11 @@ global.LoadMoudel = (() => {
                 for (var i = 0; i < k.length; i++) {
                     if (data_obj[k[i]].Allow) {
                         console.log(`[${new Date().toString()}][${k[i]}]服务正在初始化!`);
-                        if (data_obj[k[i]].FindIn == "fs" && fs.existsSync(require(process.cwd() + "\\" + data_obj[k[i]].Path))) {
+                        if (data_obj[k[i]].FindIn == "fs" && fs.existsSync(require(process.cwd() + "/" + data_obj[k[i]].Path))) {
                             try{
-                                require(process.cwd() + "\\" + data_obj[k[i]].Path);
+                                require(process.cwd() + "/" + data_obj[k[i]].Path);
                             }catch(err){
-                                var CommandReal = fs.readFileSync(process.cwd() + "\\" + data_obj[k[i]].Path);
+                                var CommandReal = fs.readFileSync(process.cwd() + "/" + data_obj[k[i]].Path);
                                 eval(CommandReal.toString());
                             }
                         }
