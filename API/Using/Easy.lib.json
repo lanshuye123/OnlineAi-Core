@@ -1,0 +1,21 @@
+{
+    "Config":{
+        "Name":"AiAPI使用教程",
+        "Author":"Lanshuye",
+        "Info":"这是针对AiAPI的使用介绍"
+    },
+    "Base":{
+        "Const":{
+            "AiAPI_Version":"\"0.0.1\""
+        },
+        "Function":{
+            "艾特":"((s)=>{return Core.frame.At(s)})"
+        }
+    },
+    "Using":{
+        "你好":{
+            "Content":"{0},你好呀.",
+            "Execute":["[艾特 [取发送者QQ]]"]
+        }
+    }
+}

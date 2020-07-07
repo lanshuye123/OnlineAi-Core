@@ -1,0 +1,17 @@
+{
+    "Config":{
+        "Name":"StdAPI",
+        "Author":"Lanshuye",
+        "Info":"这是基本的JSAIAPI"
+    },
+    "Base":{
+        "Const":{
+            "取AiQQ":"((Info)=>{return Info.self_id})(收到)",
+            "取发送者QQ":"((Info)=>{return Info.user_id})(收到)"
+        },
+        "Function":{
+            
+        }
+    },
+    "Using":{}
+}

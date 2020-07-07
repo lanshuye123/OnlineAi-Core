@@ -1,0 +1,4 @@
+UD文字版内核不同于JSTextGameCore。
+UDTC和JTGC都使用CIS编写的TWS作为参数库(Type With Settings:类型和设置)，所以在语法上内容相似，但实现机制完全不一致。
+UDTC针对OnlineAi Core做了特别的优化适配，而JTGC只是一般插件。
+UDTC针对JTGC的Items库和Attack库做了特别修改，
