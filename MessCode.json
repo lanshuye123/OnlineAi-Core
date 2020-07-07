@@ -1,9 +1,0 @@
-{
-    "时间:时":"new Date().getHours()",
-    "时间:分":"new Date().getMinutes()",
-    "时间:秒":"new Date().getSeconds()",
-    "时间":"((info)=>{return ZExec(`[时间:时]:[时间:分]:[时间:秒]`,info)})(info)",
-	"取Ai号码":"info.self_id",
-	"取发送者号码":"info.user_id",
-	"At(.*)":"((R)=>{return Core.frame.At(RegExp.$1)})(RegExp)"
-}
