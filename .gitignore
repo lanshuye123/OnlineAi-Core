@@ -1,14 +1,14 @@
 #OnlineAI
-#!\Addons\List.json
-#*.json
-#!*.lib.json
-#!List.json
-#!package.json
-#!package-lock.json
-#!MoudelV2.json
-#!MessCode.json
-#!tsconfig.json
-#!jsconfig.json
+!\Addons\List.json
+*.json
+!*.lib.json
+!List.json
+!package.json
+!package-lock.json
+!MoudelV2.json
+!MessCode.json
+!tsconfig.json
+!jsconfig.json
 
 # Logs
 logs
