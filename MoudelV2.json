@@ -35,7 +35,7 @@
     "Path":"./保镖.js"
   },
   "图片测试":{
-    "Allow":true,
+    "Allow":false,
     "FindIn":"fs",
     "Path":"./img.js"
   },

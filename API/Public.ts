@@ -38,6 +38,7 @@ export var 更新API = (()=>{
 });
 更新API();
 export var 解析:((内容:String,收到:Core.InfoType)=> String) = ((内容,收到)=>{
+    var Core = 收到.Core;
     var 返回 = 内容;
     var ConstKeys = Object.keys(API.Base.Const);
     ConstKeys.forEach((Key)=>{
@@ -67,6 +68,7 @@ export var 解析:((内容:String,收到:Core.InfoType)=> String) = ((内容,收
 });
 
 export var 核心:((收到:Core.InfoType)=>String) = ((收到:Core.InfoType)=>{
+    var Core = 收到.Core;
     var 内容:String = 收到.message;
     var 消息:String = "";
     Object.keys(API.Using).forEach((value)=>{

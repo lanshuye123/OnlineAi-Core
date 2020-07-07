@@ -12,6 +12,7 @@ import * as Core from "./Core";
     /**群头衔*/title:string|String;
 }
 /**消息类:一个消息对应的东西*/export class InfoType{
+    Core:any;
     /**匿名信息*/anonymous:Object|null|undefined;
     /**字体*/font:number|Number;
     /**群号*/group_id:number|Number|undefined;
