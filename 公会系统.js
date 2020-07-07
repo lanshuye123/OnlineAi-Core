@@ -55,7 +55,7 @@ exports.add={
         GetPublicInfo:function(公会){
             if(!exports.add.Interfaces.IsPublic(公会)){return `${false}`;}
             var data = JSON.parse(fs.readFileSync("./Data/公会.json").toString());
-            var br = "\\r\\n"
+            var br = "\r\n"
             var info = `公会名称:${data[公会]["Name"]}${br}会长:${data[公会]["Owner"]}${Core.frame.At(data[公会]["Owner"])}${br}介绍:${data[公会]["Info"]}${br}交流群:${data[公会]["CreationByGroup"]}`;
             return info;
         },
