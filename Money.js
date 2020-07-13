@@ -2,7 +2,7 @@
 const fs=require("fs");
 const Core = require("./Core");
 
-const 通货膨胀系数 = 0.9;
+const 通货膨胀系数 = 1;
 // 收入乘以这个数
 // 支出除以这个数
 
@@ -17,23 +17,23 @@ exports.add={
             }
             
         },
-        GiveUserMoney:function(UserID,Moeny,GoTo){
-            Moeny = Math.round(Money*通货膨胀系数);
+        GiveUserMoney:function(UserID,Money1,GoTo){
+            var Money = Math.round(Money1*通货膨胀系数);
             if(GoTo == undefined){
                 GoTo = "无备注"
             }
             var data = Core.frame.ReadSystemConfig("固定资产");
             if(data[UserID]==undefined||null||NaN){
-                data[UserID] = Moeny;
+                data[UserID] = Money;
             }else{
-                data[UserID] = new Number(this.GetUserMoney(UserID) + new Number(Moeny) );
+                data[UserID] = new Number(this.GetUserMoney(UserID) + new Number(Money) );
             }
             Core.frame.WriteSystemConfig("固定资产",data);
             return;
         },
-        CostUserMoney:function(UserID,Moeny,GoTo){
-            Money = Math.round(-(1/通货膨胀系数) * Moeny/通货膨胀系数);
-            exports.add.Interfaces.GiveUserMoney(UserID, Moeny, GoTo);
+        CostUserMoney:function(UserID,Money1,GoTo){
+            var Money = Math.round(-(1/通货膨胀系数) * Money1/通货膨胀系数);
+            exports.add.Interfaces.GiveUserMoney(UserID, Money, GoTo);
             return;
         },
         GetUserTo:function(UserID){
