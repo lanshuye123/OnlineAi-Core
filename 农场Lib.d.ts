@@ -6,3 +6,10 @@ interface 作物{
 interface 农场Lib{
     农业:any;
 }
+interface User农场Data{
+    菜地:作物单位[]
+}
+interface 作物单位{
+    类型:String|string;
+    成熟:Number|number;
+}
