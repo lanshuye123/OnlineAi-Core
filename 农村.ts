@@ -21,6 +21,7 @@ Core.AddListener((c,i)=>{
         var 作物Config = 农场Data.农业[作物];
         if(作物Config == undefined){
             Core.frame.SendMsg(c,i,Core.frame.At(i.user_id)+"没有这个作物");
+            return;
         };
     }
 });

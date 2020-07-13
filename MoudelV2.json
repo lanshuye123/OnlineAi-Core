@@ -49,5 +49,10 @@
     "Allow":true,
     "FindIn":"fs",
     "Path":"复读机.js"
+  },
+  "农场":{
+    "Allow":true,
+    "FindIn":"fs",
+    "Path":"农场.js"
   }
 }
