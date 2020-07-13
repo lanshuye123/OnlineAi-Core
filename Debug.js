@@ -201,7 +201,7 @@ exports.add={
         };
 
         if(Temp1 == "说明书"||Temp1 == "用户手册"||Temp1 == "帮助"){
-            Core.frame.SendMsg(connect,info,`[CQ:share,url=${"https://docs.qq.com/doc/DRXNQU0ZtRlVBSFpn"},title=${"OnlineAI说明书"},content=${"实时更新的官方OnlineAI说明书"},image=${"https://docs.idqqimg.com/tim/docs/desktop/font/packages/desktop/src/page/index/components/silder/logo/logo-96d180.svg"}]`);
+            Core.frame.SendMsg(connect,info,`https://docs.qq.com/doc/DRXNQU0ZtRlVBSFpn`);
         }
 
         if(!fs.existsSync("./Message.json")){
