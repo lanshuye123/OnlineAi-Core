@@ -12,4 +12,5 @@ interface User农场Data{
 interface 作物单位{
     类型:String|string;
     成熟:Number|number;
+    已采摘?:Boolean|boolean;
 }
