@@ -18,6 +18,7 @@ exports.add={
             
         },
         GiveUserMoney:function(UserID,Moeny,GoTo){
+            Moeny = Money*通货膨胀系数;
             if(GoTo == undefined){
                 GoTo = "无备注"
             }
@@ -25,13 +26,14 @@ exports.add={
             if(data[UserID]==undefined||null||NaN){
                 data[UserID] = Moeny;
             }else{
-                data[UserID] = new Number(this.GetUserMoney(UserID) + new Number(Moeny)*通货膨胀系数 );
+                data[UserID] = new Number(this.GetUserMoney(UserID) + new Number(Moeny) );
             }
             Core.frame.WriteSystemConfig("固定资产",data);
             return;
         },
         CostUserMoney:function(UserID,Moeny,GoTo){
-            exports.add.Interfaces.GiveUserMoney(UserID,-(1/通货膨胀系数) * Moeny/通货膨胀系数, GoTo);
+            Money = -(1/通货膨胀系数) * Moeny/通货膨胀系数;
+            exports.add.Interfaces.GiveUserMoney(UserID, Moeny, GoTo);
             return;
         },
         GetUserTo:function(UserID){
