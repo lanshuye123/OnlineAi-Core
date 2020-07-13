@@ -2,7 +2,7 @@
 const fs=require("fs");
 const Core = require("./Core");
 
-const 通货膨胀系数 = 0.5;
+const 通货膨胀系数 = 0.9;
 // 收入乘以这个数
 // 支出除以这个数
 
@@ -18,7 +18,7 @@ exports.add={
             
         },
         GiveUserMoney:function(UserID,Moeny,GoTo){
-            Moeny = Money*通货膨胀系数;
+            Moeny = Math.round(Money*通货膨胀系数);
             if(GoTo == undefined){
                 GoTo = "无备注"
             }
@@ -32,7 +32,7 @@ exports.add={
             return;
         },
         CostUserMoney:function(UserID,Moeny,GoTo){
-            Money = -(1/通货膨胀系数) * Moeny/通货膨胀系数;
+            Money = Math.round(-(1/通货膨胀系数) * Moeny/通货膨胀系数);
             exports.add.Interfaces.GiveUserMoney(UserID, Moeny, GoTo);
             return;
         },
