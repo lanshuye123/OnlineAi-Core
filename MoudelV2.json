@@ -53,6 +53,6 @@
   "农场":{
     "Allow":true,
     "FindIn":"fs",
-    "Path":"农场.js"
+    "Path":"农村.js"
   }
 }
