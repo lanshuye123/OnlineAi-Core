@@ -1,6 +1,11 @@
 //固定资产
 const fs=require("fs");
 const Core = require("./Core");
+
+const 通货膨胀系数 = 0.5;
+// 收入乘以这个数
+// 支出除以这个数
+
 exports.add={
     Interfaces:{
         GetUserMoney:function(UserID){
@@ -20,13 +25,13 @@ exports.add={
             if(data[UserID]==undefined||null||NaN){
                 data[UserID] = Moeny;
             }else{
-                data[UserID] = new Number(this.GetUserMoney(UserID) + new Number(Moeny));
+                data[UserID] = new Number(this.GetUserMoney(UserID) + new Number(Moeny)*通货膨胀系数 );
             }
             Core.frame.WriteSystemConfig("固定资产",data);
             return;
         },
         CostUserMoney:function(UserID,Moeny,GoTo){
-            exports.add.Interfaces.GiveUserMoney(UserID,-1 * Moeny , GoTo);
+            exports.add.Interfaces.GiveUserMoney(UserID,-(1/通货膨胀系数) * Moeny/通货膨胀系数, GoTo);
             return;
         },
         GetUserTo:function(UserID){

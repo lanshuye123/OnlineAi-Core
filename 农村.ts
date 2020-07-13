@@ -26,7 +26,7 @@ Core.AddListener((c,i)=>{
         }
     }
     var Command = i.message.replace(农场Config.前缀,"");
-    if(Command.substr(0,2) == "种植"){
+    if( Command.substr(0,2) == "种植"){
         var 作物 = Command.replace("种植","");
         var 作物Config = 农场配置.农业[作物] as 作物;
         if(作物Config == undefined){
@@ -68,6 +68,9 @@ Core.AddListener((c,i)=>{
                 temp[temp.length] = v;
         });
         农场数据[Core.GetUser(i.user_id)].菜地 = temp;
+    }
+    if( Command == "查看" ){
+        
     }
 
     fs.writeFile(农场Config.数据,JSON.stringify(new Object(农场数据)),(err)=>{});
