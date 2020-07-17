@@ -54,5 +54,10 @@
     "Allow":true,
     "FindIn":"fs",
     "Path":"农村.js"
-  }
+  },
+    "ORTS":{
+        "Allow":"true",
+        "FindIn":"fs",
+        "Path":"User.Ai.js"
+    }
 }
