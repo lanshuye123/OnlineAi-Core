@@ -1,2 +1,2 @@
-nodejs Core.js
+nodejs jsaicore
 . Run.sh

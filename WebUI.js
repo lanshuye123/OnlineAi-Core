@@ -102,7 +102,7 @@ ServerWeb.on("listening", () => {
         });
     });
 });
-ServerWeb.listen(8081, "127.0.0.1");
+ServerWeb.listen(8081, "0.0.0.0");
 Core.AddListener((connect, Info) => {
     MessageCount = MessageCount.valueOf() + 1;
 });

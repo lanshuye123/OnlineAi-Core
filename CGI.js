@@ -2,6 +2,7 @@ const Key = "ONLINEAICORE";
 const request = require("request");
 const Core = require("./Core");
 const net = require("net");
+const ServicePort = 8092;
 var HOOK = false;
 var Session = "";
 console.log("["+new Date().toString()+"][./Core.js]服务器已启动");
@@ -9,7 +10,7 @@ global.DEBUG = {};
 global.DEBUG.Core = Core;
 var last = {};
 request.post({
-    url:"http://127.0.0.1:8080/auth",
+    url:`http://127.0.0.1:${ServicePort}/auth`,
     body:JSON.stringify({authKey:Key})
 },(err,res)=>{
     if(res == null){
@@ -18,7 +19,7 @@ request.post({
     }
     Session = JSON.parse(res.body).session;
     request.post({
-        url:"http://127.0.0.1:8080/verify",
+        url:`http://127.0.0.1:${ServicePort}/verify`,
         body:JSON.stringify({
             sessionKey:Session,
             qq:2142562417
@@ -60,8 +61,8 @@ request.post({
                 var Req = new net.Socket();
                 console.log(Kdata);
                 console.log(Kdata);
-                var MainData = `POST /send${To}Message HTTP/1.1\r\nHost: 127.0.0.1:8080\r\nContent-Type: application/json; charset=UTF-8;\r\nContent-Length:${BData.length}\r\n\r\n`;
-                Req.connect(8080,"127.0.0.1",()=>{
+                var MainData = `POST /send${To}Message HTTP/1.1\r\nHost: 127.0.0.1:${ServicePort}\r\nContent-Type: application/json; charset=UTF-8;\r\nContent-Length:${BData.length}\r\n\r\n`;
+                Req.connect(ServicePort,"127.0.0.1",()=>{
                     Req.write(MainData);
                     Req.write(BData);
                     Req.on("data",(data)=>{
@@ -101,8 +102,8 @@ request.post({
                 var Req = new net.Socket();
                 console.log(Kdata);
                 console.log(Kdata);
-                var MainData = `POST /send${To}Message HTTP/1.1\r\nHost: 127.0.0.1:8080\r\nContent-Type: application/json; charset=UTF-8;\r\nContent-Length:${BData.length}\r\n\r\n`;
-                Req.connect(8080,"127.0.0.1",()=>{
+                var MainData = `POST /send${To}Message HTTP/1.1\r\nHost: 127.0.0.1:${ServicePort}\r\nContent-Type: application/json; charset=UTF-8;\r\nContent-Length:${BData.length}\r\n\r\n`;
+                Req.connect(ServicePort,"127.0.0.1",()=>{
                     Req.write(MainData);
                     Req.write(BData);
                     Req.on("data",(data)=>{
@@ -123,7 +124,7 @@ request.post({
         setInterval(()=>{
             if(Session == ""){return}
             request.get({
-                url:`http://127.0.0.1:8080/fetchLatestMessage?sessionKey=${Session}&count=1`
+                url:`http://127.0.0.1:${ServicePort}/fetchLatestMessage?sessionKey=${Session}&count=1`
             },(err,data)=>{
                 if(data == null || data == undefined){return}
                 if(data.body.toString().substr(0,1)!="{"){return;}

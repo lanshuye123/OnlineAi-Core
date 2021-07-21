@@ -5,6 +5,7 @@ var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公�
 var LastMessage = {};
 var Listeners = [];
 var At = [];
+exports.ServicePort = 8092;
 global.LoadMoudel = (() => {
     fs.exists("./MoudelV2.json", (ex) => {
         if (ex) {
