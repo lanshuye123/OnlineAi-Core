@@ -10,8 +10,8 @@ global.DEBUG = {};
 global.DEBUG.Core = Core;
 var last = {};
 request.post({
-    url:`http://127.0.0.1:${ServicePort}/auth`,
-    body:JSON.stringify({authKey:Key})
+    url:`http://127.0.0.1:${ServicePort}/verify`,
+    body:JSON.stringify({verifyKey:Key})
 },(err,res)=>{
     if(res == null){
         console.log("["+new Date().toString()+"][./Core.js]系统断线.");
@@ -19,7 +19,7 @@ request.post({
     }
     Session = JSON.parse(res.body).session;
     request.post({
-        url:`http://127.0.0.1:${ServicePort}/verify`,
+        url:`http://127.0.0.1:${ServicePort}/bind`,
         body:JSON.stringify({
             sessionKey:Session,
             qq:2142562417
