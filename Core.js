@@ -3,10 +3,13 @@ const fs = require("fs");
 const net = require("net");
 var package = ["./Debug.js","./Money.js","./RedPacket.js","./抢劫.js","./公会系统.js","./Frame.js","./AddOns.js","./板砖.js","./DocMaker.js","./狗屁不通文章生成器.js"];
 var LastMessage = {};
+exports.LastMessage = LastMessage;
 var Listeners = [];
+exports.Listeners = Listeners
 var At = [];
 exports.ServicePort = 8092;
 global.LoadMoudel = (() => {
+    Listeners = [];
     fs.exists("./MoudelV2.json", (ex) => {
         if (ex) {
             fs.readFile("./MoudelV2.json", (err, data) => {
@@ -30,6 +33,20 @@ global.LoadMoudel = (() => {
             fs.writeFile("./MoudelV2.json", JSON.stringify({}), (err) => { });
         }
     });
+    fs.exists("./inside/",(isex)=>{
+        if(isex){
+            fs.readdir("./inside/",{},((err,fileList)=>{
+                fileList.forEach(e => {
+                    if(e.substr(-3,3)==".js"){
+                        fs.readFile(`./inside/${e}`,{},(err,data)=>{
+                            console.log(`[${new Date().toString()}][${e}]inside正在初始化!`);
+                            eval(data.toString());
+                        })
+                    }
+                });
+            }))
+        }
+    })
 })
 global.LoadMoudel();
 //var HOOK = false;
@@ -173,6 +190,10 @@ exports.frame={
         JSCGI.frame.SendImg(c,i,p);
     },
 
+    SendURLImg(c,i,p){
+        JSCGI.frame.SendURLImg(c,i,p);
+    },
+
     GetAt:function(c,i){
         var At = "";
         i.messageChain.forEach(element => {
@@ -189,6 +210,8 @@ exports.frame={
         At = [];
 
         if(info == undefined){return};
+
+        
 
         console.log("["+new Date().toString()+"][./Core.js]收到新消息");
 
@@ -249,6 +272,7 @@ exports.frame={
         }else{
             LastMessage = info;
         }
+
         try{
             for(var i=0;i<package.length;i++){
                 console.log(`[${new Date().toString()}][${package[i]}]正在处理`);

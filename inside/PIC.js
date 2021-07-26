@@ -19,19 +19,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Picer
 const Core = __importStar(require("./Core"));
-(() => {
-    var LastMsg = "";
-    var LastMsg2 = "";
-    Core.AddListener((Connect, Info) => {
-        if (Info.message == LastMsg && Core.HOOK) {
-            if (LastMsg == LastMsg2) {
-                Core.frame.SendMsg(Connect, Info, LastMsg);
-            }
-            else {
-                LastMsg2 = LastMsg;
-            }
-        }
-        LastMsg = Info.message;
-    });
-})();
+Core.AddListener((c, i) => {
+    if (i.message.substr(0, 3) == "PIC") {
+        var u = i.message.replace("PIC", "");
+        Core.frame.SendURLImg(c, i, `https://pixiv.cat/${u}.jpg`);
+    }
+});

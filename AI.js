@@ -22,7 +22,8 @@ exports.add={
         var message0 = new String(info["message"]);
         if(message0 == "智能聊天"){
             if(!exports.add.Interfaces.GetAITalk("Core")){
-                Core.frame.SendMsg(connect,info,"请联系AI管理员(发送\"AI管理员\"查看)开启智能聊天功能。")
+                Core.frame.SendMsg(connect,info,"短期内智能聊天无法使用。")
+                return;
             }
             temp = Core.frame.ReadSystemConfig("AITalk");
             if(exports.add.Interfaces.GetAITalk(Core.GetUser(info["user_id"]))){
@@ -37,6 +38,7 @@ exports.add={
         if(message0 == "停止聊天"){
             if(!exports.add.Interfaces.GetAITalk("Core")){
                 Core.frame.SendMsg(connect,info,"请联系AI管理员(发送\"AI管理员\"查看)开启智能聊天功能。")
+                return;
             }
             temp = Core.frame.ReadSystemConfig("AITalk");            
             if(exports.add.Interfaces.GetAITalk(Core.GetUser(info["user_id"]))){
@@ -59,6 +61,8 @@ exports.add={
             return;
         }
 
+        console.log(`${Core.GetUser(info["user_id"])} talking to`);
+
         const https = require('http');
         //const Core = require("./Core");
         const request = require('request');            
@@ -78,7 +82,7 @@ exports.add={
         var params = new Object({
             app_id:"2125346185",
             time_stamp: Date.parse(new Date())/1000,
-            "nonce\_str":new String("A"+Math.floor(Math.random() * 100000000)),
+            nonce_str:new String("A"+Math.floor(Math.random() * 100000000)),
             session:Core.GetUser(info["user_id"]),
             question:kee
         });
@@ -95,6 +99,8 @@ exports.add={
         Str = Str+"app_key="+key;
         sign = md5.update(Str).digest("hex").toUpperCase();
         params["sign"] = sign;
+
+        console.log(`https://api.ai.qq.com/fcgi-bin/nlp/nlp_textchat?${Str}&sign=${sign}`);
 
         (()=>{
             request.get({

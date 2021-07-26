@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EasyTools = void 0;
 // EasyTools : 提供语言分析(不准确)
 const Width = 5; //默认权重
 var FIn = ((Arr, Location, IsIt) => {

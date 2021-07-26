@@ -76,6 +76,54 @@ request.post({
                     })
                 });
             },
+
+            SendURLImg: function(c,info,p){
+                this.SetHook(true);
+
+                if(info.group != undefined){
+                    var Kdata = JSON.stringify({
+                        sessionKey:Session,
+                        group:info.group_id,
+                        messageChain:[{"type":"Plain","text":`${p}`},{
+                            type:"Image",
+                            url:p
+                        }]
+                    });
+                }else{
+                    var Kdata = JSON.stringify({
+                        sessionKey:Session,
+                        qq:info.user_id,
+                        messageChain:[{"type":"Plain","text":`${p}`},{
+                            type:"Image",
+                            url:p
+                        }]
+                    });
+                }
+                var BData = Buffer.from(Kdata);
+                var Ret = "";
+                var To = "Friend";
+                if(info.group != undefined){
+                    To = "Group"
+                }
+                var Req = new net.Socket();
+                console.log(Kdata);
+                console.log(Kdata);
+                var MainData = `POST /send${To}Message HTTP/1.1\r\nHost: 127.0.0.1:${ServicePort}\r\nContent-Type: application/json; charset=UTF-8;\r\nContent-Length:${BData.length}\r\n\r\n`;
+                Req.connect(ServicePort,"127.0.0.1",()=>{
+                    Req.write(MainData);
+                    Req.write(BData);
+                    Req.on("data",(data)=>{
+                        console.log(data.toString());
+                    });
+                    Req.on("end",()=>{
+                        Req.end();
+                    });
+                    Req.on("close",()=>{
+                        Req.end();
+                    })
+                });
+            },
+
             SendMsg: function (connect, info, message) {
                 
                 this.SetHook(true);
