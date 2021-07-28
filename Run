@@ -1,4 +1,2 @@
 #!/bin/sh
-screen -wipe
-screen -R -s ./../MIRAI/mcl
-screen -R -s nodejs ./OnlineAi.js
+npm start

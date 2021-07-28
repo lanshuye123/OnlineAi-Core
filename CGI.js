@@ -2,7 +2,7 @@ const Key = "ONLINEAICORE";
 const request = require("request");
 const Core = require("./Core");
 const net = require("net");
-const ServicePort = 8092;
+const ServicePort = 8089;
 var HOOK = false;
 var Session = "";
 console.log("["+new Date().toString()+"][./Core.js]服务器已启动");

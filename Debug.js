@@ -128,6 +128,7 @@ exports.add={
                 exports.add.Interfaces.ExecutePHP(command,info);
             },
         }
+        global.Debug = Debug
         //console.log("["+new Date().toString()+"][Debug.js]正在处理");
         Debug.LoadVar();
         var Temp1 = new String(info["raw_message"]);
