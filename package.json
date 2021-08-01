@@ -17,6 +17,8 @@
     "desktop-screenshot": "^0.1.1",
     "gyp": "^0.5.0",
     "iconv-lite": "^0.5.1",
+    "math.js": "^1.1.46",
+    "mathjs": "^9.4.4",
     "node-gyp": "^6.1.0",
     "node-pre-gyp": "^0.14.0",
     "puppeteer-core": "^2.1.1",
