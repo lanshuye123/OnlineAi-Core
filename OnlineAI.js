@@ -21,5 +21,5 @@ global.Run = (()=>{
     if(Loaded){process.exit(-1)}else{Loaded = true;}
     require("./CGI");
 });
-Run();
+global.Run();
 require("repl").start();
