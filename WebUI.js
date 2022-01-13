@@ -32,11 +32,13 @@ ServerWeb.on("listening", () => {
     });
     ServerWeb.on("connection", (UserSock) => {
         UserSock.on("data", (data) => {
+            try{
             if (data.toString().indexOf(" ") != 0) {
                 var path = data.toString().split(" ");
                 if (path == undefined) {
                     return;
                 }
+                console.log(path)
                 if (path[1] == "/") {
                     fs.readFile("./WebUI.html", (err, data) => {
                         UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${data.length}\r\n\r\n`);
@@ -105,6 +107,7 @@ ServerWeb.on("listening", () => {
             else {
                 UserSock.end("HTTP/1.1 404");
             }
+	    }catch(err){console.log(err)};
         });
         UserSock.on("close", () => {
             UserSock.end();

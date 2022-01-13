@@ -214,6 +214,8 @@ exports.frame={
         
 
         console.log("["+new Date().toString()+"][./Core.js]收到新消息");
+        console.log(info);
+
 
         info.raw_message = "";
 		
