@@ -21,6 +21,7 @@
     "mathjs": "^9.4.4",
     "node-geogebra": "^1.2.1",
     "node-pre-gyp": "^0.14.0",
+    "puppeteer": "^13.0.1",
     "puppeteer-core": "^2.1.1",
     "readable-stream": "^3.6.0",
     "rebuild": "^0.1.2",
