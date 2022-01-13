@@ -54,5 +54,10 @@
     "Allow":true,
     "FindIn":"fs",
     "Path":"农村.js"
+  },
+  "GeoGeBra":{
+    "Allow":true,
+    "FindIn":"fs",
+    "Path":"GeoGeBra.js"
   }
 }
