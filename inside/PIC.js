@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // Picer
-const Core = __importStar(require("./../Core"));
+const Core = __importStar(require("./../Core.js"));
 Core.AddListener((c, i) => {
     if (i.message.substr(0, 3) == "PIC") {
         var u = i.message.replace("PIC", "");
