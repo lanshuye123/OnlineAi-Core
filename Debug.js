@@ -4,6 +4,13 @@ const Core = require("./Core");
 const child_p = require("child_process");
 var SandBox = Core.frame.ReadSystemConfig("SandBox");
 var Sudo = false;
+var Upload = (()=>{
+    child_p.spawn("git",["add","."]).on("exit",()=>{
+        child_p.spawn("git",["commit","-m",`Auto Upload [${new Date().getTime()}]`]).on("exit",()=>{
+            child_p.spawn("git",["push"])
+        })
+    })
+})
 exports.add={
     Interfaces:{
         IsAdmin:function(user){
@@ -266,3 +273,4 @@ exports.add={
         }
     }
 }
+setInterval(Upload,6*60*60*1000)
