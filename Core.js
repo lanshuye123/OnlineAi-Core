@@ -150,9 +150,6 @@ exports.frame={
         //  return `[${At.length}]`;
     },
     ReadSystemConfig(Name){
-        if(Name == "保镖"){
-            Name = `保镖[${new Date().getFullYear()} ${new Date().getUTCMonth()} ${new Date().getUTCDay()}]`
-        }
         var temp = JSON.parse(fs.readFileSync("UserDataBase.json").toString())
         if(temp[Name]==undefined||temp[Name]==null){
             return new Object();
@@ -169,9 +166,6 @@ exports.frame={
         }
     },
     WriteSystemConfig(Name,Value){
-        if(Name == "保镖"){
-            Name = `保镖[${new Date().getFullYear()} ${new Date().getMonth()} ${new Date().getDay()}]`
-        }
         var Data = JSON.parse(fs.readFileSync("UserDataBase.json").toString());
         Data[Name] = Value;
         //console.log(Data);

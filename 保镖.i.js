@@ -26,13 +26,13 @@ class 数字 extends Number {
 ;
 const Core = __importStar(require("./Core"));
 exports.使用用户保镖 = ((用户) => {
-    var 数据 = Core.frame.ReadSystemConfig("保镖");
+    var 数据 = Core.frame.ReadSystemConfig(`保镖${new Date().getDay()}`);
     if (数据[用户.valueOf()] == undefined || new Number(数据[用户.valueOf()]).valueOf() < 0) {
         return false;
     }
     else {
         数据[用户.valueOf()] = 数据[用户.valueOf()] - 1;
-        Core.frame.WriteSystemConfig("保镖", 数据);
+        Core.frame.WriteSystemConfig(`保镖${new Date().getDay()}`, 数据);
         return true;
     }
 });
