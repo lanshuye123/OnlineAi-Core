@@ -1,4 +1,4 @@
-//这是Debug用的OnlineAI扩展包，只允许AI管理员使用此扩展包里面的"执行代码"方法
+//这是Debug用的OnlineAI扩展包，只允许AI管理员使用此扩展包里面的方法
 const fs=require("fs");
 const Core = require("./Core");
 const child_p = require("child_process");
@@ -147,9 +147,13 @@ exports.add={
                 Core.frame.SendMsg(connect,info,"此功能只允许机器人管理员使用。");
                 return;
             }
-            global.UpData();
+            (()=>{
+                child_p.spawn("git",["pull"]).stdout.on("data",(c)=>{
+                    Debug.log(c);
+                    process.exit(0);
+                })
+            })
             Debug.log("获取更新成功!");
-            process.exit(0);
         }
 
         if(Temp1 == "管理员授权"){
