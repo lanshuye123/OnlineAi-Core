@@ -36,6 +36,8 @@ global.LoadMoudel = (() => {
     fs.exists("./inside/",(isex)=>{
         if(isex){
             fs.readdir("./inside/",{},((err,fileList)=>{
+                s = require;
+                require = ((w)=>{if(w=="./Core"){return exports}else{return s(w)}})
                 fileList.forEach(e => {
                     if(e.substr(-3,3)==".js"){
                         fs.readFile(`./inside/${e}`,{},(err,data)=>{
