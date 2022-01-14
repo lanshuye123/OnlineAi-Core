@@ -1,2 +1,3 @@
-nodejs jsaicore
-. Run.sh
+#!/bin/sh
+npm run-script run
+. ./Run.sh

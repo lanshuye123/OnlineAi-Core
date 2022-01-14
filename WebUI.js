@@ -36,9 +36,11 @@ ServerWeb.on("listening", () => {
             if (data.toString().indexOf(" ") != 0) {
                 var path = data.toString().split(" ");
                 if (path == undefined) {
-                    return;
+                    UserSock.end("F**k");return;
                 }
-                console.log(path)
+                console.log(UserSock);
+                console.log(data.toString());
+                if (!path[1]){UserSock.end("F**k");return}
                 if (path[1] == "/") {
                     fs.readFile("./WebUI.html", (err, data) => {
                         UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${data.length}\r\n\r\n`);
@@ -105,9 +107,9 @@ ServerWeb.on("listening", () => {
                 }
             }
             else {
-                UserSock.end("HTTP/1.1 404");
+                UserSock.end("HTTP/1.1 300\r\nContext-Length:21 \r\nThere happened a bug.");
             }
-	    }catch(err){console.log(err)};
+	    }catch(err){console.log(err);UserSock.end("F**k");};
         });
         UserSock.on("close", () => {
             UserSock.end();
@@ -117,7 +119,7 @@ ServerWeb.on("listening", () => {
         });
     });
 });
-ServerWeb.listen(8081, "0.0.0.0");
+ServerWeb.listen(8081, "127.0.0.1");
 Core.AddListener((connect, Info) => {
     MessageCount = MessageCount.valueOf() + 1;
 });

@@ -84,7 +84,7 @@ request.post({
                     var Kdata = JSON.stringify({
                         sessionKey:Session,
                         group:info.group_id,
-                        messageChain:[{"type":"Plain","text":`${p}`},{
+                        messageChain:[{"type":"Plain","text":`IMG`},{
                             type:"Image",
                             url:p
                         }]
@@ -93,7 +93,7 @@ request.post({
                     var Kdata = JSON.stringify({
                         sessionKey:Session,
                         qq:info.user_id,
-                        messageChain:[{"type":"Plain","text":`${p}`},{
+                        messageChain:[{"type":"Plain","text":`IMG`},{
                             type:"Image",
                             url:p
                         }]
