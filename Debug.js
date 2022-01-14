@@ -155,7 +155,7 @@ exports.add={
                 return;
             }
             (()=>{
-                child_p.spawn("git",["pull"]).stdout.on("data",(c)=>{
+                child_p.spawn("git",["pull"]).on("data",(c)=>{
                     Debug.log(c);
                     process.exit(0);
                 })
