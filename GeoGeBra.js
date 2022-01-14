@@ -37,18 +37,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var Core = require("./Core");
-var GGB = require("node-geogebra");
 var fs = require("fs");
+var GGB = require("node-geogebra");
 var Pool = new GGB.GGBPool({ plotters: 1, ggb: 'local' });
 var PoolReady = false;
 var Plotter;
 Pool.ready().then(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        console.log('GGBReady');
         switch (_a.label) {
             case 0:
                 PoolReady = true;
-                return [4 /*yield*/, Pool.getGGBPlotter()];
+                return [4 /*yield*/, Pool.getGGBPlotter];
             case 1:
                 Plotter = _a.sent();
                 return [2 /*return*/];
@@ -60,14 +59,13 @@ Core.AddListener(function (c, i) {
         return;
     }
     ;
-    console.log(Plotter);
-    console.log(GGB);
-    console.log(Pool);
     var Command = i.message.replace("绘图", "");
     Plotter.evalGGBScript([Command]);
     Core.frame.SendMsg(c, i, "[GeoGeBra]执行完成，正在渲染。");
     Core.frame.SendImg(c, i, "");
-    Plotter.export("png").then(function (v) {
-        fs.writeFile("/home/pi/AI/temp/img.png",v,()=>{        Core.frame.SendImg(c, i, "/home/pi/AI/temp/img.png");});
+    Plotter["export"]("png").then(function (v) {
+        fs.writeFile("/home/pi/AI/temp/img.png", v, function () {
+            Core.frame.SendImg(c, i, "/home/pi/AI/temp/img.png");
+        });
     });
 });
