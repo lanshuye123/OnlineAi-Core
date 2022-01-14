@@ -14,7 +14,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -57,7 +57,7 @@ exports.更新API = (() => {
         }
     });
 });
-exports.更新API();
+(0, exports.更新API)();
 exports.解析 = ((内容, 收到) => {
     var Core = 收到.Core;
     var 返回 = 内容;
@@ -80,7 +80,7 @@ exports.解析 = ((内容, 收到) => {
             Function.exec(返回.valueOf());
             var 处理 = RegExp.$1;
             if (处理.indexOf("[") != -1) {
-                处理 = exports.解析(处理, 收到);
+                处理 = (0, exports.解析)(处理, 收到);
             }
             返回 = 返回.replace(Function, eval(`${API.Base.Function[Key]}("${处理}",收到)`));
         }
@@ -96,7 +96,7 @@ exports.核心 = ((收到) => {
             var 过程 = API.Using[value];
             消息 = 过程.Content;
             过程.Execute.forEach((v, i) => {
-                消息 = 消息.replace(new RegExp(`\\{${i}\\}`, "g"), exports.解析(v, 收到).valueOf());
+                消息 = 消息.replace(new RegExp(`\\{${i}\\}`, "g"), (0, exports.解析)(v, 收到).valueOf());
             });
         }
     });

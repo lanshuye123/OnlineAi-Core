@@ -14,7 +14,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -31,16 +31,13 @@ ServerWeb.on("listening", () => {
         ServerWeb.close();
     });
     ServerWeb.on("connection", (UserSock) => {
+        UserSock.end("102");
         UserSock.on("data", (data) => {
-            try{
             if (data.toString().indexOf(" ") != 0) {
                 var path = data.toString().split(" ");
                 if (path == undefined) {
-                    UserSock.end("F**k");return;
+                    return;
                 }
-                console.log(UserSock);
-                console.log(data.toString());
-                if (!path[1]){UserSock.end("F**k");return}
                 if (path[1] == "/") {
                     fs.readFile("./WebUI.html", (err, data) => {
                         UserSock.write(`HTTP/1.1 200 OK\r\nContent-Length: ${data.length}\r\n\r\n`);
@@ -107,9 +104,8 @@ ServerWeb.on("listening", () => {
                 }
             }
             else {
-                UserSock.end("HTTP/1.1 300\r\nContext-Length:21 \r\nThere happened a bug.");
+                UserSock.end("HTTP/1.1 404");
             }
-	    }catch(err){console.log(err);UserSock.end("F**k");};
         });
         UserSock.on("close", () => {
             UserSock.end();

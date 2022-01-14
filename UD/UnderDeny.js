@@ -14,7 +14,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -27,10 +27,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Core = __importStar(require("./Core"));
 const fs = __importStar(require("fs"));
 class GameAction {
-    constructor() {
-        this.Type = "";
-        this.Settings = {};
-    }
+    Type;
+    Settings;
     Execute(c, i, Temp_this) {
         if (Temp_this.Type == "对话") {
             Core.frame.SendMsg(c, i, `${Temp_this.Settings.对话_内容}`);
@@ -101,10 +99,18 @@ class GameAction {
         }
         return this;
     }
+    constructor() {
+        this.Type = "";
+        this.Settings = {};
+    }
 }
 class Item {
 }
 class PlayerData {
+    LOVE;
+    EXP;
+    HP;
+    Item;
     constructor(PlayerData) {
         this.LOVE = PlayerData.LOVE;
         this.EXP = PlayerData.EXP;
@@ -113,6 +119,9 @@ class PlayerData {
     }
 }
 class UDPlayer {
+    Schedule;
+    Vars;
+    Info;
     constructor(PlayerS) {
         this.Schedule = PlayerS.Schedule;
         this.Vars = PlayerS.Vars;

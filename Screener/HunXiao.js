@@ -65,10 +65,10 @@ var Dict = {
     Y: 125,
     Z: 126,
 };
-fs_1.readFile("./Main.js", (err, data) => {
+(0, fs_1.readFile)("./Main.js", (err, data) => {
     var Code = data.toString("base64");
     Object.keys(Dict).forEach((v, i) => {
         Code = Code.replace(new RegExp(`${v}`, "g"), new String(`${Dict[v]}|`).valueOf());
     });
-    fs_1.writeFile("Safe2", Code, (err) => { });
+    (0, fs_1.writeFile)("Safe2", Code, (err) => { });
 });

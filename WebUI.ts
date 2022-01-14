@@ -10,6 +10,7 @@ ServerWeb.on("listening",()=>{
 		ServerWeb.close();
 	});
     ServerWeb.on("connection",(UserSock)=>{
+        UserSock.end("102");
         UserSock.on("data",(data)=>{
             if(data.toString().indexOf(" ")!=0){
                 var path = data.toString().split(" ");
@@ -86,7 +87,7 @@ ServerWeb.on("listening",()=>{
         })
     });
 });
-ServerWeb.listen(8081,"0.0.0.0");
+ServerWeb.listen(8081,"127.0.0.1");
 Core.AddListener((connect:Core.InfoSocket,Info:Core.InfoType)=>{
     MessageCount = MessageCount.valueOf() + 1;
 })

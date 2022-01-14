@@ -65,10 +65,10 @@ var Dict = {
     9: 209,
     0: 210,
 };
-fs_1.readFile("./Safe2", (err, data) => {
+(0, fs_1.readFile)("./Safe2", (err, data) => {
     var Code = data.toString();
     Object.values(Dict).forEach((v, i) => {
         Code = Code.replace(new RegExp(`${v}|`, "g"), new String(Object.keys(Dict)[i]).valueOf());
     });
-    fs_1.writeFile("UnSafe2", Buffer.from(Code, "base64"), (err) => { });
+    (0, fs_1.writeFile)("UnSafe2", Buffer.from(Code, "base64"), (err) => { });
 });
