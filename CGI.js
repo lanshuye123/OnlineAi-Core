@@ -29,6 +29,27 @@ request.post({
         console.log(Session);
         exports.HOOK = HOOK;
         exports.frame={
+            raw: function(u,MData){
+                var Req = new net.Socket();
+                var KData = MData.replace("@Session",Session);
+                var BData = Buffer.from(KData);
+                console.log(KData)
+                var MainData = `POST /${u} HTTP/1.1\r\nHost: 127.0.0.1:${ServicePort}\r\nContent-Type: application/json; charset=UTF-8;\r\nContent-Length:${KData.length}\r\n\r\n`;
+                console.log(MainData)
+                Req.connect(ServicePort,"127.0.0.1",()=>{
+                    Req.write(MainData);
+                    Req.write(BData);
+                    Req.on("data",(data)=>{
+                        console.log(data.toString());
+                    });
+                    Req.on("end",()=>{
+                        Req.end();
+                    });
+                    Req.on("close",()=>{
+                        Req.end();
+                    })
+                });
+            },
 
             SendImg: function(c,info,p){
                 this.SetHook(true);

@@ -48,7 +48,7 @@ global.LoadMoudel = (() => {
                 });
             }))
         }
-    })
+    })   
 })
 global.LoadMoudel();
 //var HOOK = false;
@@ -291,5 +291,6 @@ exports.frame={
         console.log("["+new Date().toString()+"][./Core.js]线程处理完毕\r\n");
     }
 }
+
 global.DEBUG.CGI = JSCGI;
 global.DEBUG.Debug = require("./Debug.js");
